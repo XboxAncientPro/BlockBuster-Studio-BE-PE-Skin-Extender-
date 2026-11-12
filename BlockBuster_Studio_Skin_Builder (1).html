@@ -1,0 +1,4072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BlockBuster Studio — Offline Skin &amp; Addon Workbench</title>
+<style>
+  :root,
+  body[data-theme="mc-night"] {
+    --bg: #050814;
+    --bg-sky: linear-gradient(180deg, #040713 0%, #081128 45%, #0c1b3a 84%, #081224 100%);
+    --bg-elev: rgba(13, 19, 36, 0.90);
+    --bg-topbar: linear-gradient(135deg, rgba(18, 27, 50, 0.95), rgba(10, 15, 29, 0.96));
+    --bg-card: #121a30;
+    --bg-card-hover: #182342;
+    --bg-card-selected: #1b2544;
+    --bg-input: #080d1a;
+    --border: #253459;
+    --border-bright: #3c548a;
+    --bevel-top: rgba(168, 206, 255, 0.14);
+    --bevel-bot: rgba(2, 4, 12, 0.65);
+    --text: #eef4ff;
+    --text-dim: #a4b5d6;
+    --text-muted: #687b9e;
+    --gold: #ffbe3b;
+    --gold-glow: rgba(255, 190, 59, 0.28);
+    --gold-dim: rgba(255, 190, 59, 0.15);
+    --teal: #3be8d0;
+    --teal-dim: rgba(59, 232, 208, 0.15);
+    --green: #56f073;
+    --green-dim: rgba(86, 240, 115, 0.14);
+    --red: #ff6b6b;
+    --red-dim: rgba(255, 107, 107, 0.15);
+    --purple: #c084fc;
+    --purple-dim: rgba(192, 132, 252, 0.16);
+    --stage-bg:
+      radial-gradient(2px 2px at 16% 18%, rgba(255,255,255,0.65) 50%, transparent 51%),
+      radial-gradient(2px 2px at 82% 24%, rgba(186,230,253,0.7) 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 42% 14%, rgba(253,230,138,0.65) 50%, transparent 51%),
+      radial-gradient(2px 2px at 72% 45%, rgba(255,255,255,0.45) 50%, transparent 51%),
+      linear-gradient(180deg, #09122b 0%, #12234a 69%, #234729 70%, #1b3620 75%, #161d24 76%, #0f141b 100%);
+    --radius: 10px;
+    --radius-sm: 6px;
+    --shadow: 0 14px 36px rgba(0, 0, 0, 0.58);
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  body[data-theme="end-void"] {
+    --bg: #080512;
+    --bg-sky: linear-gradient(180deg, #070412 0%, #140929 52%, #1d0c3a 86%, #0c0618 100%);
+    --bg-elev: rgba(21, 13, 38, 0.90);
+    --bg-topbar: linear-gradient(135deg, rgba(31, 18, 56, 0.95), rgba(16, 10, 29, 0.96));
+    --bg-card: #1b1130;
+    --bg-card-hover: #251742;
+    --bg-card-selected: #2d1b52;
+    --bg-input: #0e081a;
+    --border: #3d2666;
+    --border-bright: #603b9c;
+    --bevel-top: rgba(226, 186, 255, 0.16);
+    --bevel-bot: rgba(5, 2, 12, 0.7);
+    --text: #f5efff;
+    --text-dim: #bea8dc;
+    --text-muted: #7c679c;
+    --gold: #e879f9;
+    --gold-glow: rgba(232, 121, 249, 0.28);
+    --gold-dim: rgba(232, 121, 249, 0.15);
+    --teal: #38bdf8;
+    --teal-dim: rgba(56, 189, 248, 0.15);
+    --green: #4ade80;
+    --green-dim: rgba(74, 222, 128, 0.14);
+    --red: #fb7185;
+    --red-dim: rgba(251, 113, 133, 0.15);
+    --purple: #c084fc;
+    --purple-dim: rgba(192, 132, 252, 0.16);
+    --stage-bg:
+      radial-gradient(2px 2px at 20% 22%, rgba(232,121,249,0.7) 50%, transparent 51%),
+      radial-gradient(2px 2px at 78% 18%, rgba(192,132,252,0.75) 50%, transparent 51%),
+      linear-gradient(180deg, #0d061c 0%, #1d0e3d 69%, #3e3a28 70%, #2d291c 77%, #140f1e 100%);
+  }
+
+  body[data-theme="classic"] {
+    --bg: #0c0e13;
+    --bg-sky: radial-gradient(circle at 18% 0%, #171d2c 0%, #0c0e13 55%);
+    --bg-elev: #131720;
+    --bg-topbar: linear-gradient(135deg, #171c28, #121620);
+    --bg-card: #181d28;
+    --bg-card-hover: #1f2635;
+    --bg-card-selected: #1d2332;
+    --bg-input: #0e1118;
+    --border: #283144;
+    --border-bright: #3b4966;
+    --bevel-top: rgba(255, 255, 255, 0.06);
+    --bevel-bot: rgba(0, 0, 0, 0.45);
+    --text: #eef2f8;
+    --text-dim: #9aa7be;
+    --text-muted: #65728a;
+    --gold: #f5b942;
+    --gold-glow: rgba(245, 185, 66, 0.22);
+    --gold-dim: rgba(245, 185, 66, 0.14);
+    --teal: #35d0ba;
+    --teal-dim: rgba(53, 208, 186, 0.14);
+    --green: #4ade80;
+    --green-dim: rgba(74, 222, 128, 0.14);
+    --red: #f87171;
+    --red-dim: rgba(248, 113, 113, 0.14);
+    --purple: #c084fc;
+    --purple-dim: rgba(192, 132, 252, 0.14);
+    --stage-bg: radial-gradient(circle at 50% 45%, #232a3b, #121620);
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    background-image: var(--bg-sky);
+    background-attachment: fixed;
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    line-height: 1.45;
+    overflow-x: hidden;
+  }
+
+  /* Custom Deepslate Scrollbars */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: rgba(6, 9, 20, 0.75); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-bright);
+    border-radius: 5px;
+    border: 2px solid rgba(6, 9, 20, 0.75);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+  button, input, textarea, select {
+    font-family: inherit;
+    color: inherit;
+  }
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  /* Minecraft Night Sky Atmospheric Backdrop */
+  .mc-night-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    transition: opacity 0.35s ease, filter 0.35s ease;
+  }
+  body[data-theme="classic"] .mc-night-backdrop { opacity: 0; }
+  body[data-theme="end-void"] .mc-night-backdrop { filter: hue-rotate(245deg) saturate(1.25); }
+
+  .mc-night-backdrop svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .mc-star-a { animation: mcTwinkle 4.2s ease-in-out infinite alternate; }
+  .mc-star-b { animation: mcTwinkle 5.8s ease-in-out 1.6s infinite alternate; }
+  .mc-torch-glow { animation: mcTorchPulse 2.6s ease-in-out infinite alternate; }
+  @keyframes mcTwinkle {
+    0% { opacity: 0.42; }
+    100% { opacity: 0.98; }
+  }
+  @keyframes mcTorchPulse {
+    0% { opacity: 0.65; }
+    100% { opacity: 1; }
+  }
+
+  .app-shell {
+    position: relative;
+    z-index: 1;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 18px 20px 64px;
+  }
+
+  /* Header */
+  .topbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 14px 18px;
+    background: var(--bg-topbar);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: inset 0 1px 0 var(--bevel-top), inset 0 -3px 0 var(--bevel-bot), var(--shadow);
+    backdrop-filter: blur(10px);
+    margin-bottom: 18px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+  }
+
+  .brand-logo {
+    width: 46px;
+    height: 46px;
+    border-radius: 9px;
+    background: linear-gradient(180deg, #1b2a4f 0%, #0d162c 100%);
+    border: 2px solid var(--gold);
+    display: grid;
+    place-items: center;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.18), inset 0 -3px 0 rgba(0,0,0,0.5), 0 0 18px var(--gold-glow);
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .brand-logo svg { width: 32px; height: 32px; display: block; }
+
+  .brand h1 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.25px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    text-shadow: 0 2px 0 rgba(0,0,0,0.55);
+  }
+
+  .brand-sub {
+    font-size: 12.5px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    border: 1px solid var(--border-bright);
+    background: rgba(8, 12, 24, 0.72);
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+  .pill-gold { background: var(--gold-dim); border-color: rgba(255, 190, 59, 0.5); color: var(--gold); }
+  .pill-teal { background: var(--teal-dim); border-color: rgba(59, 232, 208, 0.5); color: var(--teal); }
+  .pill-green { background: var(--green-dim); border-color: rgba(86, 240, 115, 0.5); color: var(--green); }
+  .pill-purple { background: var(--purple-dim); border-color: rgba(192, 132, 252, 0.5); color: var(--purple); }
+  .pill-red { background: var(--red-dim); border-color: rgba(255, 107, 107, 0.5); color: var(--red); }
+
+  .topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex-wrap: wrap;
+  }
+
+  /* Minecraft Tactile Beveled Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 9px 15px;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--border-bright);
+    background: linear-gradient(180deg, var(--bg-card-hover) 0%, var(--bg-card) 100%);
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.10), inset 0 -3px 0 rgba(0,0,0,0.40);
+    transition: transform 0.08s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    text-decoration: none;
+  }
+  .btn:hover:not(:disabled) {
+    background: linear-gradient(180deg, #213056 0%, #17213d 100%);
+    border-color: #6382c4;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.16), inset 0 -3px 0 rgba(0,0,0,0.42), 0 4px 12px rgba(0,0,0,0.35);
+  }
+  .btn:active:not(:disabled) {
+    transform: translateY(2px);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.45);
+  }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  .btn-primary {
+    background: linear-gradient(180deg, #ffd257 0%, #e69815 100%);
+    color: #191103;
+    border-color: #ffe28a;
+    font-weight: 800;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.28);
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.45), inset 0 -3px 0 rgba(130, 74, 0, 0.5), 0 4px 16px var(--gold-glow);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: linear-gradient(180deg, #ffde7a 0%, #f5a623 100%);
+    border-color: #fff0b3;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.55), inset 0 -3px 0 rgba(130, 74, 0, 0.55), 0 6px 22px var(--gold-glow);
+  }
+
+  .btn-teal {
+    background: linear-gradient(180deg, #52f7e0 0%, #0f9c8e 100%);
+    color: #03211e;
+    border-color: #99f6e4;
+    font-weight: 800;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.42), inset 0 -3px 0 rgba(4, 62, 56, 0.52), 0 4px 14px rgba(59, 232, 208, 0.22);
+  }
+  .btn-teal:hover:not(:disabled) {
+    background: linear-gradient(180deg, #74fae8 0%, #14b8a6 100%);
+    border-color: #ccfbf1;
+  }
+
+  .btn-emerald {
+    background: linear-gradient(180deg, #62f57c 0%, #1f9d3a 100%);
+    color: #041d09;
+    border-color: #9ef7ae;
+    font-weight: 800;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.42), inset 0 -3px 0 rgba(9, 66, 21, 0.55), 0 6px 20px rgba(86, 240, 115, 0.26);
+  }
+  .btn-emerald:hover:not(:disabled) {
+    background: linear-gradient(180deg, #81fa96 0%, #24b644 100%);
+    border-color: #c8fcd1;
+  }
+
+  .btn-danger {
+    background: linear-gradient(180deg, rgba(255, 107, 107, 0.24), rgba(185, 28, 28, 0.22));
+    border-color: rgba(255, 107, 107, 0.6);
+    color: #fecaca;
+  }
+  .btn-danger:hover:not(:disabled) {
+    background: linear-gradient(180deg, rgba(255, 107, 107, 0.36), rgba(185, 28, 28, 0.34));
+    border-color: var(--red);
+  }
+
+  .btn-sm { padding: 6px 11px; font-size: 12px; }
+  .btn-xs { padding: 4px 8px; font-size: 11px; border-radius: 5px; border-width: 1.5px; }
+
+  /* Dropzone / Upload Screen */
+  .upload-hero {
+    background:
+      linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px),
+      linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+      linear-gradient(160deg, rgba(19, 29, 58, 0.88) 0%, rgba(10, 15, 31, 0.92) 100%);
+    background-size: 24px 24px, 24px 24px, 100% 100%;
+    border: 2px dashed var(--border-bright);
+    border-radius: 14px;
+    padding: 46px 26px;
+    text-align: center;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    box-shadow: inset 0 1px 0 var(--bevel-top), var(--shadow);
+    backdrop-filter: blur(8px);
+  }
+  .upload-hero:hover {
+    border-color: rgba(255, 190, 59, 0.55);
+    box-shadow: inset 0 1px 0 var(--bevel-top), 0 0 28px rgba(255, 190, 59, 0.12), var(--shadow);
+  }
+  .upload-hero.dragover {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px var(--gold-glow), var(--shadow);
+    transform: scale(1.005);
+  }
+  .upload-hero-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 14px;
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(255, 190, 59, 0.22), rgba(217, 119, 6, 0.12));
+    border: 2px solid rgba(255, 190, 59, 0.55);
+    display: grid;
+    place-items: center;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), 0 0 24px var(--gold-glow);
+  }
+  .upload-hero-icon svg { width: 42px; height: 42px; display: block; }
+  .upload-hero h2 { margin: 0 0 8px; font-size: 23px; text-shadow: 0 2px 0 rgba(0,0,0,0.45); }
+  .upload-hero p { margin: 0 auto 22px; max-width: 650px; color: var(--text-dim); font-size: 14px; }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-top: 22px;
+  }
+  .feature-card {
+    background: var(--bg-elev);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    text-align: left;
+    box-shadow: inset 0 1px 0 var(--bevel-top), inset 0 -3px 0 var(--bevel-bot), 0 8px 20px rgba(0,0,0,0.35);
+    backdrop-filter: blur(8px);
+    transition: border-color 0.18s ease, transform 0.14s ease;
+  }
+  .feature-card:hover {
+    border-color: var(--border-bright);
+    transform: translateY(-2px);
+  }
+  .feature-card strong {
+    display: block;
+    color: var(--gold);
+    margin-bottom: 5px;
+    font-size: 13.5px;
+  }
+  .feature-card span {
+    font-size: 12.5px;
+    color: var(--text-dim);
+  }
+
+  /* Loaded Info Bar */
+  .pack-banner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--bg-elev);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: inset 0 1px 0 var(--bevel-top), inset 0 -2px 0 var(--bevel-bot);
+    backdrop-filter: blur(8px);
+    margin-bottom: 16px;
+  }
+  .pack-meta-items {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+  }
+
+  /* Navigation Tabs */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 11px;
+  }
+  .tab-btn {
+    padding: 9px 16px;
+    border-radius: var(--radius-sm);
+    border: 2px solid transparent;
+    background: rgba(12, 18, 36, 0.55);
+    color: var(--text-dim);
+    font-weight: 700;
+    font-size: 13.5px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.14s ease;
+  }
+  .tab-btn:hover { background: var(--bg-card); color: var(--text); border-color: var(--border); }
+  .tab-btn.active {
+    background: linear-gradient(180deg, rgba(255, 190, 59, 0.22), rgba(217, 119, 6, 0.14));
+    border-color: var(--gold);
+    color: var(--gold);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 0 16px var(--gold-glow);
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Two-column Workbench */
+  .workbench {
+    display: grid;
+    grid-template-columns: 1fr 415px;
+    gap: 18px;
+    align-items: start;
+  }
+  @media (max-width: 1040px) {
+    .workbench { grid-template-columns: 1fr; }
+  }
+
+  .panel {
+    background:
+      linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px),
+      linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+      var(--bg-elev);
+    background-size: 20px 20px, 20px 20px, 100% 100%;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: inset 0 1px 0 var(--bevel-top), inset 0 -3px 0 var(--bevel-bot), 0 10px 28px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(8px);
+  }
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .panel-title {
+    margin: 0;
+    font-size: 15.5px;
+    font-weight: 800;
+  }
+
+  /* Toolbar & Inputs */
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 14px;
+    align-items: center;
+  }
+  .input, .textarea, .select {
+    width: 100%;
+    background: var(--bg-input);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 9px 11px;
+    font-size: 13px;
+    color: var(--text);
+    outline: none;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.45);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .input:focus, .textarea:focus, .select:focus {
+    border-color: var(--gold);
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.45), 0 0 0 2px var(--gold-dim);
+  }
+  .textarea {
+    min-height: 115px;
+    resize: vertical;
+    font-family: var(--mono);
+    font-size: 12.5px;
+  }
+  .search-input { flex: 1 1 220px; }
+
+  .batch-drop {
+    border: 2px dashed rgba(59, 232, 208, 0.45);
+    border-radius: var(--radius-sm);
+    background: rgba(59, 232, 208, 0.06);
+    padding: 12px 14px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 14px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+  }
+  .batch-drop:hover {
+    border-color: var(--teal);
+    background: rgba(59, 232, 208, 0.11);
+  }
+  .batch-drop.dragover {
+    border-color: var(--teal);
+    background: rgba(59, 232, 208, 0.18);
+    box-shadow: 0 0 18px rgba(59, 232, 208, 0.25);
+  }
+
+  /* Skin Cards Grid */
+  .skin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 11px;
+    max-height: 740px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+  .skin-card {
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: inset 0 1px 0 var(--bevel-top), inset 0 -2px 0 var(--bevel-bot);
+    transition: transform 0.1s ease, border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    position: relative;
+  }
+  .skin-card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-bright);
+    transform: translateY(-2px);
+  }
+  .skin-card.selected {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px var(--gold-dim), 0 0 18px var(--gold-glow);
+    background: var(--bg-card-selected);
+  }
+  .skin-card.modified::after {
+    content: "EDITED";
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(8, 22, 34, 0.88);
+    color: var(--teal);
+    border: 1px solid rgba(59, 232, 208, 0.65);
+  }
+  .skin-card.added::after {
+    content: "NEW";
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(28, 20, 6, 0.9);
+    color: var(--gold);
+    border: 1px solid rgba(255, 190, 59, 0.7);
+  }
+  .skin-card-canvas-wrap {
+    height: 112px;
+    background: var(--stage-bg);
+    border-radius: 7px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border: 1.5px solid var(--border);
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.45);
+  }
+  .skin-card canvas {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+  .skin-card-name {
+    font-weight: 700;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .skin-card-id {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+  }
+
+  /* Inspector Drawer */
+  .inspector-sticky {
+    position: sticky;
+    top: 16px;
+  }
+  .preview-stage {
+    background: var(--stage-bg);
+    border: 2px solid var(--border-bright);
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 14px;
+    position: relative;
+    box-shadow: inset 0 4px 18px rgba(0,0,0,0.55);
+  }
+  .preview-stage canvas {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    cursor: grab;
+    touch-action: none;
+  }
+  .preview-stage canvas:active { cursor: grabbing; }
+  .preview-modes {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .field-group { margin-bottom: 13px; }
+  .field-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-dim);
+    margin-bottom: 5px;
+  }
+  .field-hint {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .checkbox-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 8px 10px;
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 12.5px;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+  .checkbox-row:hover { border-color: var(--border-bright); }
+  .checkbox-row input[type="checkbox"] {
+    margin-top: 2px;
+    accent-color: var(--gold);
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+  }
+
+  /* Minecraft § color bar & live preview */
+  .mc-palette {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+  .mc-swatch {
+    border: 1.5px solid var(--border);
+    background: var(--bg-card);
+    border-radius: 5px;
+    padding: 3px 7px;
+    font-size: 11px;
+    font-family: var(--mono);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .mc-swatch:hover { border-color: var(--gold); background: var(--bg-card-hover); }
+  .mc-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 2px;
+    border: 1px solid rgba(255,255,255,0.28);
+  }
+  .mc-preview-box {
+    background: rgba(12, 12, 16, 0.92);
+    border: 2px solid #353b4a;
+    border-radius: var(--radius-sm);
+    padding: 11px 13px;
+    font-family: var(--sans);
+    font-size: 13px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    line-height: 1.45;
+    min-height: 44px;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.6);
+  }
+
+  /* Tables */
+  .table-wrap {
+    overflow-x: auto;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-input);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+  }
+  th, td {
+    padding: 9px 11px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: var(--bg-card);
+    color: var(--text-dim);
+    font-weight: 700;
+    position: sticky;
+    top: 0;
+  }
+  tr:last-child td { border-bottom: none; }
+  code {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    background: rgba(136, 173, 255, 0.11);
+    border: 1px solid rgba(136, 173, 255, 0.16);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+
+  /* Two col for Description / Health */
+  .two-col {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 16px;
+  }
+
+  .check-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+  }
+  .check-item.ok { border-left: 4px solid var(--green); }
+  .check-item.warn { border-left: 4px solid var(--gold); }
+  .check-item.err { border-left: 4px solid var(--red); }
+
+  /* Toast */
+  .toast-wrap {
+    position: fixed;
+    bottom: 18px;
+    right: 18px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 390px;
+  }
+  .toast {
+    background: rgba(16, 23, 44, 0.96);
+    border: 2px solid var(--border-bright);
+    border-left: 4px solid var(--gold);
+    border-radius: 10px;
+    padding: 11px 14px;
+    font-size: 13px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(8px);
+    animation: slideIn 0.16s ease-out;
+  }
+  .toast.ok { border-left-color: var(--green); }
+  .toast.err { border-left-color: var(--red); }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 680px) {
+    .app-shell { padding: 12px 12px 48px; }
+    .two-col { grid-template-columns: 1fr; }
+    .topbar { padding: 12px 14px; }
+  }
+
+  .hidden { display: none !important; }
+  .sr-file-input {
+    position: fixed;
+    left: -9999px;
+    top: 0;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body data-theme="mc-night">
+<div class="mc-night-backdrop" aria-hidden="true">
+  <svg viewBox="0 0 1200 720" preserveAspectRatio="xMidYMid slice" shape-rendering="crispEdges">
+    <defs>
+      <radialGradient id="mcMoonGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#bae6fd" stop-opacity="0.34" />
+        <stop offset="45%" stop-color="#60a5fa" stop-opacity="0.12" />
+        <stop offset="100%" stop-color="#050814" stop-opacity="0" />
+      </radialGradient>
+      <radialGradient id="mcTorchHalo" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#ffaa22" stop-opacity="0.45" />
+        <stop offset="100%" stop-color="#ffaa22" stop-opacity="0" />
+      </radialGradient>
+    </defs>
+
+    <!-- Moon Glow -->
+    <circle cx="1012" cy="96" r="145" fill="url(#mcMoonGlow)" />
+    <!-- Square Minecraft Pixel Moon -->
+    <g transform="translate(972 56)">
+      <rect x="0" y="0" width="80" height="80" fill="#e2e8f0" />
+      <rect x="0" y="0" width="80" height="8" fill="#f8fafc" />
+      <rect x="0" y="0" width="8" height="80" fill="#f8fafc" />
+      <rect x="72" y="8" width="8" height="72" fill="#cbd5e1" />
+      <rect x="8" y="72" width="72" height="8" fill="#94a3b8" />
+      <!-- Pixel craters -->
+      <rect x="16" y="16" width="16" height="16" fill="#cbd5e1" />
+      <rect x="16" y="16" width="8" height="8" fill="#94a3b8" />
+      <rect x="48" y="24" width="16" height="8" fill="#cbd5e1" />
+      <rect x="48" y="48" width="16" height="16" fill="#cbd5e1" />
+      <rect x="56" y="56" width="8" height="8" fill="#94a3b8" />
+      <rect x="24" y="48" width="8" height="16" fill="#cbd5e1" />
+    </g>
+
+    <!-- Pixel Starfield Group A -->
+    <g class="mc-star-a">
+      <rect x="72" y="58" width="4" height="4" fill="#ffffff" />
+      <rect x="156" y="114" width="4" height="4" fill="#bae6fd" />
+      <rect x="248" y="44" width="6" height="6" fill="#fde68a" />
+      <rect x="336" y="142" width="4" height="4" fill="#ffffff" />
+      <rect x="444" y="76" width="4" height="4" fill="#e2e8f0" />
+      <rect x="562" y="48" width="4" height="4" fill="#bae6fd" />
+      <rect x="648" y="128" width="6" height="6" fill="#ffffff" />
+      <rect x="760" y="64" width="4" height="4" fill="#fde68a" />
+      <rect x="854" y="148" width="4" height="4" fill="#ffffff" />
+      <rect x="1124" y="176" width="4" height="4" fill="#bae6fd" />
+      <rect x="116" y="256" width="4" height="4" fill="#ffffff" />
+      <rect x="492" y="218" width="4" height="4" fill="#bae6fd" />
+      <rect x="720" y="236" width="4" height="4" fill="#ffffff" />
+      <rect x="914" y="274" width="4" height="4" fill="#fde68a" />
+      <rect x="1086" y="294" width="6" height="6" fill="#ffffff" />
+    </g>
+
+    <!-- Pixel Starfield Group B -->
+    <g class="mc-star-b">
+      <rect x="44" y="172" width="4" height="4" fill="#bae6fd" />
+      <rect x="208" y="196" width="4" height="4" fill="#ffffff" />
+      <rect x="304" y="88" width="4" height="4" fill="#e9d5ff" />
+      <rect x="392" y="268" width="4" height="4" fill="#ffffff" />
+      <rect x="518" y="124" width="6" height="6" fill="#bae6fd" />
+      <rect x="614" y="204" width="4" height="4" fill="#fde68a" />
+      <rect x="698" y="42" width="4" height="4" fill="#ffffff" />
+      <rect x="812" y="112" width="4" height="4" fill="#bae6fd" />
+      <rect x="888" y="54" width="4" height="4" fill="#ffffff" />
+      <rect x="1148" y="92" width="4" height="4" fill="#fde68a" />
+      <rect x="264" y="344" width="4" height="4" fill="#ffffff" />
+      <rect x="668" y="328" width="4" height="4" fill="#bae6fd" />
+      <rect x="1028" y="362" width="4" height="4" fill="#e9d5ff" />
+    </g>
+
+    <!-- Distant Blocky Mountain & Spruce Horizon Silhouette -->
+    <path d="M0,720 L0,628 L48,628 L48,608 L96,608 L96,588 L152,588 L152,616 L216,616 L216,636 L288,636 L288,604 L344,604 L344,580 L396,580 L396,604 L452,604 L452,632 L540,632 L540,616 L612,616 L612,640 L704,640 L704,608 L764,608 L764,584 L824,584 L824,612 L888,612 L888,632 L980,632 L980,596 L1044,596 L1044,572 L1104,572 L1104,604 L1164,604 L1164,624 L1200,624 L1200,720 Z" fill="#071022" opacity="0.88" />
+    <path d="M0,720 L0,664 L80,664 L80,648 L140,648 L140,668 L244,668 L244,652 L308,652 L308,672 L420,672 L420,656 L484,656 L484,676 L640,676 L640,656 L712,656 L712,672 L840,672 L840,652 L916,652 L916,672 L1068,672 L1068,648 L1132,648 L1132,664 L1200,664 L1200,720 Z" fill="#040916" />
+
+    <!-- Pixel Torch / Lantern Horizon Accents -->
+    <g class="mc-torch-glow">
+      <circle cx="110" cy="648" r="28" fill="url(#mcTorchHalo)" />
+      <rect x="108" y="646" width="4" height="4" fill="#ffbe3b" />
+      <rect x="108" y="642" width="4" height="4" fill="#fef08a" />
+
+      <circle cx="742" cy="656" r="28" fill="url(#mcTorchHalo)" />
+      <rect x="740" y="654" width="4" height="4" fill="#ffbe3b" />
+      <rect x="740" y="650" width="4" height="4" fill="#fef08a" />
+
+      <circle cx="1096" cy="648" r="30" fill="url(#mcTorchHalo)" />
+      <rect x="1094" y="646" width="4" height="4" fill="#ffbe3b" />
+      <rect x="1094" y="642" width="4" height="4" fill="#fef08a" />
+    </g>
+  </svg>
+</div>
+
+<div class="app-shell">
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo" title="BlockBuster Studio — Minecraft Night Edition">
+        <svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="1" y="2" width="14" height="12" fill="#18223d" />
+          <rect x="1" y="2" width="14" height="3" fill="#ffbe3b" />
+          <rect x="3" y="2" width="2" height="3" fill="#1e293b" />
+          <rect x="7" y="2" width="2" height="3" fill="#1e293b" />
+          <rect x="11" y="2" width="2" height="3" fill="#1e293b" />
+          <rect x="3" y="7" width="3" height="3" fill="#3be8d0" />
+          <rect x="10" y="7" width="3" height="3" fill="#3be8d0" />
+          <rect x="6" y="10" width="4" height="3" fill="#ffbe3b" />
+          <rect x="5" y="11" width="2" height="3" fill="#ffbe3b" />
+          <rect x="9" y="11" width="2" height="3" fill="#ffbe3b" />
+        </svg>
+      </div>
+      <div>
+        <h1>
+          BlockBuster Studio — Offline Skin &amp; Addon Workbench
+          <span class="pill pill-gold" id="themeBadgePill">Minecraft Night</span>
+          <span class="pill pill-teal">100% Offline HTML</span>
+        </h1>
+        <div class="brand-sub">
+          Upload <code>.mcaddon</code> &bull; Add/Replace Custom Skins &bull; Expand <code>bb:skin</code> Entities &bull; Register in Suggestions &bull; Edit Descriptions
+        </div>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn btn-sm" id="btnCycleTheme" title="Switch visual theme (Minecraft Night / End Dimension / Classic Slate)">Theme: MC Night</button>
+      <button class="btn btn-sm" id="btnLoadNew" title="Upload a different .mcaddon file">Upload .mcaddon</button>
+      <button class="btn btn-sm hidden" id="btnRunAudit">Pack Health</button>
+      <button class="btn btn-primary hidden" id="btnExport">Export .mcaddon</button>
+    </div>
+  </header>
+
+  <input type="file" id="addonFileInput" class="sr-file-input" />
+  <input type="file" id="batchPngInput" accept="image/png,image/jpeg,image/webp,.png,.jpg,.jpeg,.webp" multiple class="sr-file-input" />
+  <input type="file" id="singlePngInput" accept="image/png,image/jpeg,image/webp,.png,.jpg,.jpeg,.webp" class="sr-file-input" />
+
+  <!-- UPLOAD SCREEN -->
+  <section id="uploadScreen">
+    <div class="upload-hero" id="dropZone">
+      <div class="upload-hero-icon">
+        <svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="2" y="3" width="12" height="11" fill="#0f172a" />
+          <rect x="2" y="3" width="12" height="3" fill="#ffbe3b" />
+          <rect x="4" y="3" width="2" height="3" fill="#78350f" />
+          <rect x="8" y="3" width="2" height="3" fill="#78350f" />
+          <rect x="12" y="3" width="2" height="3" fill="#78350f" />
+          <rect x="5" y="8" width="6" height="4" fill="#3be8d0" />
+          <rect x="6" y="9" width="4" height="2" fill="#e0f2fe" />
+        </svg>
+      </div>
+      <h2>Drop your BlockBuster Studio <code>.mcaddon</code> here</h2>
+      <p>
+        Everything runs locally in your browser with zero internet required. Upload your
+        <code>BlockBuster_Studio_*.mcaddon</code> to inspect existing skins, replace or expand
+        <code>bb:skin</code> entities, register every skin in <code>MOB_CATALOG</code> &amp;
+        <code>MOB_ALIASES</code> suggestions, and customize your pack descriptions.
+      </p>
+      <button class="btn btn-primary" type="button" id="btnPickAddon">Choose .mcaddon File</button>
+      <div style="margin-top:12px;font-size:12px;color:var(--text-muted);">
+        Supports nested <code>.mcpack</code> bundles (like v4.5.5 Director's Cut) and folder-structured <code>.mcaddon</code> archives.
+      </div>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <strong>1. Add &amp; Replace Custom Skins</strong>
+        <span>Drop one or dozens of 64&times;64 / 128&times;128 PNG skins (plus auto-upgrade for legacy 64&times;32 skins) with live 3D spin &amp; 2D preview.</span>
+      </div>
+      <div class="feature-card">
+        <strong>2. Expand Skin Entities (<code>bb:skin41+</code>)</strong>
+        <span>Automatically generates BP entity JSON, RP client entity JSON (with full Molang vars), Classic/Slim geometry, and <code>en_US.lang</code> entries.</span>
+      </div>
+      <div class="feature-card">
+        <strong>3. Auto-Register in Suggestions</strong>
+        <span>Patches <code>SKINS</code>, <code>MOB_CATALOG</code> (Suggest Mob), and <code>MOB_ALIASES</code> (Quick Morph &amp; Playback) in <code>StudioUI.js</code>.</span>
+      </div>
+      <div class="feature-card">
+        <strong>4. Edit Pack Descriptions &amp; Export</strong>
+        <span>Customize BP &amp; RP manifest descriptions with live Minecraft <code>&sect;</code> color preview and export a ready-to-import <code>.mcaddon</code>.</span>
+      </div>
+    </div>
+
+    <div class="panel" style="max-width:960px;margin:16px auto 0;font-size:12.5px;color:var(--text-dim);">
+      <strong style="color:var(--green);">Offline Mode Ready:</strong>
+      This single <code>.html</code> file contains zero external links, CDNs, fonts, or network calls, and uses pure-JavaScript ZIP/PNG/JS-parser engines with zero <code>eval()</code> or browser popups. Download this HTML file to your PC or phone and open it locally (<code>file://</code>) in Chrome, Edge, Firefox, Safari, or an offline HTML viewer anytime with Wi-Fi / mobile data turned off.
+    </div>
+  </section>
+
+  <!-- WORKSPACE SCREEN -->
+  <main id="workspaceScreen" class="hidden">
+    <div class="pack-banner">
+      <div class="pack-meta-items">
+        <span class="pill pill-gold" id="badgeFileName">pack.mcaddon</span>
+        <span class="pill" id="badgeLayout">Layout: .mcpack</span>
+        <span class="pill pill-teal" id="badgeSkinCount">40 skins</span>
+        <span class="pill pill-purple" id="badgeVersion">v4.5.5</span>
+        <span class="pill hidden" id="badgeChanges">0 edits</span>
+      </div>
+      <div style="font-size:12px;color:var(--text-dim);">
+        Original skin range detected: <code id="lblOrigCount">1..40</code> &bull; Active range: <code id="lblActiveCount">1..40</code>
+      </div>
+    </div>
+
+    <!-- TABS -->
+    <nav class="tabs" role="tablist">
+      <button class="tab-btn active" data-tab="skinsTab">Skins &amp; Entities (<span id="tabSkinCount">40</span>)</button>
+      <button class="tab-btn" data-tab="suggestionsTab">Suggestions &amp; Aliases</button>
+      <button class="tab-btn" data-tab="descriptionTab">Addon Description &amp; Manifest</button>
+      <button class="tab-btn" data-tab="healthTab">Pack Health &amp; Export</button>
+    </nav>
+
+    <!-- TAB 1: SKINS & ENTITIES -->
+    <section class="tab-panel active" id="skinsTab">
+      <div class="workbench">
+        <!-- LEFT: SKIN GRID & EXPANSION TOOLS -->
+        <div class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Skin Entity Roster (<code>bb:skin1</code> .. <code>bb:skin<span id="hdrMaxN">40</span></code>)</h2>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <button class="btn btn-sm btn-teal" id="btnAddOneSlot">+1 New Skin Slot</button>
+              <button class="btn btn-sm" id="btnExpandFive">+5 Blank Slots</button>
+              <button class="btn btn-sm" id="btnExpandCustom">Expand +N...</button>
+              <button class="btn btn-sm btn-danger hidden" id="btnTrimTail" title="Remove trailing slots above original count">Trim Added Tail</button>
+            </div>
+          </div>
+
+          <div id="customExpandBar" class="hidden" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;margin-bottom:12px;background:var(--bg-card);border:1px solid var(--gold);border-radius:var(--radius-sm);">
+            <span style="font-size:12.5px;font-weight:700;color:var(--gold);">Expand blank slots (1–200):</span>
+            <input type="number" class="input" id="customExpandCount" min="1" max="200" value="10" style="width:95px;padding:6px 9px;" />
+            <button class="btn btn-sm btn-primary" type="button" id="btnApplyCustomExpand">Add Slots</button>
+            <button class="btn btn-sm" type="button" id="btnCancelCustomExpand">Cancel</button>
+          </div>
+
+          <div class="batch-drop" id="batchDropZone">
+            <div>
+              <strong style="color:var(--teal);font-size:13px;">Batch Add Custom Skins: Drop multiple PNG files here</strong>
+              <div style="font-size:12px;color:var(--text-dim);">Automatically creates new <code>bb:skinN</code> entities, detects Classic vs Slim arms, cleans filenames into names, and registers suggestions.</div>
+            </div>
+            <button class="btn btn-sm btn-teal" type="button" id="btnBatchPick">Choose PNGs</button>
+          </div>
+
+          <div class="toolbar">
+            <input type="text" class="input search-input" id="skinSearchInput" placeholder="Filter by skin name, bb:skinN, or suggestion keyword..." />
+            <select class="select" id="skinFilterSelect" style="width:auto;min-width:155px;">
+              <option value="all">All Skins</option>
+              <option value="edited">Modified / Added Only</option>
+              <option value="added">Newly Expanded Only</option>
+              <option value="slim">Slim Arm (3px) Only</option>
+            </select>
+          </div>
+
+          <div class="skin-grid" id="skinGrid"></div>
+        </div>
+
+        <!-- RIGHT: SELECTED SKIN INSPECTOR -->
+        <aside class="panel inspector-sticky" id="inspectorPanel">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Slot <code id="inspId">bb:skin1</code></h2>
+              <div style="font-size:11.5px;color:var(--text-dim);" id="inspStatusText">Existing slot</div>
+            </div>
+            <div style="display:flex;gap:6px;">
+              <button class="btn btn-xs hidden" id="btnRestoreSlot">Restore Original</button>
+              <button class="btn btn-xs btn-danger hidden" id="btnDeleteSlot">Delete Slot</button>
+            </div>
+          </div>
+
+          <div class="preview-stage">
+            <canvas id="inspCanvas" width="220" height="220"></canvas>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:4px;" id="inspCanvasHint">Drag horizontally on 3D view to spin</div>
+            <div class="preview-modes">
+              <button class="btn btn-xs btn-primary" data-view="3d">3D Spin</button>
+              <button class="btn btn-xs" data-view="front">Front</button>
+              <button class="btn btn-xs" data-view="back">Back</button>
+              <button class="btn btn-xs" data-view="uv">Raw UV Sheet</button>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="field-label">
+              <span>Skin Texture PNG</span>
+              <span id="inspDimBadge" class="pill">64&times;64</span>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="btn btn-sm btn-teal" id="btnReplacePng">Upload / Replace Skin PNG</button>
+              <button class="btn btn-sm hidden" id="btnConvert64">Upgrade 64&times;32 &rarr; 64&times;64</button>
+              <button class="btn btn-sm" id="btnDownloadPng">Download PNG</button>
+            </div>
+            <div class="field-hint">Supports 64&times;64, 128&times;128 HD, and legacy 64&times;32 skins (auto-convertible).</div>
+          </div>
+
+          <div class="field-group">
+            <div class="field-label">
+              <span>Display Name (Menu &amp; Entity Name)</span>
+              <span class="mc-preview-box" id="inspNamePreview" style="padding:2px 8px;min-height:auto;font-size:12px;">Skin 1</span>
+            </div>
+            <div class="mc-palette" id="inspColorBar"></div>
+            <input type="text" class="input" id="inspNameInput" placeholder="e.g. §bCyber Knight" />
+            <div class="field-hint">Updates <code>SKINS</code>, <code>MOB_CATALOG</code>, and <code>en_US.lang</code>. Supports Minecraft <code>&sect;</code> color codes.</div>
+          </div>
+
+          <div class="field-group">
+            <div class="field-label">
+              <span>Arm Model Geometry</span>
+              <span id="inspArmAutoHint" style="font-size:11px;color:var(--teal);"></span>
+            </div>
+            <select class="select" id="inspArmSelect">
+              <option value="classic">Classic (4px Steve arms — geometry.humanoid.custom)</option>
+              <option value="slim">Slim (3px Alex arms — geometry.humanoid.customSlim)</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <div class="field-label">
+              <span>Suggestion Registration (<code>StudioUI.js</code>)</span>
+            </div>
+            <label class="checkbox-row" style="margin-bottom:8px;">
+              <input type="checkbox" id="inspRegCatalog" checked />
+              <span>Register in <strong>Suggest Mob</strong> (<code>MOB_CATALOG</code>) &amp; <strong>Quick Morph / Playback</strong> (<code>MOB_ALIASES</code>)</span>
+            </label>
+            <input type="text" class="input" id="inspKeywordsInput" placeholder="Extra search keywords, comma-separated (e.g. ninja, hero, stealth)" />
+            <div class="field-hint">Auto-generated keys always added: <code id="inspAutoKeysPreview">skin1, skin 1, bbskin1</code></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- TAB 2: SUGGESTIONS & ALIASES -->
+    <section class="tab-panel" id="suggestionsTab">
+      <div class="two-col">
+        <div class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">In-Game Suggestion Simulator (<code>_mobSuggestionPicker</code>)</h2>
+            <span class="pill pill-teal">Live Preview</span>
+          </div>
+          <p style="font-size:13px;color:var(--text-dim);margin-top:0;">
+            Test exactly what players will see when they open <strong>Choose a Mob &rarr; Type / Suggest Mob...</strong>
+            or type a name in <strong>Quick Morph</strong> / <strong>Playback Actor Select</strong> inside Minecraft Bedrock.
+          </p>
+          <div class="field-group">
+            <input type="text" class="input" id="simSearchInput" placeholder="Type any partial skin name or alias (e.g. smiler, skin41, nova)..." />
+          </div>
+          <div class="panel" style="background:var(--bg-card);margin-bottom:14px;">
+            <div style="font-size:12px;color:var(--text-dim);margin-bottom:6px;">
+              <code>resolveEntityId(input)</code> (Quick Morph / Playback): <strong id="simAliasResult" style="color:var(--teal);">-</strong>
+            </div>
+            <div style="font-size:12px;color:var(--text-dim);">
+              <code>filterMobCatalog(input)</code> matches (Bedrock caps display at 25 per query): <strong id="simCountResult" style="color:var(--gold);">0</strong>
+            </div>
+          </div>
+          <div class="table-wrap" style="max-height:360px;overflow-y:auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Display Label</th>
+                  <th>Entity ID</th>
+                  <th>Search Keys</th>
+                </tr>
+              </thead>
+              <tbody id="simResultsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Script Suggestion &amp; Text Sync Options</h2>
+          </div>
+          <div class="check-list" style="margin-bottom:16px;">
+            <label class="checkbox-row">
+              <input type="checkbox" id="optSyncStudioHints" checked />
+              <span>
+                <strong>Sync <code>StudioUI.js</code> skin range labels</strong><br />
+                <span style="color:var(--text-dim);font-size:12px;">Updates hardcoded <code>"bb:skin1...20 + classic"</code> button hints to match the actual total skin count.</span>
+              </span>
+            </label>
+            <label class="checkbox-row">
+              <input type="checkbox" id="optSyncHelpText" checked />
+              <span>
+                <strong>Sync <code>CommandHandler.js</code> &amp; <code>AIAssistant.js</code> skin range text</strong><br />
+                <span style="color:var(--text-dim);font-size:12px;">Updates <code>/bb tutorial skins</code> and Vegapunk <code>/bb ai skins</code> messages from <code>bb:skin1-bb:skin20</code> to <code>bb:skin1-bb:skinN</code>.</span>
+              </span>
+            </label>
+            <label class="checkbox-row">
+              <input type="checkbox" id="optFixMolang" checked />
+              <span>
+                <strong>Fix missing Molang initializers on <code>bb:skin21..40</code></strong><br />
+                <span style="color:var(--text-dim);font-size:12px;">Adds missing <code>variable.item_use_normalized</code>, <code>is_paperdoll</code>, <code>map_face_icon</code>, <code>is_first_person</code>, and <code>player_x_rotation</code> matching <code>bb_skin1.json</code> (also applied to all new slots).</span>
+              </span>
+            </label>
+          </div>
+
+          <h3 style="font-size:14px;margin:0 0 8px;">Registered Skin Entries Overview</h3>
+          <div class="table-wrap" style="max-height:320px;overflow-y:auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th><code>MOB_CATALOG</code></th>
+                  <th><code>MOB_ALIASES</code></th>
+                </tr>
+              </thead>
+              <tbody id="allRegTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: ADDON DESCRIPTION & MANIFEST -->
+    <section class="tab-panel" id="descriptionTab">
+      <div class="panel" style="margin-bottom:16px;">
+        <div class="panel-header">
+          <h2 class="panel-title">Shared Pack Controls &amp; Formatting Tools</h2>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-sm btn-teal" id="btnCopyBpToRp">Copy BP Desc &rarr; RP</button>
+            <button class="btn btn-sm" id="btnCleanRpDup">Remove Duplicate Lines in RP Desc</button>
+            <button class="btn btn-sm" id="btnBumpPatch">Bump Patch Version (+0.0.1)</button>
+          </div>
+        </div>
+        <div class="two-col" style="align-items:end;">
+          <div class="field-group" style="margin-bottom:0;">
+            <div class="field-label"><span>Pack Version (<code>[major, minor, patch]</code> — synced across BP, RP &amp; dependencies)</span></div>
+            <div style="display:flex;gap:8px;">
+              <input type="number" class="input" id="verMajor" min="0" value="4" />
+              <input type="number" class="input" id="verMinor" min="0" value="5" />
+              <input type="number" class="input" id="verPatch" min="0" value="5" />
+            </div>
+          </div>
+          <div class="field-group" style="margin-bottom:0;">
+            <label class="checkbox-row">
+              <input type="checkbox" id="optRegenUuids" />
+              <span>
+                <strong>Regenerate BP &amp; RP UUIDs on export</strong><br />
+                <span style="color:var(--text-dim);font-size:11.5px;">Leave OFF to update existing BlockBuster worlds seamlessly; turn ON to install as a separate variant pack.</span>
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <!-- BP MANIFEST -->
+        <div class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Behavior Pack (<code>BP/manifest.json</code>)</h2>
+            <span class="pill pill-green" id="bpUuidBadge">UUID</span>
+          </div>
+          <div class="field-group">
+            <div class="field-label"><span>Behavior Pack Name</span></div>
+            <input type="text" class="input" id="bpNameInput" />
+            <div class="mc-preview-box" id="bpNamePreview" style="margin-top:6px;"></div>
+          </div>
+          <div class="field-group" style="margin-bottom:0;">
+            <div class="field-label"><span>Behavior Pack Description</span></div>
+            <div class="mc-palette" id="bpDescPalette"></div>
+            <textarea class="textarea" id="bpDescInput" rows="8"></textarea>
+            <div class="field-label" style="margin-top:8px;"><span>Live Minecraft In-Game Preview</span></div>
+            <div class="mc-preview-box" id="bpDescPreview"></div>
+          </div>
+        </div>
+
+        <!-- RP MANIFEST -->
+        <div class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Resource Pack (<code>RP/manifest.json</code>)</h2>
+            <span class="pill pill-teal" id="rpUuidBadge">UUID</span>
+          </div>
+          <div class="field-group">
+            <div class="field-label"><span>Resource Pack Name</span></div>
+            <input type="text" class="input" id="rpNameInput" />
+            <div class="mc-preview-box" id="rpNamePreview" style="margin-top:6px;"></div>
+          </div>
+          <div class="field-group" style="margin-bottom:0;">
+            <div class="field-label"><span>Resource Pack Description</span></div>
+            <div class="mc-palette" id="rpDescPalette"></div>
+            <textarea class="textarea" id="rpDescInput" rows="8"></textarea>
+            <div class="field-label" style="margin-top:8px;"><span>Live Minecraft In-Game Preview</span></div>
+            <div class="mc-preview-box" id="rpDescPreview"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: PACK HEALTH & EXPORT -->
+    <section class="tab-panel" id="healthTab">
+      <div class="two-col">
+        <div class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Pre-Export Integrity &amp; Compatibility Audit</h2>
+            <button class="btn btn-sm" id="btnReRunChecks">Re-check Now</button>
+          </div>
+          <div class="check-list" id="healthCheckList"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Export Summary &amp; Download</h2>
+          </div>
+          <div class="field-group">
+            <div class="field-label"><span>Export Filename</span></div>
+            <input type="text" class="input" id="exportFilenameInput" value="BlockBuster_Studio_Custom.mcaddon" />
+          </div>
+          <div class="panel" style="background:var(--bg-card);margin-bottom:14px;">
+            <div style="font-size:13px;font-weight:700;margin-bottom:8px;">Changes to be packaged:</div>
+            <ul id="exportSummaryList" style="margin:0;padding-left:18px;font-size:12.5px;color:var(--text-dim);line-height:1.7;"></ul>
+          </div>
+          <button class="btn btn-emerald" style="width:100%;padding:12px;font-size:15px;" id="btnExportMain">
+            Build &amp; Download .mcaddon
+          </button>
+          <div id="exportProgress" class="field-hint" style="margin-top:10px;text-align:center;"></div>
+          <div id="exportReadyBox" class="hidden" style="margin-top:12px;padding:12px;background:var(--green-dim);border:1px solid rgba(74,222,128,0.45);border-radius:var(--radius-sm);font-size:12.5px;">
+            <strong style="color:var(--green);display:block;margin-bottom:6px;">Package Ready!</strong>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+              <a id="exportDirectLink" class="btn btn-sm btn-primary" download="BlockBuster_Studio_Custom.mcaddon" href="#">Save .mcaddon</a>
+              <span id="exportReadyMeta" style="color:var(--text-dim);font-size:12px;"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+(() => {
+  "use strict";
+
+  // =========================================================================
+  // 1. PURE-JS ZIP + INFLATE ENGINE (100% OFFLINE, ZERO EXTERNAL DEPS)
+  //    - Supports reading Stored (0) & Deflate (8) with Data Descriptors & UTF-8
+  //    - Uses native DecompressionStream/CompressionStream('deflate-raw') when
+  //      available, with pure-JS RFC 1951 Inflate fallback for older browsers.
+  //    - Preserves untouched entries' raw compressed bytes & CRC losslessly.
+  // =========================================================================
+
+  const CRC_TABLE = (() => {
+    const t = new Uint32Array(256);
+    for (let i = 0; i < 256; i++) {
+      let c = i;
+      for (let k = 0; k < 8; k++) c = (c & 1) ? (0xedb88320 ^ (c >>> 1)) : (c >>> 1);
+      t[i] = c >>> 0;
+    }
+    return t;
+  })();
+
+  function crc32(bytes) {
+    let crc = 0xffffffff;
+    for (let i = 0; i < bytes.length; i++) {
+      crc = CRC_TABLE[(crc ^ bytes[i]) & 0xff] ^ (crc >>> 8);
+    }
+    return (crc ^ 0xffffffff) >>> 0;
+  }
+
+  const textDecoder = new TextDecoder("utf-8", { fatal: false });
+  const textEncoder = new TextEncoder();
+
+  // Pure-JS RFC 1951 Inflate (Stored, Fixed Huffman, Dynamic Huffman)
+  function inflateRawJS(src) {
+    let bytePos = 0;
+    let bitBuf = 0;
+    let bitCnt = 0;
+
+    function needBits(n) {
+      while (bitCnt < n) {
+        if (bytePos >= src.length) throw new Error("Unexpected end of deflate stream");
+        bitBuf |= src[bytePos++] << bitCnt;
+        bitCnt += 8;
+      }
+    }
+    function readBits(n) {
+      if (n === 0) return 0;
+      needBits(n);
+      const val = bitBuf & ((1 << n) - 1);
+      bitBuf >>>= n;
+      bitCnt -= n;
+      return val;
+    }
+    function alignByte() {
+      bitBuf = 0;
+      bitCnt = 0;
+    }
+    function buildTree(lengths) {
+      let maxLen = 0;
+      for (let i = 0; i < lengths.length; i++) if (lengths[i] > maxLen) maxLen = lengths[i];
+      if (maxLen === 0) return { table: new Int32Array(0), maxLen: 0 };
+      const blCount = new Int32Array(maxLen + 1);
+      for (let i = 0; i < lengths.length; i++) if (lengths[i] > 0) blCount[lengths[i]]++;
+      const nextCode = new Int32Array(maxLen + 1);
+      let code = 0;
+      for (let bits = 1; bits <= maxLen; bits++) {
+        code = (code + blCount[bits - 1]) << 1;
+        nextCode[bits] = code;
+      }
+      // Build fast lookup tree using bit-reversed codes or simple node map
+      // Node-based binary tree for guaranteed correctness across all bit lengths up to 15
+      const left = [-1];
+      const right = [-1];
+      const sym = [-1];
+      function newNode() { left.push(-1); right.push(-1); sym.push(-1); return left.length - 1; }
+      for (let n = 0; n < lengths.length; n++) {
+        const len = lengths[n];
+        if (len === 0) continue;
+        const c = nextCode[len]++;
+        let node = 0;
+        for (let b = len - 1; b >= 0; b--) {
+          const bit = (c >>> b) & 1;
+          if (bit === 0) {
+            if (left[node] === -1) left[node] = newNode();
+            node = left[node];
+          } else {
+            if (right[node] === -1) right[node] = newNode();
+            node = right[node];
+          }
+        }
+        sym[node] = n;
+      }
+      return { left, right, sym };
+    }
+    function decodeSym(tree) {
+      let node = 0;
+      while (tree.sym[node] === -1) {
+        if (bitCnt === 0) {
+          if (bytePos >= src.length) throw new Error("Truncated Huffman stream");
+          bitBuf = src[bytePos++];
+          bitCnt = 8;
+        }
+        const bit = bitBuf & 1;
+        bitBuf >>>= 1;
+        bitCnt--;
+        node = bit === 0 ? tree.left[node] : tree.right[node];
+        if (node === -1) throw new Error("Invalid Huffman code");
+      }
+      return tree.sym[node];
+    }
+
+    const FIXED_LIT = (() => {
+      const l = new Uint8Array(288);
+      for (let i = 0; i <= 143; i++) l[i] = 8;
+      for (let i = 144; i <= 255; i++) l[i] = 9;
+      for (let i = 256; i <= 279; i++) l[i] = 7;
+      for (let i = 280; i <= 287; i++) l[i] = 8;
+      return buildTree(l);
+    })();
+    const FIXED_DIST = (() => {
+      const d = new Uint8Array(32);
+      d.fill(5);
+      return buildTree(d);
+    })();
+
+    const LEN_BASE = [3,4,5,6,7,8,9,10,11,13,15,17,19,23,27,31,35,43,51,59,67,83,99,115,131,163,195,227,258];
+    const LEN_EXTRA = [0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0];
+    const DIST_BASE = [1,2,3,4,5,7,9,13,17,25,33,49,65,97,129,193,257,385,513,769,1025,1537,2049,3073,4097,6145,8193,12289,16385,24577];
+    const DIST_EXTRA = [0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13];
+    const CL_ORDER = [16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15];
+
+    let out = new Uint8Array(Math.max(1024, src.length * 3));
+    let outPos = 0;
+    function ensureOut(add) {
+      if (outPos + add <= out.length) return;
+      let nextLen = out.length * 2;
+      while (nextLen < outPos + add) nextLen *= 2;
+      const next = new Uint8Array(nextLen);
+      next.set(out.subarray(0, outPos));
+      out = next;
+    }
+
+    let bfinal = 0;
+    do {
+      bfinal = readBits(1);
+      const btype = readBits(2);
+      if (btype === 0) {
+        alignByte();
+        if (bytePos + 4 > src.length) throw new Error("Truncated stored block");
+        const len = src[bytePos] | (src[bytePos + 1] << 8);
+        const nlen = src[bytePos + 2] | (src[bytePos + 3] << 8);
+        bytePos += 4;
+        if ((len ^ 0xffff) !== nlen) throw new Error("Corrupt stored block length");
+        ensureOut(len);
+        out.set(src.subarray(bytePos, bytePos + len), outPos);
+        bytePos += len;
+        outPos += len;
+      } else if (btype === 1 || btype === 2) {
+        let litTree, distTree;
+        if (btype === 1) {
+          litTree = FIXED_LIT;
+          distTree = FIXED_DIST;
+        } else {
+          const hlit = readBits(5) + 257;
+          const hdist = readBits(5) + 1;
+          const hclen = readBits(4) + 4;
+          const clLens = new Uint8Array(19);
+          for (let i = 0; i < hclen; i++) clLens[CL_ORDER[i]] = readBits(3);
+          const clTree = buildTree(clLens);
+          const total = hlit + hdist;
+          const allLens = new Uint8Array(total);
+          let idx = 0;
+          while (idx < total) {
+            const s = decodeSym(clTree);
+            if (s < 16) {
+              allLens[idx++] = s;
+            } else if (s === 16) {
+              const rep = 3 + readBits(2);
+              const prev = idx > 0 ? allLens[idx - 1] : 0;
+              for (let r = 0; r < rep && idx < total; r++) allLens[idx++] = prev;
+            } else if (s === 17) {
+              const rep = 3 + readBits(3);
+              for (let r = 0; r < rep && idx < total; r++) allLens[idx++] = 0;
+            } else if (s === 18) {
+              const rep = 11 + readBits(7);
+              for (let r = 0; r < rep && idx < total; r++) allLens[idx++] = 0;
+            }
+          }
+          litTree = buildTree(allLens.subarray(0, hlit));
+          distTree = buildTree(allLens.subarray(hlit));
+        }
+
+        while (true) {
+          const s = decodeSym(litTree);
+          if (s < 256) {
+            ensureOut(1);
+            out[outPos++] = s;
+          } else if (s === 256) {
+            break;
+          } else {
+            const lIdx = s - 257;
+            const length = LEN_BASE[lIdx] + readBits(LEN_EXTRA[lIdx]);
+            const dSym = decodeSym(distTree);
+            const dist = DIST_BASE[dSym] + readBits(DIST_EXTRA[dSym]);
+            ensureOut(length);
+            for (let i = 0; i < length; i++) {
+              out[outPos] = out[outPos - dist];
+              outPos++;
+            }
+          }
+        }
+      } else {
+        throw new Error("Invalid deflate block type: " + btype);
+      }
+    } while (!bfinal);
+
+    return out.subarray(0, outPos);
+  }
+
+  async function streamTransformBytes(bytes, ctor, format) {
+    const s = new ctor(format);
+    const writer = s.writable.getWriter();
+    writer.write(bytes);
+    writer.close();
+    const reader = s.readable.getReader();
+    const chunks = [];
+    let total = 0;
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      chunks.push(value);
+      total += value.length;
+    }
+    const res = new Uint8Array(total);
+    let offset = 0;
+    for (const c of chunks) { res.set(c, offset); offset += c.length; }
+    return res;
+  }
+
+  let _canNativeDeflate = null;
+  async function supportsNativeDeflate() {
+    if (_canNativeDeflate !== null) return _canNativeDeflate;
+    try {
+      if (typeof CompressionStream === "function" && typeof DecompressionStream === "function") {
+        const sample = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8]);
+        const c = await streamTransformBytes(sample, CompressionStream, "deflate-raw");
+        const d = await streamTransformBytes(c, DecompressionStream, "deflate-raw");
+        _canNativeDeflate = d.length === sample.length;
+      } else {
+        _canNativeDeflate = false;
+      }
+    } catch (_) {
+      _canNativeDeflate = false;
+    }
+    return _canNativeDeflate;
+  }
+
+  async function decompressRaw(compBytes, method, expectedSize) {
+    if (method === 0) return compBytes;
+    if (method !== 8) throw new Error("Unsupported ZIP compression method: " + method);
+    if (await supportsNativeDeflate()) {
+      try {
+        return await streamTransformBytes(compBytes, DecompressionStream, "deflate-raw");
+      } catch (_) {}
+    }
+    const res = inflateRawJS(compBytes);
+    if (expectedSize && res.length !== expectedSize) {
+      // keep result anyway unless wildly corrupt
+    }
+    return res;
+  }
+
+  async function compressForZip(rawBytes) {
+    if (rawBytes.length < 32) {
+      return { method: 0, data: rawBytes };
+    }
+    if (await supportsNativeDeflate()) {
+      try {
+        const comp = await streamTransformBytes(rawBytes, CompressionStream, "deflate-raw");
+        if (comp.length < rawBytes.length) {
+          return { method: 8, data: comp };
+        }
+      } catch (_) {}
+    }
+    return { method: 0, data: rawBytes };
+  }
+
+  function parseZip(u8) {
+    const view = new DataView(u8.buffer, u8.byteOffset, u8.byteLength);
+    // Find End of Central Directory (0x06054b50) scanning backwards
+    let eocdOffset = -1;
+    const minOff = Math.max(0, u8.length - 65557);
+    for (let i = u8.length - 22; i >= minOff; i--) {
+      if (u8[i] === 0x50 && u8[i + 1] === 0x4b && u8[i + 2] === 0x05 && u8[i + 3] === 0x06) {
+        const cLen = view.getUint16(i + 20, true);
+        if (i + 22 + cLen === u8.length) {
+          eocdOffset = i;
+          break;
+        }
+      }
+    }
+    if (eocdOffset === -1) throw new Error("Invalid ZIP/mcaddon file (EOCD not found).");
+
+    const totalEntries = view.getUint16(eocdOffset + 10, true);
+    const cdOffset = view.getUint32(eocdOffset + 16, true);
+    const cdSize = view.getUint32(eocdOffset + 12, true);
+
+    const entries = new Map();
+    let ptr = cdOffset;
+    const cdEnd = cdOffset + cdSize;
+    for (let idx = 0; idx < totalEntries && ptr < cdEnd; idx++) {
+      const sig = view.getUint32(ptr, true);
+      if (sig !== 0x02014b50) throw new Error("Corrupt ZIP Central Directory header.");
+      const flags = view.getUint16(ptr + 8, true);
+      const method = view.getUint16(ptr + 10, true);
+      const modTime = view.getUint16(ptr + 12, true);
+      const modDate = view.getUint16(ptr + 14, true);
+      const crc = view.getUint32(ptr + 16, true);
+      const compSize = view.getUint32(ptr + 20, true);
+      const uncompSize = view.getUint32(ptr + 24, true);
+      const nameLen = view.getUint16(ptr + 28, true);
+      const extraLen = view.getUint16(ptr + 30, true);
+      const commentLen = view.getUint16(ptr + 32, true);
+      const extAttr = view.getUint32(ptr + 38, true);
+      const localOffset = view.getUint32(ptr + 42, true);
+
+      const nameBytes = u8.subarray(ptr + 46, ptr + 46 + nameLen);
+      const name = textDecoder.decode(nameBytes).replace(/\\/g, "/");
+      ptr += 46 + nameLen + extraLen + commentLen;
+
+      if (name.endsWith("/")) continue; // skip directory entries
+
+      const lSig = view.getUint32(localOffset, true);
+      if (lSig !== 0x04034b50) throw new Error("Corrupt Local File Header for " + name);
+      const lNameLen = view.getUint16(localOffset + 26, true);
+      const lExtraLen = view.getUint16(localOffset + 28, true);
+      const dataStart = localOffset + 30 + lNameLen + lExtraLen;
+      const compSlice = u8.subarray(dataStart, dataStart + compSize);
+
+      entries.set(name, {
+        name,
+        method,
+        flags,
+        modTime,
+        modDate,
+        crc,
+        compSize,
+        uncompSize,
+        extAttr,
+        rawCompBytes: compSlice,
+        uncompBytes: null,
+        dirty: false
+      });
+    }
+    return entries;
+  }
+
+  async function readEntryBytes(entry) {
+    if (!entry) return null;
+    if (entry.uncompBytes !== null) return entry.uncompBytes;
+    const raw = await decompressRaw(entry.rawCompBytes, entry.method, entry.uncompSize);
+    entry.uncompBytes = raw;
+    return raw;
+  }
+
+  async function readEntryText(entry) {
+    const b = await readEntryBytes(entry);
+    return b ? textDecoder.decode(b) : null;
+  }
+
+  function setEntryBytes(entries, name, bytes) {
+    const existing = entries.get(name);
+    const now = new Date();
+    const dosTime = ((now.getHours() & 0x1f) << 11) | ((now.getMinutes() & 0x3f) << 5) | ((now.getSeconds() >> 1) & 0x1f);
+    const dosDate = (((Math.max(1980, now.getFullYear()) - 1980) & 0x7f) << 9) | (((now.getMonth() + 1) & 0x0f) << 5) | (now.getDate() & 0x1f);
+    entries.set(name, {
+      name,
+      method: 0,
+      flags: 0x0800,
+      modTime: existing ? existing.modTime : dosTime,
+      modDate: existing ? existing.modDate : dosDate,
+      crc: crc32(bytes),
+      compSize: bytes.length,
+      uncompSize: bytes.length,
+      extAttr: existing ? existing.extAttr : 0,
+      rawCompBytes: null,
+      uncompBytes: bytes,
+      dirty: true
+    });
+  }
+
+  function setEntryText(entries, name, str) {
+    setEntryBytes(entries, name, textEncoder.encode(str));
+  }
+
+  async function buildZip(entries) {
+    const prepared = [];
+    for (const entry of entries.values()) {
+      const nameBytes = textEncoder.encode(entry.name);
+      let compBytes, method, crc, uncompSize;
+      if (!entry.dirty && entry.rawCompBytes !== null) {
+        compBytes = entry.rawCompBytes;
+        method = entry.method;
+        crc = entry.crc;
+        uncompSize = entry.uncompSize;
+      } else {
+        const raw = entry.uncompBytes || new Uint8Array(0);
+        uncompSize = raw.length;
+        crc = crc32(raw);
+        const res = await compressForZip(raw);
+        compBytes = res.data;
+        method = res.method;
+      }
+      prepared.push({
+        nameBytes,
+        compBytes,
+        method,
+        crc,
+        uncompSize,
+        modTime: entry.modTime || 0,
+        modDate: entry.modDate || 0x5421,
+        extAttr: entry.extAttr || 0
+      });
+    }
+
+    let localTotal = 0;
+    let cdTotal = 0;
+    for (const p of prepared) {
+      localTotal += 30 + p.nameBytes.length + p.compBytes.length;
+      cdTotal += 46 + p.nameBytes.length;
+    }
+
+    const out = new Uint8Array(localTotal + cdTotal + 22);
+    const view = new DataView(out.buffer);
+    let offset = 0;
+
+    for (const p of prepared) {
+      p.localOffset = offset;
+      view.setUint32(offset, 0x04034b50, true);
+      view.setUint16(offset + 4, 20, true);
+      view.setUint16(offset + 6, 0x0800, true); // UTF-8
+      view.setUint16(offset + 8, p.method, true);
+      view.setUint16(offset + 10, p.modTime, true);
+      view.setUint16(offset + 12, p.modDate, true);
+      view.setUint32(offset + 14, p.crc >>> 0, true);
+      view.setUint32(offset + 18, p.compBytes.length >>> 0, true);
+      view.setUint32(offset + 22, p.uncompSize >>> 0, true);
+      view.setUint16(offset + 26, p.nameBytes.length, true);
+      view.setUint16(offset + 28, 0, true);
+      out.set(p.nameBytes, offset + 30);
+      out.set(p.compBytes, offset + 30 + p.nameBytes.length);
+      offset += 30 + p.nameBytes.length + p.compBytes.length;
+    }
+
+    const cdStart = offset;
+    for (const p of prepared) {
+      view.setUint32(offset, 0x02014b50, true);
+      view.setUint16(offset + 4, 20, true);
+      view.setUint16(offset + 6, 20, true);
+      view.setUint16(offset + 8, 0x0800, true);
+      view.setUint16(offset + 10, p.method, true);
+      view.setUint16(offset + 12, p.modTime, true);
+      view.setUint16(offset + 14, p.modDate, true);
+      view.setUint32(offset + 16, p.crc >>> 0, true);
+      view.setUint32(offset + 20, p.compBytes.length >>> 0, true);
+      view.setUint32(offset + 24, p.uncompSize >>> 0, true);
+      view.setUint16(offset + 28, p.nameBytes.length, true);
+      view.setUint16(offset + 30, 0, true);
+      view.setUint16(offset + 32, 0, true);
+      view.setUint16(offset + 34, 0, true);
+      view.setUint16(offset + 36, 0, true);
+      view.setUint32(offset + 38, p.extAttr >>> 0, true);
+      view.setUint32(offset + 42, p.localOffset >>> 0, true);
+      out.set(p.nameBytes, offset + 46);
+      offset += 46 + p.nameBytes.length;
+    }
+
+    view.setUint32(offset, 0x06054b50, true);
+    view.setUint16(offset + 4, 0, true);
+    view.setUint16(offset + 6, 0, true);
+    view.setUint16(offset + 8, prepared.length, true);
+    view.setUint16(offset + 10, prepared.length, true);
+    view.setUint32(offset + 12, cdTotal >>> 0, true);
+    view.setUint32(offset + 16, cdStart >>> 0, true);
+    view.setUint16(offset + 20, 0, true);
+
+    return out;
+  }
+
+  // =========================================================================
+  // 2. MINECRAFT FORMATTING (§) PARSER & PALETTE
+  // =========================================================================
+  const MC_COLORS = {
+    "0": "#000000", "1": "#0000AA", "2": "#00AA00", "3": "#00AAAA",
+    "4": "#AA0000", "5": "#AA00AA", "6": "#FFAA00", "7": "#AAAAAA",
+    "8": "#555555", "9": "#5555FF", "a": "#55FF55", "b": "#55FFFF",
+    "c": "#FF5555", "d": "#FF55FF", "e": "#FFFF55", "f": "#FFFFFF",
+    "g": "#DDD605"
+  };
+
+  const MC_PALETTE_BTNS = [
+    { code: "§0", label: "Black", hex: "#000000" },
+    { code: "§4", label: "Red", hex: "#AA0000" },
+    { code: "§c", label: "Coral", hex: "#FF5555" },
+    { code: "§6", label: "Gold", hex: "#FFAA00" },
+    { code: "§e", label: "Yellow", hex: "#FFFF55" },
+    { code: "§2", label: "Green", hex: "#00AA00" },
+    { code: "§a", label: "Lime", hex: "#55FF55" },
+    { code: "§b", label: "Aqua", hex: "#55FFFF" },
+    { code: "§3", label: "Teal", hex: "#00AAAA" },
+    { code: "§9", label: "Blue", hex: "#5555FF" },
+    { code: "§d", label: "Pink", hex: "#FF55FF" },
+    { code: "§5", label: "Purple", hex: "#AA00AA" },
+    { code: "§f", label: "White", hex: "#FFFFFF" },
+    { code: "§7", label: "Gray", hex: "#AAAAAA" },
+    { code: "§8", label: "Dark", hex: "#555555" },
+    { code: "§l", label: "Bold", hex: null },
+    { code: "§o", label: "Italic", hex: null },
+    { code: "§r", label: "Reset", hex: null }
+  ];
+
+  function stripMcCodes(str) {
+    return String(str || "").replace(/§[0-9a-gk-or]/gi, "");
+  }
+
+  function renderMcFormattedHtml(text) {
+    const s = String(text || "");
+    let html = "";
+    let color = "#ffffff";
+    let bold = false;
+    let italic = false;
+    let buf = "";
+
+    function flush() {
+      if (!buf) return;
+      const esc = buf.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      const st = `color:${color};${bold ? "font-weight:800;" : ""}${italic ? "font-style:italic;" : ""}`;
+      html += `<span style="${st}">${esc}</span>`;
+      buf = "";
+    }
+
+    for (let i = 0; i < s.length; i++) {
+      if (s[i] === "§" && i + 1 < s.length) {
+        const c = s[i + 1].toLowerCase();
+        if (MC_COLORS[c]) {
+          flush();
+          color = MC_COLORS[c];
+          i++;
+          continue;
+        } else if (c === "l") {
+          flush(); bold = true; i++; continue;
+        } else if (c === "o") {
+          flush(); italic = true; i++; continue;
+        } else if (c === "r") {
+          flush(); color = "#ffffff"; bold = false; italic = false; i++; continue;
+        }
+      }
+      buf += s[i];
+    }
+    flush();
+    return html || '<span style="color:#65728a">(empty)</span>';
+  }
+
+  // =========================================================================
+  // 3. BLOCKBUSTER STUDIO JS / JSON PARSING & PATCHING ENGINE
+  // =========================================================================
+
+  function findMatchingLiteralSpan(src, varDeclRegex) {
+    const m = varDeclRegex.exec(src);
+    if (!m) return null;
+    const declStart = m.index;
+    const openIdx = src.indexOf(m[1], m.index);
+    const openChar = src[openIdx];
+    const closeChar = openChar === "{" ? "}" : "]";
+
+    let depth = 0;
+    let i = openIdx;
+    let inSingle = false, inDouble = false, inTpl = false, inLineCmt = false, inBlockCmt = false;
+    while (i < src.length) {
+      const ch = src[i];
+      const next = src[i + 1];
+      if (inLineCmt) {
+        if (ch === "\n") inLineCmt = false;
+        i++; continue;
+      }
+      if (inBlockCmt) {
+        if (ch === "*" && next === "/") { inBlockCmt = false; i += 2; continue; }
+        i++; continue;
+      }
+      if (inSingle) {
+        if (ch === "\\") { i += 2; continue; }
+        if (ch === "'") inSingle = false;
+        i++; continue;
+      }
+      if (inDouble) {
+        if (ch === "\\") { i += 2; continue; }
+        if (ch === '"') inDouble = false;
+        i++; continue;
+      }
+      if (inTpl) {
+        if (ch === "\\") { i += 2; continue; }
+        if (ch === "`") inTpl = false;
+        i++; continue;
+      }
+      if (ch === "/" && next === "/") { inLineCmt = true; i += 2; continue; }
+      if (ch === "/" && next === "*") { inBlockCmt = true; i += 2; continue; }
+      if (ch === "'") { inSingle = true; i++; continue; }
+      if (ch === '"') { inDouble = true; i++; continue; }
+      if (ch === "`") { inTpl = true; i++; continue; }
+
+      if (ch === openChar) depth++;
+      else if (ch === closeChar) {
+        depth--;
+        if (depth === 0) {
+          let stmtEnd = i + 1;
+          while (stmtEnd < src.length && (src[stmtEnd] === " " || src[stmtEnd] === "\t")) stmtEnd++;
+          if (src[stmtEnd] === ";") stmtEnd++;
+          return { declStart, openIdx, closeIdx: i, stmtEnd, literal: src.slice(openIdx, i + 1) };
+        }
+      }
+      i++;
+    }
+    return null;
+  }
+
+  function tokenizeJs(src) {
+    const tokens = [];
+    let i = 0;
+    while (i < src.length) {
+      const ch = src[i];
+      if (ch === " " || ch === "\t" || ch === "\r" || ch === "\n") { i++; continue; }
+      if (ch === "/" && src[i + 1] === "/") {
+        i += 2;
+        while (i < src.length && src[i] !== "\n") i++;
+        continue;
+      }
+      if (ch === "/" && src[i + 1] === "*") {
+        i += 2;
+        while (i < src.length && !(src[i] === "*" && src[i + 1] === "/")) i++;
+        i += 2;
+        continue;
+      }
+      if (ch === "." && src[i + 1] === "." && src[i + 2] === ".") {
+        tokens.push({ t: "spread", v: "..." });
+        i += 3;
+        continue;
+      }
+      if ("{}[]:,().".includes(ch)) {
+        tokens.push({ t: "punc", v: ch });
+        i++;
+        continue;
+      }
+      if (ch === '"' || ch === "'" || ch === "`") {
+        const quote = ch;
+        i++;
+        let val = "";
+        let hasExpr = false;
+        while (i < src.length && src[i] !== quote) {
+          if (quote === "`" && src[i] === "$" && src[i + 1] === "{") {
+            hasExpr = true;
+            // Capture raw expression placeholder cleanly for simple template parsing
+            let depth = 1;
+            let expr = "";
+            i += 2;
+            while (i < src.length && depth > 0) {
+              if (src[i] === "{") depth++;
+              else if (src[i] === "}") { depth--; if (depth === 0) { i++; break; } }
+              expr += src[i++];
+            }
+            val += "${" + expr + "}";
+            continue;
+          }
+          if (src[i] === "\\") {
+            i++;
+            const esc = src[i++];
+            if (esc === "n") val += "\n";
+            else if (esc === "r") val += "\r";
+            else if (esc === "t") val += "\t";
+            else if (esc === "x") { val += String.fromCharCode(parseInt(src.slice(i, i + 2), 16)); i += 2; }
+            else if (esc === "u") {
+              if (src[i] === "{") {
+                const end = src.indexOf("}", i + 1);
+                val += String.fromCodePoint(parseInt(src.slice(i + 1, end), 16));
+                i = end + 1;
+              } else {
+                val += String.fromCharCode(parseInt(src.slice(i, i + 4), 16));
+                i += 4;
+              }
+            } else {
+              val += esc;
+            }
+          } else {
+            val += src[i++];
+          }
+        }
+        i++; // closing quote
+        tokens.push({ t: "str", v: val, rawQuote: quote, hasExpr });
+        continue;
+      }
+      if (/[0-9]/.test(ch)) {
+        let num = "";
+        while (i < src.length && /[0-9.]/.test(src[i])) num += src[i++];
+        tokens.push({ t: "num", v: Number(num) });
+        continue;
+      }
+      if (/[a-zA-Z_$]/.test(ch)) {
+        let id = "";
+        while (i < src.length && /[a-zA-Z0-9_$]/.test(src[i])) id += src[i++];
+        tokens.push({ t: "id", v: id });
+        continue;
+      }
+      // Other operators like => + - etc.
+      tokens.push({ t: "op", v: ch });
+      i++;
+    }
+    return tokens;
+  }
+
+  function parseAliasesLiteral(lit) {
+    const toks = tokenizeJs(lit);
+    let p = 0;
+    const obj = {};
+    if (toks[p]?.v !== "{") throw new Error("Expected '{' in MOB_ALIASES");
+    p++;
+    while (p < toks.length && toks[p].v !== "}") {
+      const kTok = toks[p++];
+      if (!kTok || (kTok.t !== "str" && kTok.t !== "id")) throw new Error("Unexpected key in MOB_ALIASES");
+      if (toks[p]?.v !== ":") throw new Error("Expected ':' in MOB_ALIASES");
+      p++;
+      const vTok = toks[p++];
+      if (!vTok || vTok.t !== "str") throw new Error("Expected string value in MOB_ALIASES");
+      obj[kTok.v] = vTok.v;
+      if (toks[p]?.v === ",") p++;
+    }
+    return obj;
+  }
+
+  function parseCatalogLiteral(lit) {
+    const toks = tokenizeJs(lit);
+    let p = 0;
+    const arr = [];
+    if (toks[p]?.v !== "[") throw new Error("Expected '[' in MOB_CATALOG");
+    p++;
+    while (p < toks.length && toks[p].v !== "]") {
+      if (toks[p]?.v !== "[") throw new Error("Expected '[' row in MOB_CATALOG");
+      p++;
+      const row = [];
+      while (p < toks.length && toks[p].v !== "]") {
+        const sTok = toks[p++];
+        if (!sTok || sTok.t !== "str") throw new Error("Expected string item in MOB_CATALOG row");
+        row.push(sTok.v);
+        if (toks[p]?.v === ",") p++;
+      }
+      if (toks[p]?.v !== "]") throw new Error("Expected ']' closing MOB_CATALOG row");
+      p++;
+      arr.push(row);
+      if (toks[p]?.v === ",") p++;
+    }
+    return arr;
+  }
+
+  function parseSkinsLiteral(lit) {
+    const toks = tokenizeJs(lit);
+    let p = 0;
+    const arr = [];
+    if (toks[p]?.v !== "[") throw new Error("Expected '[' in SKINS");
+    p++;
+    while (p < toks.length && toks[p].v !== "]") {
+      if (toks[p]?.t === "spread") {
+        // Handle ...Array.from({ length: K }, (_, i) => ({ n: i + 1, name: `Skin ${i + 1}` }))
+        p++;
+        let len = 20;
+        let prefix = "Skin ";
+        let depthParen = 0;
+        let seenOpenParen = false;
+        while (p < toks.length) {
+          const tk = toks[p];
+          if (tk.v === "(") { depthParen++; seenOpenParen = true; }
+          else if (tk.v === ")") {
+            depthParen--;
+            if (seenOpenParen && depthParen === 0) { p++; break; }
+          } else if (tk.t === "id" && tk.v === "length" && toks[p + 1]?.v === ":" && toks[p + 2]?.t === "num") {
+            len = toks[p + 2].v;
+          } else if (tk.t === "str" && tk.hasExpr) {
+            const m = tk.v.match(/^(.*?)\$\{/);
+            if (m) prefix = m[1];
+          }
+          p++;
+        }
+        for (let idx = 1; idx <= len; idx++) arr.push({ n: idx, name: prefix + idx });
+        if (toks[p]?.v === ",") p++;
+        continue;
+      }
+      if (toks[p]?.v !== "{") throw new Error("Expected '{' item in SKINS");
+      p++;
+      const item = {};
+      while (p < toks.length && toks[p].v !== "}") {
+        const kTok = toks[p++];
+        if (toks[p]?.v !== ":") throw new Error("Expected ':' in SKINS item");
+        p++;
+        const vTok = toks[p++];
+        if (!vTok || (vTok.t !== "num" && vTok.t !== "str")) throw new Error("Expected number or string in SKINS item");
+        item[kTok.v] = vTok.v;
+        if (toks[p]?.v === ",") p++;
+      }
+      if (toks[p]?.v === "}") p++;
+      arr.push(item);
+      if (toks[p]?.v === ",") p++;
+    }
+    return arr;
+  }
+
+  function parseStudioUIBlocks(studioSrc) {
+    const aliasesSpan = findMatchingLiteralSpan(studioSrc, /const\s+MOB_ALIASES\s*=\s*(\{)/);
+    const catalogSpan = findMatchingLiteralSpan(studioSrc, /const\s+MOB_CATALOG\s*=\s*(\[)/);
+    const skinsSpan = findMatchingLiteralSpan(studioSrc, /const\s+SKINS\s*=\s*(\[)/);
+    if (!aliasesSpan || !catalogSpan || !skinsSpan) {
+      throw new Error("Could not locate MOB_ALIASES, MOB_CATALOG, or SKINS inside StudioUI.js.");
+    }
+    const aliases = parseAliasesLiteral(aliasesSpan.literal);
+    const catalog = parseCatalogLiteral(catalogSpan.literal);
+    const skins = parseSkinsLiteral(skinsSpan.literal);
+    return { aliasesSpan, catalogSpan, skinsSpan, aliases, catalog, skins };
+  }
+
+  function generateAutoKeys(n, displayName) {
+    const clean = stripMcCodes(displayName).trim().toLowerCase();
+    const set = new Set();
+    const defaultLabel = `skin ${n}`;
+    if (clean && clean !== defaultLabel && clean !== `skin${n}`) {
+      set.add(clean);
+      const underscored = clean.replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+      const spaced = clean.replace(/[^a-z0-9]+/g, " ").replace(/\s+/g, " ").trim();
+      const squished = clean.replace(/[^a-z0-9]+/g, "");
+      if (underscored) set.add(underscored);
+      if (spaced) set.add(spaced);
+      if (squished) set.add(squished);
+      for (const word of spaced.split(" ")) {
+        if (word.length >= 3) set.add(word);
+      }
+    }
+    set.add(`skin${n}`);
+    set.add(`skin ${n}`);
+    set.add(`bbskin${n}`);
+    return Array.from(set);
+  }
+
+  function buildFinalSearchKeys(skin) {
+    const autoKeys = generateAutoKeys(skin.n, skin.name);
+    const merged = new Set(autoKeys);
+    for (const kw of (skin.customKeywords || [])) {
+      const k = stripMcCodes(kw).trim().toLowerCase();
+      if (k) merged.add(k);
+    }
+    return Array.from(merged);
+  }
+
+  function cleanFilenameToDisplayName(filename, fallbackN) {
+    const base = String(filename || "").replace(/\.[^.]+$/, "");
+    const cleaned = base
+      .replace(/^bb_?skin_?\d+[_-]?/i, "")
+      .replace(/[_-]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (!cleaned) return `Skin ${fallbackN}`;
+    return cleaned.replace(/\b[a-z]/g, c => c.toUpperCase());
+  }
+
+  function generateUuidV4() {
+    if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
+      const r = Math.random() * 16 | 0;
+      return (c === "x" ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+  }
+
+  const REQUIRED_SKIN_INIT_VARS = [
+    "variable.is_holding_right = 0.0;",
+    "variable.is_blinking = 0.0;",
+    "variable.last_blink_time = 0.0;",
+    "variable.hand_bob = 0.0;",
+    "variable.attack_time = 0.0;",
+    "variable.melee_spear_equipped = 0.0;",
+    "variable.item_use_normalized = 0.0;",
+    "variable.is_paperdoll = 0.0;",
+    "variable.map_face_icon = 0.0;",
+    "variable.is_first_person = 0.0;",
+    "variable.player_x_rotation = 0.0;"
+  ];
+
+  function hasMissingMolangVars(rpEntityJsonObj) {
+    const init = rpEntityJsonObj?.["minecraft:client_entity"]?.description?.scripts?.initialize || [];
+    const pre = rpEntityJsonObj?.["minecraft:client_entity"]?.description?.scripts?.pre_animation || [];
+    return !init.some(s => String(s).includes("item_use_normalized")) ||
+           !pre.some(s => String(s).includes("item_use_normalized"));
+  }
+
+  function deriveSlimGeometryFromClassic(classicGeoJsonText) {
+    const obj = JSON.parse(classicGeoJsonText);
+    const geo = obj["minecraft:geometry"]?.[0];
+    if (!geo) throw new Error("Unexpected humanoid.custom.geo.json format");
+    geo.description.identifier = "geometry.humanoid.customSlim";
+    for (const bone of geo.bones || []) {
+      if (bone.name === "leftArm" || bone.name === "leftSleeve") {
+        bone.pivot = [5.0, 21.5, 0.0];
+        if (bone.cubes?.[0]) {
+          bone.cubes[0].origin = [4.0, 12.0, -2.0];
+          bone.cubes[0].size = [3, 12, 4];
+        }
+      } else if (bone.name === "leftItem") {
+        bone.pivot = [5.5, 15.0, 1.0];
+      } else if (bone.name === "rightArm" || bone.name === "rightSleeve") {
+        bone.pivot = [-5.0, 21.5, 0.0];
+        if (bone.cubes?.[0]) {
+          bone.cubes[0].origin = [-7.0, 12.0, -2.0];
+          bone.cubes[0].size = [3, 12, 4];
+        }
+      } else if (bone.name === "rightItem") {
+        bone.pivot = [-5.5, 15.0, 1.0];
+        if (bone.locators?.lead_hold) bone.locators.lead_hold = [-5.5, 15.0, 1.0];
+      }
+    }
+    return JSON.stringify(obj, null, 2);
+  }
+
+  // =========================================================================
+  // 4. APPLICATION STATE
+  // =========================================================================
+  const state = {
+    loaded: false,
+    fileName: "",
+    layout: "mcpack", // "mcpack" | "folder"
+    outerEntries: null,
+    bpMcpackName: null,
+    rpMcpackName: null,
+    bpPrefix: "",
+    rpPrefix: "",
+    bpEntries: null,
+    rpEntries: null,
+    bpManifest: null,
+    rpManifest: null,
+    origBpVersion: [4, 5, 5],
+    origRpVersion: [4, 5, 5],
+    origSkinCount: 0,
+    bpTemplateJson: null,
+    rpTemplateJson: null,
+    baseAliases: {},     // non-skin aliases preserved
+    baseCatalogBeforeSkins: [],
+    baseCatalogAfterSkins: [],
+    skins: [],           // array of skin objects sorted by n (1..N)
+    selectedN: 1,
+    previewMode: "3d",
+    yaw: 0.48,
+    pitch: -0.18,
+    molangGapsCount: 0
+  };
+
+  // =========================================================================
+  // 5. SKIN IMAGE / CANVAS UTILITIES (2D + 3D TURNTABLE + 64x32 CONVERTER)
+  // =========================================================================
+
+  function bytesToBase64(bytes) {
+    let bin = "";
+    const chunk = 0x8000;
+    for (let i = 0; i < bytes.length; i += chunk) {
+      bin += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+    }
+    return btoa(bin);
+  }
+
+  function base64ToBytes(b64) {
+    const bin = atob(b64);
+    const out = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+    return out;
+  }
+
+  function readFileAsUint8Array(file) {
+    if (file && typeof file.arrayBuffer === "function") {
+      return file.arrayBuffer().then(ab => new Uint8Array(ab));
+    }
+    return new Promise((resolve, reject) => {
+      const fr = new FileReader();
+      fr.onload = () => resolve(new Uint8Array(fr.result));
+      fr.onerror = () => reject(fr.error || new Error("Could not read file"));
+      fr.readAsArrayBuffer(file);
+    });
+  }
+
+  function loadImageFromBytes(pngBytes, mime = "image/png") {
+    return new Promise((resolve, reject) => {
+      const dataUrl = `data:${mime};base64,${bytesToBase64(pngBytes)}`;
+      const img = new Image();
+      img.onload = () => {
+        const c = document.createElement("canvas");
+        c.width = img.width;
+        c.height = img.height;
+        const ctx = c.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        resolve({ canvas: c, width: img.width, height: img.height });
+      };
+      img.onerror = () => {
+        // Fallback to Blob URL if data URI fails on oversized textures
+        try {
+          const url = URL.createObjectURL(new Blob([pngBytes], { type: mime }));
+          const img2 = new Image();
+          img2.onload = () => {
+            URL.revokeObjectURL(url);
+            const c = document.createElement("canvas");
+            c.width = img2.width;
+            c.height = img2.height;
+            c.getContext("2d").drawImage(img2, 0, 0);
+            resolve({ canvas: c, width: img2.width, height: img2.height });
+          };
+          img2.onerror = () => { URL.revokeObjectURL(url); reject(new Error("Invalid image file")); };
+          img2.src = url;
+        } catch (e) {
+          reject(new Error("Invalid image file"));
+        }
+      };
+      img.src = dataUrl;
+    });
+  }
+
+  function detectSlimFromCanvas(canvas) {
+    const w = canvas.width;
+    const h = canvas.height;
+    if (w < 64 || h < 64) return false;
+    const s = w / 64;
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    // On 64x64 skins, right-arm back-edge columns x=54..55, y=20..31 are transparent on Slim (3px) skins
+    const imgData = ctx.getImageData(Math.floor(54 * s), Math.floor(20 * s), Math.max(1, Math.floor(2 * s)), Math.max(1, Math.floor(12 * s))).data;
+    for (let i = 3; i < imgData.length; i += 4) {
+      if (imgData[i] > 10) return false;
+    }
+    return true;
+  }
+
+  function convertLegacy64x32To64x64(srcCanvas) {
+    const s = srcCanvas.width / 64;
+    const out = document.createElement("canvas");
+    out.width = Math.round(64 * s);
+    out.height = Math.round(64 * s);
+    const ctx = out.getContext("2d");
+    ctx.imageSmoothingEnabled = false;
+    // Copy top half (head, hat, torso, right arm, right leg)
+    ctx.drawImage(srcCanvas, 0, 0, 64 * s, 32 * s, 0, 0, 64 * s, 32 * s);
+
+    function copyFlipped(sx, sy, sw, sh, dx, dy) {
+      ctx.save();
+      ctx.translate((dx + sw) * s, dy * s);
+      ctx.scale(-1, 1);
+      ctx.drawImage(srcCanvas, sx * s, sy * s, sw * s, sh * s, 0, 0, sw * s, sh * s);
+      ctx.restore();
+    }
+    // Mirror Right Leg (0,16) -> Left Leg (16,48)
+    copyFlipped(4, 16, 4, 4, 20, 48); // top
+    copyFlipped(8, 16, 4, 4, 24, 48); // bottom
+    copyFlipped(0, 20, 4, 12, 24, 52); // outer -> inner
+    copyFlipped(4, 20, 4, 12, 20, 52); // front
+    copyFlipped(8, 20, 4, 12, 16, 52); // inner -> outer
+    copyFlipped(12, 20, 4, 12, 28, 52); // back
+
+    // Mirror Right Arm (40,16) -> Left Arm (32,48)
+    copyFlipped(44, 16, 4, 4, 36, 48);
+    copyFlipped(48, 16, 4, 4, 40, 48);
+    copyFlipped(40, 20, 4, 12, 40, 52);
+    copyFlipped(44, 20, 4, 12, 36, 52);
+    copyFlipped(48, 20, 4, 12, 32, 52);
+    copyFlipped(52, 20, 4, 12, 44, 52);
+
+    return out;
+  }
+
+  function canvasToPngBytes(canvas) {
+    if (typeof canvas.toBlob === "function") {
+      return new Promise((resolve, reject) => {
+        try {
+          canvas.toBlob((blob) => {
+            if (!blob) {
+              const dataUrl = canvas.toDataURL("image/png");
+              resolve(base64ToBytes(dataUrl.split(",")[1]));
+              return;
+            }
+            readFileAsUint8Array(blob).then(resolve, () => {
+              const dataUrl = canvas.toDataURL("image/png");
+              resolve(base64ToBytes(dataUrl.split(",")[1]));
+            });
+          }, "image/png");
+        } catch (err) {
+          const dataUrl = canvas.toDataURL("image/png");
+          resolve(base64ToBytes(dataUrl.split(",")[1]));
+        }
+      });
+    }
+    const dataUrl = canvas.toDataURL("image/png");
+    return Promise.resolve(base64ToBytes(dataUrl.split(",")[1]));
+  }
+
+  function draw2DStandingSkin(targetCanvas, skinCanvas, slim = false, back = false) {
+    const ctx = targetCanvas.getContext("2d");
+    ctx.clearRect(0, 0, targetCanvas.width, targetCanvas.height);
+    ctx.imageSmoothingEnabled = false;
+    if (!skinCanvas) return;
+
+    const u = skinCanvas.width / 64;
+    const hRatio = skinCanvas.height / skinCanvas.width; // 1 for 64x64, 0.5 for 64x32
+    const is64 = hRatio >= 0.9;
+    const armW = slim ? 3 : 4;
+
+    const unit = Math.floor(Math.min(targetCanvas.width / 18, targetCanvas.height / 34));
+    const ox = Math.floor((targetCanvas.width - 16 * unit) / 2);
+    const oy = Math.floor((targetCanvas.height - 32 * unit) / 2);
+
+    function blit(sx, sy, sw, sh, px, py, pw, ph) {
+      ctx.drawImage(skinCanvas, sx * u, sy * u, sw * u, sh * u, ox + px * unit, oy + py * unit, pw * unit, ph * unit);
+    }
+
+    if (!back) {
+      // Head + Hat
+      blit(8, 8, 8, 8, 4, 0, 8, 8);
+      blit(40, 8, 8, 8, 4, 0, 8, 8);
+      // Body + Jacket
+      blit(20, 20, 8, 12, 4, 8, 8, 12);
+      if (is64) blit(20, 36, 8, 12, 4, 8, 8, 12);
+      // Right Arm (viewer left)
+      blit(44, 20, armW, 12, 4 - armW, 8, armW, 12);
+      if (is64) blit(44, 36, armW, 12, 4 - armW, 8, armW, 12);
+      // Left Arm (viewer right)
+      if (is64) {
+        blit(36, 52, armW, 12, 12, 8, armW, 12);
+        blit(52, 52, armW, 12, 12, 8, armW, 12);
+      } else {
+        blit(44, 20, armW, 12, 12, 8, armW, 12);
+      }
+      // Right Leg (viewer left)
+      blit(4, 20, 4, 12, 4, 20, 4, 12);
+      if (is64) blit(4, 36, 4, 12, 4, 20, 4, 12);
+      // Left Leg (viewer right)
+      if (is64) {
+        blit(20, 52, 4, 12, 8, 20, 4, 12);
+        blit(4, 52, 4, 12, 8, 20, 4, 12);
+      } else {
+        blit(4, 20, 4, 12, 8, 20, 4, 12);
+      }
+    } else {
+      // Back view
+      blit(24, 8, 8, 8, 4, 0, 8, 8);
+      blit(56, 8, 8, 8, 4, 0, 8, 8);
+      blit(32, 20, 8, 12, 4, 8, 8, 12);
+      if (is64) blit(32, 36, 8, 12, 4, 8, 8, 12);
+      const rArmBackX = 44 + armW + 4;
+      const lArmBackX = 36 + armW + 4;
+      if (is64) {
+        blit(lArmBackX, 52, armW, 12, 4 - armW, 8, armW, 12);
+        blit(lArmBackX + 16, 52, armW, 12, 4 - armW, 8, armW, 12);
+      } else {
+        blit(rArmBackX, 20, armW, 12, 4 - armW, 8, armW, 12);
+      }
+      blit(rArmBackX, 20, armW, 12, 12, 8, armW, 12);
+      if (is64) blit(rArmBackX, 36, armW, 12, 12, 8, armW, 12);
+      if (is64) {
+        blit(28, 52, 4, 12, 4, 20, 4, 12);
+        blit(12, 52, 4, 12, 4, 20, 4, 12);
+      } else {
+        blit(12, 20, 4, 12, 4, 20, 4, 12);
+      }
+      blit(12, 20, 4, 12, 8, 20, 4, 12);
+      if (is64) blit(12, 36, 4, 12, 8, 20, 4, 12);
+    }
+  }
+
+  function draw3DSpinSkin(targetCanvas, skinCanvas, slim = false, yaw = 0.45, pitch = -0.18) {
+    const ctx = targetCanvas.getContext("2d");
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, targetCanvas.width, targetCanvas.height);
+    if (!skinCanvas) return;
+
+    const u = skinCanvas.width / 64;
+    const is64 = (skinCanvas.height / skinCanvas.width) >= 0.9;
+    const aw = slim ? 3 : 4;
+    const cx = targetCanvas.width / 2;
+    const cy = targetCanvas.height / 2 + 4;
+    const scale = Math.min(targetCanvas.width, targetCanvas.height) / 38;
+
+    const cyCos = Math.cos(yaw), cySin = Math.sin(yaw);
+    const cpCos = Math.cos(pitch), cpSin = Math.sin(pitch);
+
+    function rot(x, y, z) {
+      // Y-up, +Z front (facing viewer at yaw=0)
+      const x1 = x * cyCos + z * cySin;
+      const z1 = -x * cySin + z * cyCos;
+      const y2 = y * cpCos - z1 * cpSin;
+      const z2 = y * cpSin + z1 * cpCos;
+      return { x: cx + x1 * scale, y: cy - y2 * scale, z: z2 };
+    }
+
+    // Minecraft box definitions centered vertically around y = 0 (-16 .. +16)
+    // Cube coords: [x0, y0, z0, w, h, d] in model pixels (y increases UP; +Z is front)
+    function makeBoxUV(bx, by, bw, bh, bd, inf = 0, uvX = 0, uvY = 0, mirror = false) {
+      const x0 = bx - inf, x1 = bx + bw + inf;
+      const y0 = by - inf, y1 = by + bh + inf;
+      const z0 = -bd / 2 - inf, z1 = bd / 2 + inf;
+
+      // Standard Minecraft box UV layout at (uvX, uvY) for box (bw, bh, bd)
+      const uFront = [uvX + bd, uvY + bd, bw, bh];
+      const uBack  = [uvX + bd + bw + bd, uvY + bd, bw, bh];
+      const uRight = [uvX, uvY + bd, bd, bh];          // -X face (viewer left / entity right)
+      const uLeft  = [uvX + bd + bw, uvY + bd, bd, bh]; // +X face (viewer right / entity left)
+      const uTop   = [uvX + bd, uvY, bw, bd];
+      const uBot   = [uvX + bd + bw, uvY, bw, bd];
+
+      const faces = [
+        { name: "front",  pts: [[x0,y1,z1],[x1,y1,z1],[x0,y0,z1]], uv: uFront, shade: 1.0 },
+        { name: "back",   pts: [[x1,y1,z0],[x0,y1,z0],[x1,y0,z0]], uv: uBack,  shade: 0.86 },
+        { name: "right",  pts: [[x0,y1,z0],[x0,y1,z1],[x0,y0,z0]], uv: mirror ? uLeft : uRight, shade: 0.92 },
+        { name: "left",   pts: [[x1,y1,z1],[x1,y1,z0],[x1,y0,z1]], uv: mirror ? uRight : uLeft, shade: 0.92 },
+        { name: "top",    pts: [[x0,y1,z0],[x1,y1,z0],[x0,y1,z1]], uv: uTop,   shade: 1.0 },
+        { name: "bottom", pts: [[x0,y0,z1],[x1,y0,z1],[x0,y0,z0]], uv: uBot,   shade: 0.78 }
+      ];
+      return faces.map(f => {
+        const p0 = rot(...f.pts[0]);
+        const p1 = rot(...f.pts[1]);
+        const p3 = rot(...f.pts[2]);
+        // 2D cross product (note screen Y is down) -> positive normal means visible!
+        const cross = (p1.x - p0.x) * (p3.y - p0.y) - (p1.y - p0.y) * (p3.x - p0.x);
+        const p2z = p1.z + p3.z - p0.z;
+        const avgZ = (p0.z + p1.z + p2z + p3.z) * 0.25;
+        return { p0, p1, p3, uv: f.uv, visible: cross > 0.001, avgZ, shade: f.shade, isOverlay: inf > 0 };
+      });
+    }
+
+    const boxes = [
+      // Legs
+      { faces: makeBoxUV(-4, -16, 4, 12, 4, 0, 0, 16) },
+      is64 ? { faces: makeBoxUV(-4, -16, 4, 12, 4, 0.25, 0, 32) } : null,
+      { faces: makeBoxUV(0, -16, 4, 12, 4, 0, is64 ? 16 : 0, is64 ? 48 : 16, !is64) },
+      is64 ? { faces: makeBoxUV(0, -16, 4, 12, 4, 0.25, 0, 48) } : null,
+      // Torso + Jacket
+      { faces: makeBoxUV(-4, -4, 8, 12, 4, 0, 16, 16) },
+      is64 ? { faces: makeBoxUV(-4, -4, 8, 12, 4, 0.25, 16, 32) } : null,
+      // Arms + Sleeves
+      { faces: makeBoxUV(-4 - aw, -4, aw, 12, 4, 0, 40, 16) },
+      is64 ? { faces: makeBoxUV(-4 - aw, -4, aw, 12, 4, 0.25, 40, 32) } : null,
+      { faces: makeBoxUV(4, -4, aw, 12, 4, 0, is64 ? 32 : 40, is64 ? 48 : 16, !is64) },
+      is64 ? { faces: makeBoxUV(4, -4, aw, 12, 4, 0.25, 48, 48) } : null,
+      // Head + Hat
+      { faces: makeBoxUV(-4, 8, 8, 8, 8, 0, 0, 0) },
+      { faces: makeBoxUV(-4, 8, 8, 8, 8, 0.5, 32, 0) }
+    ].filter(Boolean);
+
+    const drawList = [];
+    for (const b of boxes) {
+      for (const f of b.faces) {
+        if (f.visible) drawList.push(f);
+      }
+    }
+    drawList.sort((a, b) => a.avgZ - b.avgZ);
+
+    ctx.imageSmoothingEnabled = false;
+    for (const f of drawList) {
+      const [ux, uy, uw, vh] = f.uv;
+      const a = (f.p1.x - f.p0.x) / uw;
+      const b = (f.p1.y - f.p0.y) / uw;
+      const c = (f.p3.x - f.p0.x) / vh;
+      const d = (f.p3.y - f.p0.y) / vh;
+      ctx.setTransform(a, b, c, d, f.p0.x, f.p0.y);
+      ctx.drawImage(skinCanvas, ux * u, uy * u, uw * u, vh * u, 0, 0, uw, vh);
+    }
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+  }
+
+  // =========================================================================
+  // 6. UPLOAD, PARSING & LOADING ADDON
+  // =========================================================================
+  const $ = (id) => document.getElementById(id);
+
+  function toast(msg, kind = "info") {
+    const wrap = $("toastWrap");
+    const el = document.createElement("div");
+    el.className = "toast" + (kind === "ok" ? " ok" : kind === "err" ? " err" : "");
+    el.textContent = msg;
+    wrap.appendChild(el);
+    setTimeout(() => { el.remove(); }, 4200);
+  }
+
+  async function detectAddonStructure(outerEntries) {
+    // Layout A: .mcpack files inside .mcaddon
+    const mcpackCandidates = [];
+    for (const [name, entry] of outerEntries.entries()) {
+      if (/\.(mcpack|zip)$/i.test(name)) {
+        const bytes = await readEntryBytes(entry);
+        const inner = parseZip(bytes);
+        const manifestEntry = inner.get("manifest.json");
+        if (manifestEntry) {
+          const manifest = JSON.parse(await readEntryText(manifestEntry));
+          const mods = manifest.modules || [];
+          const isRp = mods.some(m => m.type === "resources");
+          const isBp = mods.some(m => m.type === "data" || m.type === "script");
+          mcpackCandidates.push({ name, inner, manifest, isRp, isBp });
+        }
+      }
+    }
+    const bpPack = mcpackCandidates.find(c => c.isBp);
+    const rpPack = mcpackCandidates.find(c => c.isRp);
+    if (bpPack && rpPack) {
+      return {
+        layout: "mcpack",
+        bpMcpackName: bpPack.name,
+        rpMcpackName: rpPack.name,
+        bpPrefix: "",
+        rpPrefix: "",
+        bpEntries: bpPack.inner,
+        rpEntries: rpPack.inner,
+        bpManifest: bpPack.manifest,
+        rpManifest: rpPack.manifest
+      };
+    }
+
+    // Layout B: Folders containing manifest.json
+    const folderPacks = [];
+    for (const [name, entry] of outerEntries.entries()) {
+      if (name === "manifest.json" || name.endsWith("/manifest.json")) {
+        const prefix = name === "manifest.json" ? "" : name.slice(0, -"manifest.json".length);
+        const manifest = JSON.parse(await readEntryText(entry));
+        const mods = manifest.modules || [];
+        const isRp = mods.some(m => m.type === "resources");
+        const isBp = mods.some(m => m.type === "data" || m.type === "script");
+        folderPacks.push({ prefix, manifest, isRp, isBp });
+      }
+    }
+    const bpFolder = folderPacks.find(f => f.isBp);
+    const rpFolder = folderPacks.find(f => f.isRp);
+    if (bpFolder && rpFolder) {
+      const bpEntries = new Map();
+      const rpEntries = new Map();
+      for (const [name, entry] of outerEntries.entries()) {
+        if (name.startsWith(bpFolder.prefix)) {
+          bpEntries.set(name.slice(bpFolder.prefix.length), entry);
+        } else if (name.startsWith(rpFolder.prefix)) {
+          rpEntries.set(name.slice(rpFolder.prefix.length), entry);
+        }
+      }
+      return {
+        layout: "folder",
+        bpMcpackName: null,
+        rpMcpackName: null,
+        bpPrefix: bpFolder.prefix,
+        rpPrefix: rpFolder.prefix,
+        bpEntries,
+        rpEntries,
+        bpManifest: bpFolder.manifest,
+        rpManifest: rpFolder.manifest
+      };
+    }
+
+    throw new Error("Could not find both a Behavior Pack and Resource Pack inside this .mcaddon.");
+  }
+
+  async function loadMcaddonFile(file) {
+    try {
+      const rawBytes = await readFileAsUint8Array(file);
+      const outerEntries = parseZip(rawBytes);
+      const detected = await detectAddonStructure(outerEntries);
+
+      const studioEntry = detected.bpEntries.get("scripts/ui/StudioUI.js");
+      if (!studioEntry) {
+        throw new Error("This pack does not contain scripts/ui/StudioUI.js — please upload a BlockBuster Studio .mcaddon.");
+      }
+      const studioSrc = await readEntryText(studioEntry);
+      const parsedUI = parseStudioUIBlocks(studioSrc);
+
+      // Parse en_US.lang
+      const langEntry = detected.rpEntries.get("texts/en_US.lang");
+      const langText = langEntry ? await readEntryText(langEntry) : "";
+      const langNames = new Map();
+      for (const line of langText.split(/\r?\n/)) {
+        const m = line.match(/^entity\.bb:skin(\d+)\.name=(.*)$/);
+        if (m) langNames.set(parseInt(m[1], 10), m[2]);
+      }
+
+      // Scan skin slots across BP, RP, textures, StudioUI, lang
+      let maxN = 0;
+      const checkN = (n) => { if (n > maxN) maxN = n; };
+      for (const key of detected.bpEntries.keys()) {
+        const m = key.match(/^entities\/bb_skin(\d+)\.json$/);
+        if (m) checkN(parseInt(m[1], 10));
+      }
+      for (const key of detected.rpEntries.keys()) {
+        const m1 = key.match(/^entity\/bb_skin(\d+)\.json$/);
+        if (m1) checkN(parseInt(m1[1], 10));
+        const m2 = key.match(/^textures\/entity\/skins\/skin(\d+)\.png$/);
+        if (m2) checkN(parseInt(m2[1], 10));
+      }
+      for (const s of parsedUI.skins) checkN(Number(s.n) || 0);
+      for (const n of langNames.keys()) checkN(n);
+
+      if (maxN === 0) throw new Error("No bb:skin entities found in this addon.");
+
+      // Templates from slot 1
+      const bpTplEntry = detected.bpEntries.get("entities/bb_skin1.json");
+      const rpTplEntry = detected.rpEntries.get("entity/bb_skin1.json");
+      if (!bpTplEntry || !rpTplEntry) throw new Error("Missing bb_skin1.json entity template.");
+      const bpTemplateJson = JSON.parse(await readEntryText(bpTplEntry));
+      const rpTemplateJson = JSON.parse(await readEntryText(rpTplEntry));
+
+      // Separate MOB_CATALOG into before-skins, skin-map, after-skins
+      const skinCatalogMap = new Map();
+      const baseCatalogBeforeSkins = [];
+      const baseCatalogAfterSkins = [];
+      let seenAnySkinInCatalog = false;
+      let pastSkinSection = false;
+      for (const entry of parsedUI.catalog) {
+        const id = String(entry[1] || "");
+        const sm = id.match(/^bb:skin(\d+)$/);
+        if (sm) {
+          seenAnySkinInCatalog = true;
+          skinCatalogMap.set(parseInt(sm[1], 10), entry);
+        } else {
+          if (seenAnySkinInCatalog) pastSkinSection = true;
+          if (!pastSkinSection) baseCatalogBeforeSkins.push(entry);
+          else baseCatalogAfterSkins.push(entry);
+        }
+      }
+
+      // Separate MOB_ALIASES: preserve all non-bb:skin* keys
+      const baseAliases = {};
+      const skinAliasesMap = new Map();
+      for (const [k, v] of Object.entries(parsedUI.aliases)) {
+        const sm = String(v).match(/^bb:skin(\d+)$/);
+        if (sm) {
+          const n = parseInt(sm[1], 10);
+          if (!skinAliasesMap.has(n)) skinAliasesMap.set(n, []);
+          skinAliasesMap.get(n).push(k);
+        } else {
+          baseAliases[k] = v;
+        }
+      }
+
+      const skinsMapFromUI = new Map();
+      for (const s of parsedUI.skins) skinsMapFromUI.set(Number(s.n), s.name);
+
+      // Build skin objects 1..maxN
+      const skins = [];
+      let molangGaps = 0;
+      for (let n = 1; n <= maxN; n++) {
+        const catEntry = skinCatalogMap.get(n);
+        const name = skinsMapFromUI.get(n) ?? langNames.get(n) ?? catEntry?.[0] ?? `Skin ${n}`;
+        const rpEntEntry = detected.rpEntries.get(`entity/bb_skin${n}.json`);
+        let arm = "classic";
+        if (rpEntEntry) {
+          const rpObj = JSON.parse(await readEntryText(rpEntEntry));
+          if (String(rpObj?.["minecraft:client_entity"]?.description?.geometry?.default || "").includes("Slim")) {
+            arm = "slim";
+          }
+          if (hasMissingMolangVars(rpObj)) molangGaps++;
+        }
+
+        const texEntry = detected.rpEntries.get(`textures/entity/skins/skin${n}.png`);
+        const texBytes = texEntry ? await readEntryBytes(texEntry) : null;
+        let canvas = null, width = 64, height = 64;
+        if (texBytes) {
+          const loaded = await loadImageFromBytes(texBytes);
+          canvas = loaded.canvas;
+          width = loaded.width;
+          height = loaded.height;
+        }
+
+        const autoSet = new Set(generateAutoKeys(n, name));
+        const customKeywords = [];
+        if (catEntry && catEntry.length > 2) {
+          for (const k of catEntry.slice(2)) {
+            const kl = String(k).trim().toLowerCase();
+            if (kl && !autoSet.has(kl)) customKeywords.push(kl);
+          }
+        }
+        // Any extra aliases from MOB_ALIASES not already covered
+        for (const ak of (skinAliasesMap.get(n) || [])) {
+          if (!autoSet.has(ak) && !customKeywords.includes(ak)) customKeywords.push(ak);
+        }
+
+        skins.push({
+          n,
+          name,
+          origName: name,
+          arm,
+          origArm: arm,
+          pngBytes: texBytes,
+          origPngBytes: texBytes,
+          canvas,
+          width,
+          height,
+          registerSuggestions: catEntry ? true : false,
+          origRegisterSuggestions: catEntry ? true : false,
+          customKeywords,
+          origCustomKeywords: [...customKeywords],
+          isAdded: false,
+          textureDirty: false
+        });
+      }
+
+      // Commit to state
+      state.loaded = true;
+      state.fileName = file.name;
+      state.layout = detected.layout;
+      state.outerEntries = outerEntries;
+      state.bpMcpackName = detected.bpMcpackName;
+      state.rpMcpackName = detected.rpMcpackName;
+      state.bpPrefix = detected.bpPrefix;
+      state.rpPrefix = detected.rpPrefix;
+      state.bpEntries = detected.bpEntries;
+      state.rpEntries = detected.rpEntries;
+      state.bpManifest = JSON.parse(JSON.stringify(detected.bpManifest));
+      state.rpManifest = JSON.parse(JSON.stringify(detected.rpManifest));
+      state.origBpVersion = [...(detected.bpManifest.header?.version || [4, 5, 5])];
+      state.origRpVersion = [...(detected.rpManifest.header?.version || [4, 5, 5])];
+      state.origSkinCount = maxN;
+      state.bpTemplateJson = bpTemplateJson;
+      state.rpTemplateJson = rpTemplateJson;
+      state.baseAliases = baseAliases;
+      state.baseCatalogBeforeSkins = baseCatalogBeforeSkins;
+      state.baseCatalogAfterSkins = baseCatalogAfterSkins;
+      state.skins = skins;
+      state.selectedN = 1;
+      state.molangGapsCount = molangGaps;
+
+      // Populate UI
+      $("uploadScreen").classList.add("hidden");
+      $("workspaceScreen").classList.remove("hidden");
+      $("btnRunAudit").classList.remove("hidden");
+      $("btnExport").classList.remove("hidden");
+
+      populateManifestInputs();
+      renderAll();
+      toast(`Loaded ${file.name} (${maxN} skin entities found)`, "ok");
+    } catch (err) {
+      console.error(err);
+      toast(err.message || "Failed to load .mcaddon", "err");
+    }
+  }
+
+  // =========================================================================
+  // 7. SKIN MANIPULATION & EXPANSION LOGIC
+  // =========================================================================
+
+  function getNextSlotNumber() {
+    return state.skins.length ? state.skins[state.skins.length - 1].n + 1 : 1;
+  }
+
+  async function createExpandedSlot({ name, pngBytes, canvas, width, height, arm }) {
+    const n = getNextSlotNumber();
+    let useBytes = pngBytes;
+    let useCanvas = canvas;
+    let w = width || 64;
+    let h = height || 64;
+    if (!useBytes) {
+      // Clone skin1 placeholder texture so Minecraft never shows missing checkerboard
+      const fallback = state.skins[0]?.origPngBytes || state.skins[0]?.pngBytes;
+      if (fallback) {
+        useBytes = new Uint8Array(fallback);
+        const loaded = await loadImageFromBytes(useBytes);
+        useCanvas = loaded.canvas;
+        w = loaded.width;
+        h = loaded.height;
+      } else {
+        // Generate blank 64x64 fallback
+        const c = document.createElement("canvas");
+        c.width = 64; c.height = 64;
+        useBytes = await canvasToPngBytes(c);
+        useCanvas = c;
+      }
+    }
+    const slot = {
+      n,
+      name: name || `Skin ${n}`,
+      origName: name || `Skin ${n}`,
+      arm: arm || "classic",
+      origArm: arm || "classic",
+      pngBytes: useBytes,
+      origPngBytes: null,
+      canvas: useCanvas,
+      width: w,
+      height: h,
+      registerSuggestions: true,
+      origRegisterSuggestions: true,
+      customKeywords: [],
+      origCustomKeywords: [],
+      isAdded: true,
+      textureDirty: true
+    };
+    state.skins.push(slot);
+    return slot;
+  }
+
+  async function processUploadedPngFile(file) {
+    const rawBytes = await readFileAsUint8Array(file);
+    const mime = file.type && file.type.startsWith("image/") ? file.type : (/\.jpe?g$/i.test(file.name) ? "image/jpeg" : /\.webp$/i.test(file.name) ? "image/webp" : "image/png");
+    const loaded = await loadImageFromBytes(rawBytes, mime);
+    // Re-encode to clean PNG if source wasn't PNG
+    const pngBytes = mime === "image/png" ? rawBytes : await canvasToPngBytes(loaded.canvas);
+    const isSlim = detectSlimFromCanvas(loaded.canvas);
+    return { canvas: loaded.canvas, width: loaded.width, height: loaded.height, pngBytes, isSlim };
+  }
+
+  function isSlotModified(skin) {
+    if (skin.isAdded) return true;
+    if (skin.textureDirty) return true;
+    if (skin.name !== skin.origName) return true;
+    if (skin.arm !== skin.origArm) return true;
+    if (skin.registerSuggestions !== skin.origRegisterSuggestions) return true;
+    if (JSON.stringify(skin.customKeywords) !== JSON.stringify(skin.origCustomKeywords)) return true;
+    return false;
+  }
+
+  function countModifiedOrAdded() {
+    let edits = 0;
+    for (const s of state.skins) if (isSlotModified(s)) edits++;
+    return edits;
+  }
+
+  // =========================================================================
+  // 8. RENDERING UI
+  // =========================================================================
+
+  function renderAll() {
+    renderHeaderBadges();
+    renderSkinGrid();
+    renderInspector();
+    renderSuggestionsTab();
+    renderManifestPreviews();
+    renderHealthAudit();
+  }
+
+  function renderHeaderBadges() {
+    const total = state.skins.length;
+    const mods = countModifiedOrAdded();
+    const v = state.bpManifest.header?.version || [4, 5, 5];
+
+    $("badgeFileName").textContent = state.fileName;
+    $("badgeLayout").textContent = state.layout === "mcpack" ? "Nested .mcpack" : "Folder .mcaddon";
+    $("badgeSkinCount").textContent = `${total} skins`;
+    $("badgeVersion").textContent = `v${v.join(".")}`;
+    $("tabSkinCount").textContent = String(total);
+    $("hdrMaxN").textContent = String(total);
+    $("lblOrigCount").textContent = `1..${state.origSkinCount}`;
+    $("lblActiveCount").textContent = `1..${total}`;
+
+    const chBadge = $("badgeChanges");
+    if (mods > 0) {
+      chBadge.classList.remove("hidden");
+      chBadge.className = "pill pill-green";
+      chBadge.textContent = `${mods} skin edit${mods === 1 ? "" : "s"}`;
+    } else {
+      chBadge.classList.add("hidden");
+    }
+
+    const trimBtn = $("btnTrimTail");
+    if (total > state.origSkinCount) trimBtn.classList.remove("hidden");
+    else trimBtn.classList.add("hidden");
+
+    const baseName = state.fileName.replace(/\.mcaddon$/i, "").replace(/\.zip$/i, "") || "BlockBuster_Studio";
+    if (!$("exportFilenameInput").dataset.userEdited) {
+      $("exportFilenameInput").value = `${baseName}_Custom_${total}Skins.mcaddon`;
+    }
+  }
+
+  function renderSkinGrid() {
+    const grid = $("skinGrid");
+    const q = ($("skinSearchInput").value || "").trim().toLowerCase();
+    const filter = $("skinFilterSelect").value;
+    grid.innerHTML = "";
+
+    const filtered = state.skins.filter(skin => {
+      if (filter === "edited" && !isSlotModified(skin)) return false;
+      if (filter === "added" && !skin.isAdded) return false;
+      if (filter === "slim" && skin.arm !== "slim") return false;
+      if (!q) return true;
+      const clean = stripMcCodes(skin.name).toLowerCase();
+      const keys = buildFinalSearchKeys(skin).join(" ");
+      return clean.includes(q) || `bb:skin${skin.n}`.includes(q) || keys.includes(q);
+    });
+
+    if (!filtered.length) {
+      grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--text-dim);">No skins match this filter.</div>`;
+      return;
+    }
+
+    for (const skin of filtered) {
+      const card = document.createElement("div");
+      const mod = isSlotModified(skin);
+      card.className = "skin-card" +
+        (skin.n === state.selectedN ? " selected" : "") +
+        (skin.isAdded ? " added" : mod ? " modified" : "");
+
+      const canvasWrap = document.createElement("div");
+      canvasWrap.className = "skin-card-canvas-wrap";
+      const cvs = document.createElement("canvas");
+      cvs.width = 96;
+      cvs.height = 104;
+      draw2DStandingSkin(cvs, skin.canvas, skin.arm === "slim", false);
+      canvasWrap.appendChild(cvs);
+
+      const nameEl = document.createElement("div");
+      nameEl.className = "skin-card-name";
+      nameEl.innerHTML = renderMcFormattedHtml(skin.name);
+
+      const idEl = document.createElement("div");
+      idEl.className = "skin-card-id";
+      idEl.innerHTML = `<span>bb:skin${skin.n}</span><span style="color:${skin.arm === "slim" ? "var(--purple)" : "var(--text-muted)"}">${skin.arm === "slim" ? "Slim" : "Classic"}</span>`;
+
+      card.appendChild(canvasWrap);
+      card.appendChild(nameEl);
+      card.appendChild(idEl);
+      card.addEventListener("click", () => {
+        state.selectedN = skin.n;
+        renderSkinGrid();
+        renderInspector();
+      });
+      grid.appendChild(card);
+    }
+  }
+
+  function renderInspectorPreviewCanvas(skin) {
+    const cvs = $("inspCanvas");
+    if (!skin) return;
+    if (state.previewMode === "3d") {
+      $("inspCanvasHint").classList.remove("hidden");
+      draw3DSpinSkin(cvs, skin.canvas, skin.arm === "slim", state.yaw, state.pitch);
+    } else if (state.previewMode === "front") {
+      $("inspCanvasHint").classList.add("hidden");
+      draw2DStandingSkin(cvs, skin.canvas, skin.arm === "slim", false);
+    } else if (state.previewMode === "back") {
+      $("inspCanvasHint").classList.add("hidden");
+      draw2DStandingSkin(cvs, skin.canvas, skin.arm === "slim", true);
+    } else {
+      $("inspCanvasHint").classList.add("hidden");
+      const ctx = cvs.getContext("2d");
+      ctx.clearRect(0, 0, cvs.width, cvs.height);
+      ctx.imageSmoothingEnabled = false;
+      if (skin.canvas) {
+        const aspect = skin.canvas.height / skin.canvas.width;
+        const dw = 192;
+        const dh = Math.round(dw * aspect);
+        ctx.drawImage(skin.canvas, (cvs.width - dw) / 2, (cvs.height - dh) / 2, dw, dh);
+      }
+    }
+  }
+
+  function renderInspector() {
+    const skin = state.skins.find(s => s.n === state.selectedN) || state.skins[0];
+    if (!skin) return;
+    state.selectedN = skin.n;
+
+    $("inspId").textContent = `bb:skin${skin.n}`;
+    $("inspStatusText").textContent = skin.isAdded
+      ? "Newly expanded skin slot (will be added to BP, RP, lang & StudioUI)"
+      : isSlotModified(skin) ? "Modified original slot" : "Original slot from uploaded .mcaddon";
+
+    const canRestore = !skin.isAdded && isSlotModified(skin);
+    $("btnRestoreSlot").classList.toggle("hidden", !canRestore);
+    // Allow deleting only the last slot if it's an added slot (keeps contiguous 1..N numbering)
+    const isLastAdded = skin.isAdded && skin.n === state.skins[state.skins.length - 1].n;
+    $("btnDeleteSlot").classList.toggle("hidden", !isLastAdded);
+
+    $("inspNameInput").value = skin.name;
+    $("inspNamePreview").innerHTML = renderMcFormattedHtml(skin.name);
+    $("inspArmSelect").value = skin.arm;
+
+    const autoSlim = skin.canvas ? detectSlimFromCanvas(skin.canvas) : false;
+    $("inspArmAutoHint").textContent = autoSlim ? "PNG looks like Slim (3px)" : "PNG looks like Classic (4px)";
+
+    const dimText = `${skin.width}\u00d7${skin.height}`;
+    const dimBadge = $("inspDimBadge");
+    dimBadge.textContent = dimText;
+    if (skin.height === 32 && skin.width === 64) {
+      dimBadge.className = "pill pill-gold";
+      $("btnConvert64").classList.remove("hidden");
+    } else if ((skin.width === 64 && skin.height === 64) || (skin.width === 128 && skin.height === 128)) {
+      dimBadge.className = "pill pill-green";
+      $("btnConvert64").classList.add("hidden");
+    } else {
+      dimBadge.className = "pill pill-red";
+      $("btnConvert64").classList.add("hidden");
+    }
+
+    $("inspRegCatalog").checked = !!skin.registerSuggestions;
+    $("inspKeywordsInput").value = (skin.customKeywords || []).join(", ");
+    $("inspAutoKeysPreview").textContent = generateAutoKeys(skin.n, skin.name).join(", ");
+
+    renderInspectorPreviewCanvas(skin);
+  }
+
+  function buildAliasesMap() {
+    const aliasMap = { ...state.baseAliases };
+    for (const skin of state.skins) {
+      if (!skin.registerSuggestions) continue;
+      const target = `bb:skin${skin.n}`;
+      if (!aliasMap[`skin${skin.n}`]) aliasMap[`skin${skin.n}`] = target;
+      if (!aliasMap[`bbskin${skin.n}`]) aliasMap[`bbskin${skin.n}`] = target;
+      const clean = stripMcCodes(skin.name).trim().toLowerCase();
+      if (clean && clean !== `skin ${skin.n}` && clean !== `skin${skin.n}`) {
+        const under = clean.replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+        const space = clean.replace(/[^a-z0-9]+/g, " ").replace(/\s+/g, " ").trim();
+        const squish = clean.replace(/[^a-z0-9]+/g, "");
+        if (under && !aliasMap[under]) aliasMap[under] = target;
+        if (space && !aliasMap[space]) aliasMap[space] = target;
+        if (squish && !aliasMap[squish]) aliasMap[squish] = target;
+        for (const word of space.split(" ")) {
+          if (word.length >= 4 && !aliasMap[word]) aliasMap[word] = target;
+        }
+      }
+      for (const kw of (skin.customKeywords || [])) {
+        const k = stripMcCodes(kw).trim().toLowerCase();
+        if (k && !aliasMap[k]) aliasMap[k] = target;
+      }
+    }
+    return aliasMap;
+  }
+
+  function renderSuggestionsTab() {
+    const q = ($("simSearchInput").value || "").trim().toLowerCase().replace(/^minecraft:/, "");
+
+    // Simulate StudioUI resolveEntityId & MOB_CATALOG
+    const aliasMap = buildAliasesMap();
+    const simCatalog = [
+      ...state.baseCatalogBeforeSkins,
+      ...state.skins
+        .filter(s => s.registerSuggestions)
+        .map(s => [s.name, `bb:skin${s.n}`, ...buildFinalSearchKeys(s)]),
+      ...state.baseCatalogAfterSkins
+    ];
+
+    let resolvedAlias = "-";
+    if (q) {
+      resolvedAlias = aliasMap[q] || (q.includes(":") ? q : `minecraft:${q}`);
+    }
+    $("simAliasResult").textContent = resolvedAlias;
+
+    const matches = [];
+    const seen = new Set();
+    if (!q) {
+      for (const e of simCatalog.slice(0, 50)) {
+        if (!seen.has(e[1])) { seen.add(e[1]); matches.push(e); }
+      }
+    } else {
+      for (const e of simCatalog) {
+        const [label, id, ...keys] = e;
+        const hay = [stripMcCodes(label).toLowerCase(), id.toLowerCase(), ...keys.map(k => String(k).toLowerCase())];
+        if (hay.some(h => h.startsWith(q) || h.includes(q))) {
+          if (!seen.has(id)) { seen.add(id); matches.push(e); }
+        }
+      }
+    }
+    $("simCountResult").textContent = String(matches.length);
+
+    const simBody = $("simResultsBody");
+    simBody.innerHTML = "";
+    for (const e of matches.slice(0, 40)) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${renderMcFormattedHtml(e[0])}</td><td><code>${e[1]}</code></td><td style="color:var(--text-dim);">${e.slice(2).join(", ")}</td>`;
+      simBody.appendChild(tr);
+    }
+
+    const regBody = $("allRegTableBody");
+    regBody.innerHTML = "";
+    for (const s of state.skins) {
+      const keys = buildFinalSearchKeys(s);
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><code>bb:skin${s.n}</code></td>
+        <td>${renderMcFormattedHtml(s.name)}</td>
+        <td>${s.registerSuggestions ? '<span class="pill pill-green">Yes</span>' : '<span class="pill">No</span>'}</td>
+        <td style="color:var(--text-dim);">${s.registerSuggestions ? keys.slice(0, 4).join(", ") : "-"}</td>
+      `;
+      regBody.appendChild(tr);
+    }
+  }
+
+  function populateManifestInputs() {
+    $("bpNameInput").value = state.bpManifest.header?.name || "";
+    $("bpDescInput").value = state.bpManifest.header?.description || "";
+    $("rpNameInput").value = state.rpManifest.header?.name || "";
+    $("rpDescInput").value = state.rpManifest.header?.description || "";
+
+    const v = state.bpManifest.header?.version || [4, 5, 5];
+    $("verMajor").value = v[0] ?? 4;
+    $("verMinor").value = v[1] ?? 5;
+    $("verPatch").value = v[2] ?? 5;
+
+    $("bpUuidBadge").textContent = (state.bpManifest.header?.uuid || "").slice(0, 8) + "...";
+    $("rpUuidBadge").textContent = (state.rpManifest.header?.uuid || "").slice(0, 8) + "...";
+  }
+
+  function renderManifestPreviews() {
+    $("bpNamePreview").innerHTML = renderMcFormattedHtml($("bpNameInput").value);
+    $("bpDescPreview").innerHTML = renderMcFormattedHtml($("bpDescInput").value);
+    $("rpNamePreview").innerHTML = renderMcFormattedHtml($("rpNameInput").value);
+    $("rpDescPreview").innerHTML = renderMcFormattedHtml($("rpDescInput").value);
+  }
+
+  function renderHealthAudit() {
+    const list = $("healthCheckList");
+    list.innerHTML = "";
+    const checks = [];
+
+    const total = state.skins.length;
+    const missingTex = state.skins.filter(s => !s.pngBytes);
+    const badDims = state.skins.filter(s => s.width === 64 && s.height === 32);
+    const unreg = state.skins.filter(s => !s.registerSuggestions);
+    const slimCount = state.skins.filter(s => s.arm === "slim").length;
+    const rpDesc = $("rpDescInput").value || "";
+    const rpLines = rpDesc.split("\n").map(l => l.trim()).filter(Boolean);
+    const hasDupLine = rpLines.length >= 2 && rpLines[rpLines.length - 1] === rpLines[rpLines.length - 2];
+
+    checks.push({
+      level: "ok",
+      title: `Skin Entities & StudioUI Sync (${total} slots: bb:skin1 .. bb:skin${total})`,
+      desc: "BP entities, RP client entities, en_US.lang, SKINS, MOB_CATALOG, and MOB_ALIASES will all be synced cleanly."
+    });
+
+    if (missingTex.length) {
+      checks.push({
+        level: "err",
+        title: `Missing Skin Textures (${missingTex.length})`,
+        desc: `Slots missing PNG: ${missingTex.map(s => "bb:skin" + s.n).join(", ")}`
+      });
+    } else {
+      checks.push({
+        level: "ok",
+        title: "All Skin PNG Textures Present",
+        desc: `Every slot from skin1.png to skin${total}.png has a valid PNG texture.`
+      });
+    }
+
+    if (badDims.length) {
+      checks.push({
+        level: "warn",
+        title: `Legacy 64\u00d732 Skin Layout Detected (${badDims.length})`,
+        desc: `Slots ${badDims.map(s => "bb:skin" + s.n).join(", ")} are 64\u00d732. Click "Upgrade 64\u00d732 -> 64\u00d764" in the inspector so legs/arms render cleanly.`
+      });
+    }
+
+    if (state.molangGapsCount > 0) {
+      const fixing = $("optFixMolang").checked;
+      checks.push({
+        level: fixing ? "ok" : "warn",
+        title: `Molang Variable Alignment (${state.molangGapsCount} skins in slots 21-40 missing item_use_normalized)`,
+        desc: fixing
+          ? "Auto-fix is ENABLED — all skin client entities will receive full Molang initialization matching bb_skin1.json."
+          : "Auto-fix is OFF — Bedrock may log uninitialized Molang variable warnings when those skins hold bows."
+      });
+    }
+
+    if (hasDupLine) {
+      checks.push({
+        level: "warn",
+        title: "Duplicate trailing line in RP Description",
+        desc: "Your RP manifest description ends with a repeated line. Use 'Remove Duplicate Lines in RP Desc' on the Description tab to clean it."
+      });
+    }
+
+    checks.push({
+      level: "ok",
+      title: `Geometry Setup (${total - slimCount} Classic, ${slimCount} Slim)`,
+      desc: slimCount > 0
+        ? "humanoid.customSlim.geo.json will be auto-generated from humanoid.custom.geo.json and bundled in RP/models/entity/."
+        : "All skins use standard geometry.humanoid.custom."
+    });
+
+    if (unreg.length) {
+      checks.push({
+        level: "warn",
+        title: `${unreg.length} Skin(s) Not Registered in Suggestions`,
+        desc: "Some slots have 'Register in Suggest Mob' unchecked."
+      });
+    }
+
+    for (const c of checks) {
+      const div = document.createElement("div");
+      div.className = `check-item ${c.level}`;
+      div.innerHTML = `
+        <div>
+          <strong>${c.title}</strong>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:2px;">${c.desc}</div>
+        </div>
+        <span class="pill ${c.level === "ok" ? "pill-green" : c.level === "warn" ? "pill-gold" : "pill-red"}">${c.level.toUpperCase()}</span>
+      `;
+      list.appendChild(div);
+    }
+
+    // Summary list
+    const sum = $("exportSummaryList");
+    const editedExisting = state.skins.filter(s => !s.isAdded && isSlotModified(s)).length;
+    const addedCount = state.skins.filter(s => s.isAdded).length;
+    sum.innerHTML = `
+      <li>Pack format: <strong>${state.layout === "mcpack" ? "Nested .mcpack inside .mcaddon" : "Folder-based .mcaddon"}</strong></li>
+      <li>Total skin entities: <strong>${total}</strong> (${state.origSkinCount} original, ${editedExisting} edited, ${addedCount} newly expanded)</li>
+      <li>Suggestions registered: <strong>${state.skins.filter(s => s.registerSuggestions).length}</strong> skins in <code>MOB_CATALOG</code> &amp; <code>MOB_ALIASES</code></li>
+      <li>Version: <strong>v${$("verMajor").value}.${$("verMinor").value}.${$("verPatch").value}</strong></li>
+      <li>UUID mode: <strong>${$("optRegenUuids").checked ? "Fresh UUIDs generated" : "Original UUIDs preserved"}</strong></li>
+    `;
+  }
+
+  // =========================================================================
+  // 9. PATCHING & EXPORTING .MCADDON
+  // =========================================================================
+
+  function buildUpdatedStudioUI(originalSource, totalSkins, opts) {
+    const { aliasesSpan, catalogSpan, skinsSpan } = parseStudioUIBlocks(originalSource);
+
+    // 1) Rebuild MOB_ALIASES
+    const newAliases = buildAliasesMap();
+    const aliasLines = ["const MOB_ALIASES = {"];
+    const entries = Object.entries(newAliases);
+    for (let i = 0; i < entries.length; i += 4) {
+      const chunk = entries.slice(i, i + 4).map(([k, v]) => `${JSON.stringify(k)}:${JSON.stringify(v)}`).join(", ");
+      aliasLines.push("  " + chunk + ",");
+    }
+    aliasLines.push("};");
+    const newAliasesCode = aliasLines.join("\n");
+
+    // 2) Rebuild MOB_CATALOG
+    const skinCatalogEntries = state.skins
+      .filter(s => s.registerSuggestions)
+      .map(s => [s.name, `bb:skin${s.n}`, ...buildFinalSearchKeys(s)]);
+    const combinedCatalog = [
+      ...state.baseCatalogBeforeSkins,
+      ...skinCatalogEntries,
+      ...state.baseCatalogAfterSkins
+    ];
+    const catLines = ["const MOB_CATALOG = ["];
+    for (const item of combinedCatalog) {
+      catLines.push("  " + JSON.stringify(item) + ",");
+    }
+    catLines.push("];");
+    const newCatalogCode = catLines.join("\n");
+
+    // 3) Rebuild SKINS
+    const skinLines = ["const SKINS = ["];
+    for (const s of state.skins) {
+      skinLines.push(`  { n: ${s.n}, name: ${JSON.stringify(s.name)} },`);
+    }
+    skinLines.push("];");
+    const newSkinsCode = skinLines.join("\n");
+
+    // Validate generated JS blocks cleanly without eval/new Function (CSP-safe & offline-safe)
+    parseAliasesLiteral(newAliasesCode.replace(/^const\s+MOB_ALIASES\s*=\s*/, "").replace(/;$/, ""));
+    parseCatalogLiteral(newCatalogCode.replace(/^const\s+MOB_CATALOG\s*=\s*/, "").replace(/;$/, ""));
+    parseSkinsLiteral(newSkinsCode.replace(/^const\s+SKINS\s*=\s*/, "").replace(/;$/, ""));
+
+    // Splice from bottom to top so earlier indices remain valid!
+    const replacements = [
+      { start: aliasesSpan.declStart, end: aliasesSpan.stmtEnd, text: newAliasesCode },
+      { start: catalogSpan.declStart, end: catalogSpan.stmtEnd, text: newCatalogCode },
+      { start: skinsSpan.declStart, end: skinsSpan.stmtEnd, text: newSkinsCode }
+    ].sort((a, b) => b.start - a.start);
+
+    let out = originalSource;
+    for (const r of replacements) {
+      out = out.slice(0, r.start) + r.text + out.slice(r.end);
+    }
+
+    if (opts.syncStudioHints) {
+      out = out.replace(/"bb:skin1\.\.\.\d+\s*\+\s*classic"/g, `"bb:skin1...${totalSkins} + classic"`);
+    }
+
+    return out;
+  }
+
+  function updateLangText(originalLang, skins) {
+    const lines = originalLang ? originalLang.split(/\r?\n/) : ["## Blockbuster Studio - Language File", "## en_US"];
+    const byN = new Map(skins.map(s => [s.n, s]));
+    const foundN = new Set();
+    const outLines = [];
+
+    for (const line of lines) {
+      const m = line.match(/^entity\.bb:skin(\d+)\.name=(.*)$/);
+      if (m) {
+        const n = parseInt(m[1], 10);
+        const skin = byN.get(n);
+        if (skin) {
+          outLines.push(`entity.bb:skin${n}.name=${skin.name}`);
+          foundN.add(n);
+        }
+        // If skin was trimmed (> skins.length), omit stale line
+      } else {
+        outLines.push(line);
+      }
+    }
+
+    const missing = skins.filter(s => !foundN.has(s.n));
+    if (missing.length) {
+      if (outLines.length && outLines[outLines.length - 1].trim() !== "") outLines.push("");
+      outLines.push(`## Custom / Expanded Skins (${missing.length} added)`);
+      for (const s of missing) {
+        outLines.push(`entity.bb:skin${s.n}.name=${s.name}`);
+      }
+    }
+    return outLines.join("\n");
+  }
+
+  async function buildAndExportMcaddon(returnBytesOnly = false) {
+    const progressEl = $("exportProgress");
+    const setProg = (msg) => { if (progressEl) progressEl.textContent = msg; };
+
+    try {
+      setProg("Validating manifest & skin entities...");
+      const bpEntries = new Map(state.bpEntries);
+      const rpEntries = new Map(state.rpEntries);
+      const maxN = state.skins.length;
+
+      // 1) Update manifests
+      const ver = [
+        Math.max(0, parseInt($("verMajor").value, 10) || 0),
+        Math.max(0, parseInt($("verMinor").value, 10) || 0),
+        Math.max(0, parseInt($("verPatch").value, 10) || 0)
+      ];
+      const bpMan = JSON.parse(JSON.stringify(state.bpManifest));
+      const rpMan = JSON.parse(JSON.stringify(state.rpManifest));
+      bpMan.header.name = $("bpNameInput").value;
+      bpMan.header.description = $("bpDescInput").value;
+      bpMan.header.version = [...ver];
+      rpMan.header.name = $("rpNameInput").value;
+      rpMan.header.description = $("rpDescInput").value;
+      rpMan.header.version = [...ver];
+
+      if ($("optRegenUuids").checked) {
+        const newBpUuid = generateUuidV4();
+        const newRpUuid = generateUuidV4();
+        const oldBpUuid = bpMan.header.uuid;
+        const oldRpUuid = rpMan.header.uuid;
+        bpMan.header.uuid = newBpUuid;
+        rpMan.header.uuid = newRpUuid;
+        for (const m of (bpMan.modules || [])) m.uuid = generateUuidV4();
+        for (const m of (rpMan.modules || [])) m.uuid = generateUuidV4();
+        for (const d of (bpMan.dependencies || [])) if (d.uuid === oldRpUuid) d.uuid = newRpUuid;
+        for (const d of (rpMan.dependencies || [])) if (d.uuid === oldBpUuid) d.uuid = newBpUuid;
+      }
+
+      for (const m of (bpMan.modules || [])) m.version = [...ver];
+      for (const m of (rpMan.modules || [])) m.version = [...ver];
+      for (const d of (bpMan.dependencies || [])) if (d.uuid === rpMan.header.uuid) d.version = [...ver];
+      for (const d of (rpMan.dependencies || [])) if (d.uuid === bpMan.header.uuid) d.version = [...ver];
+
+      setEntryText(bpEntries, "manifest.json", JSON.stringify(bpMan, null, 2));
+      setEntryText(rpEntries, "manifest.json", JSON.stringify(rpMan, null, 2));
+
+      // 2) Clean any trailing skin entities/textures above maxN if trimmed
+      for (const k of Array.from(bpEntries.keys())) {
+        const m = k.match(/^entities\/bb_skin(\d+)\.json$/);
+        if (m && parseInt(m[1], 10) > maxN) bpEntries.delete(k);
+      }
+      for (const k of Array.from(rpEntries.keys())) {
+        const m1 = k.match(/^entity\/bb_skin(\d+)\.json$/);
+        if (m1 && parseInt(m1[1], 10) > maxN) rpEntries.delete(k);
+        const m2 = k.match(/^textures\/entity\/skins\/skin(\d+)\.png$/);
+        if (m2 && parseInt(m2[1], 10) > maxN) rpEntries.delete(k);
+      }
+
+      // 3) Check Slim geometry support
+      const needsSlim = state.skins.some(s => s.arm === "slim");
+      if (needsSlim && !rpEntries.has("models/entity/humanoid.customSlim.geo.json")) {
+        const classicGeoEntry = rpEntries.get("models/entity/humanoid.custom.geo.json");
+        if (!classicGeoEntry) throw new Error("Missing models/entity/humanoid.custom.geo.json in RP.");
+        const classicGeoText = await readEntryText(classicGeoEntry);
+        setEntryText(rpEntries, "models/entity/humanoid.customSlim.geo.json", deriveSlimGeometryFromClassic(classicGeoText));
+      }
+
+      // 4) Write BP & RP entity definitions + PNG textures for new/modified slots
+      const fixMolang = $("optFixMolang").checked;
+      for (const skin of state.skins) {
+        const n = skin.n;
+        const bpKey = `entities/bb_skin${n}.json`;
+        const rpKey = `entity/bb_skin${n}.json`;
+        const texKey = `textures/entity/skins/skin${n}.png`;
+
+        if (skin.isAdded || !bpEntries.has(bpKey)) {
+          const bpObj = JSON.parse(JSON.stringify(state.bpTemplateJson));
+          bpObj["minecraft:entity"].description.identifier = `bb:skin${n}`;
+          if (bpObj["minecraft:entity"].description.spawn_egg) {
+            bpObj["minecraft:entity"].description.spawn_egg.texture = `bb_skin${n}_spawn_egg`;
+          }
+          setEntryText(bpEntries, bpKey, JSON.stringify(bpObj, null, 2));
+        }
+
+        const existingRpEntry = rpEntries.get(rpKey);
+        let writeRpEntity = skin.isAdded || !existingRpEntry || skin.arm !== skin.origArm;
+        let existingRpObj = existingRpEntry ? JSON.parse(await readEntryText(existingRpEntry)) : null;
+        if (fixMolang && existingRpObj && hasMissingMolangVars(existingRpObj)) {
+          writeRpEntity = true;
+        }
+        if (writeRpEntity) {
+          const rpObj = JSON.parse(JSON.stringify(state.rpTemplateJson));
+          const desc = rpObj["minecraft:client_entity"].description;
+          desc.identifier = `bb:skin${n}`;
+          desc.textures.default = `textures/entity/skins/skin${n}`;
+          desc.geometry.default = skin.arm === "slim" ? "geometry.humanoid.customSlim" : "geometry.humanoid.custom";
+          desc.scripts.initialize = [...REQUIRED_SKIN_INIT_VARS];
+          if (!desc.scripts.pre_animation.some(x => String(x).includes("item_use_normalized"))) {
+            desc.scripts.pre_animation.unshift("variable.item_use_normalized = 0.0;");
+          }
+          setEntryText(rpEntries, rpKey, JSON.stringify(rpObj, null, 2));
+        }
+
+        if (skin.textureDirty || skin.isAdded || !rpEntries.has(texKey)) {
+          if (skin.pngBytes) setEntryBytes(rpEntries, texKey, skin.pngBytes);
+        }
+      }
+
+      // 5) Update RP/texts/en_US.lang
+      setProg("Updating en_US.lang...");
+      const langEntry = rpEntries.get("texts/en_US.lang");
+      const origLang = langEntry ? await readEntryText(langEntry) : "";
+      setEntryText(rpEntries, "texts/en_US.lang", updateLangText(origLang, state.skins));
+
+      // 6) Patch StudioUI.js (SKINS, MOB_CATALOG, MOB_ALIASES, hints)
+      setProg("Patching StudioUI.js & registering suggestions...");
+      const studioSrc = await readEntryText(bpEntries.get("scripts/ui/StudioUI.js"));
+      const patchedStudio = buildUpdatedStudioUI(studioSrc, maxN, {
+        syncStudioHints: $("optSyncStudioHints").checked
+      });
+      setEntryText(bpEntries, "scripts/ui/StudioUI.js", patchedStudio);
+
+      // 7) Optionally sync CommandHandler.js & AIAssistant.js skin range text
+      if ($("optSyncHelpText").checked) {
+        const cmdEntry = bpEntries.get("scripts/systems/CommandHandler.js");
+        if (cmdEntry) {
+          let cmdText = await readEntryText(cmdEntry);
+          cmdText = cmdText
+            .replace(/bb:skin1§7-§fbb:skin\d+/g, `bb:skin1§7-§fbb:skin${maxN}`)
+            .replace(/skin1\.png§7 \.\.\. §fskin\d+\.png/g, `skin1.png§7 ... §fskin${maxN}.png`);
+          setEntryText(bpEntries, "scripts/systems/CommandHandler.js", cmdText);
+        }
+        const aiEntry = bpEntries.get("scripts/systems/modules/AIAssistant.js");
+        if (aiEntry) {
+          let aiText = await readEntryText(aiEntry);
+          aiText = aiText
+            .replace(/bb:skin1§f-§ebb:skin\d+/g, `bb:skin1§f-§ebb:skin${maxN}`)
+            .replace(/skin1\.png \.\.\. skin\d+\.png/g, `skin1.png ... skin${maxN}.png`)
+            .replace(/skin1\.png§7 \.\.\. §eskin\d+\.png/g, `skin1.png§7 ... §eskin${maxN}.png`);
+          setEntryText(bpEntries, "scripts/systems/modules/AIAssistant.js", aiText);
+        }
+      }
+
+      // 8) Package outer .mcaddon
+      setProg("Compressing & packaging .mcaddon...");
+      const outerOut = new Map(state.outerEntries);
+      if (state.layout === "mcpack") {
+        const bpZip = await buildZip(bpEntries);
+        const rpZip = await buildZip(rpEntries);
+        setEntryBytes(outerOut, state.bpMcpackName, bpZip);
+        setEntryBytes(outerOut, state.rpMcpackName, rpZip);
+      } else {
+        for (const k of Array.from(outerOut.keys())) {
+          if (k.startsWith(state.bpPrefix) || k.startsWith(state.rpPrefix)) outerOut.delete(k);
+        }
+        for (const [k, entry] of bpEntries.entries()) {
+          outerOut.set(state.bpPrefix + k, { ...entry, name: state.bpPrefix + k });
+        }
+        for (const [k, entry] of rpEntries.entries()) {
+          outerOut.set(state.rpPrefix + k, { ...entry, name: state.rpPrefix + k });
+        }
+      }
+
+      const finalBytes = await buildZip(outerOut);
+      if (returnBytesOnly) return finalBytes;
+
+      const outNameRaw = ($("exportFilenameInput").value || "BlockBuster_Studio_Custom.mcaddon").trim();
+      const outName = outNameRaw.endsWith(".mcaddon") ? outNameRaw : outNameRaw + ".mcaddon";
+      const blob = new Blob([finalBytes], { type: "application/octet-stream" });
+      if (state.lastExportUrl) {
+        try { URL.revokeObjectURL(state.lastExportUrl); } catch (_) {}
+      }
+      const dlUrl = URL.createObjectURL(blob);
+      state.lastExportUrl = dlUrl;
+
+      const directLink = $("exportDirectLink");
+      const readyBox = $("exportReadyBox");
+      const readyMeta = $("exportReadyMeta");
+      if (directLink && readyBox) {
+        directLink.href = dlUrl;
+        directLink.download = outName;
+        directLink.textContent = `Save ${outName}`;
+        readyMeta.textContent = `${(finalBytes.length / 1048576).toFixed(2)} MB • ${maxN} skins (tap here if automatic download was blocked)`;
+        readyBox.classList.remove("hidden");
+      }
+
+      const a = document.createElement("a");
+      a.href = dlUrl;
+      a.download = outName;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      setProg(`Done! Packaged ${(finalBytes.length / 1048576).toFixed(2)} MB.`);
+      toast(`Packaged ${outName} (${maxN} skins)!`, "ok");
+    } catch (err) {
+      console.error(err);
+      setProg("Export failed: " + err.message);
+      toast("Export error: " + err.message, "err");
+      throw err;
+    }
+  }
+
+  // =========================================================================
+  // 10. EVENT WIRING & INTERACTIONS
+  // =========================================================================
+
+  function buildColorBar(containerId, targetInput, onChangeCb) {
+    const bar = $(containerId);
+    bar.innerHTML = "";
+    for (const item of MC_PALETTE_BTNS) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "mc-swatch";
+      b.innerHTML = (item.hex ? `<span class="mc-dot" style="background:${item.hex}"></span>` : "") + `<span>${item.code}</span>`;
+      b.title = `${item.label} (${item.code})`;
+      b.addEventListener("click", () => {
+        const el = $(targetInput);
+        const start = el.selectionStart ?? el.value.length;
+        const end = el.selectionEnd ?? el.value.length;
+        el.value = el.value.slice(0, start) + item.code + el.value.slice(end);
+        el.focus();
+        el.setSelectionRange(start + item.code.length, start + item.code.length);
+        onChangeCb();
+      });
+      bar.appendChild(b);
+    }
+  }
+
+  function init() {
+    const themes = [
+      { id: "mc-night", btn: "Theme: MC Night", pill: "Minecraft Night", cls: "pill pill-gold" },
+      { id: "end-void", btn: "Theme: End Void", pill: "End Dimension", cls: "pill pill-purple" },
+      { id: "classic", btn: "Theme: Classic", pill: "Studio Slate", cls: "pill pill-teal" }
+    ];
+    let themeIdx = 0;
+    const btnTheme = $("btnCycleTheme");
+    const themePill = $("themeBadgePill");
+    if (btnTheme) {
+      btnTheme.addEventListener("click", () => {
+        themeIdx = (themeIdx + 1) % themes.length;
+        const t = themes[themeIdx];
+        if (document.body) {
+          document.body.setAttribute("data-theme", t.id);
+        }
+        btnTheme.textContent = t.btn;
+        if (themePill) {
+          themePill.textContent = t.pill;
+          themePill.className = t.cls;
+        }
+      });
+    }
+
+    buildColorBar("inspColorBar", "inspNameInput", () => {
+      const skin = state.skins.find(s => s.n === state.selectedN);
+      if (!skin) return;
+      skin.name = $("inspNameInput").value;
+      renderHeaderBadges();
+      renderSkinGrid();
+      renderInspector();
+    });
+    buildColorBar("bpDescPalette", "bpDescInput", renderManifestPreviews);
+    buildColorBar("rpDescPalette", "rpDescInput", renderManifestPreviews);
+
+    // Upload triggers
+    $("btnPickAddon").addEventListener("click", (e) => { e.stopPropagation(); $("addonFileInput").click(); });
+    $("btnLoadNew").addEventListener("click", () => $("addonFileInput").click());
+    $("dropZone").addEventListener("click", () => $("addonFileInput").click());
+    $("addonFileInput").addEventListener("change", (e) => {
+      const f = e.target.files?.[0];
+      if (f) loadMcaddonFile(f);
+      e.target.value = "";
+    });
+
+    const dz = $("dropZone");
+    dz.addEventListener("dragover", (e) => { e.preventDefault(); dz.classList.add("dragover"); });
+    dz.addEventListener("dragleave", () => dz.classList.remove("dragover"));
+    dz.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dz.classList.remove("dragover");
+      const f = e.dataTransfer?.files?.[0];
+      if (f) loadMcaddonFile(f);
+    });
+
+    // Tabs
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+        btn.classList.add("active");
+        $(btn.dataset.tab).classList.add("active");
+        if (btn.dataset.tab === "suggestionsTab") renderSuggestionsTab();
+        if (btn.dataset.tab === "healthTab") renderHealthAudit();
+      });
+    });
+
+    $("btnRunAudit").addEventListener("click", () => {
+      document.querySelector('[data-tab="healthTab"]').click();
+    });
+
+    // Search / Filter skins
+    $("skinSearchInput").addEventListener("input", renderSkinGrid);
+    $("skinFilterSelect").addEventListener("change", renderSkinGrid);
+
+    // Expansion buttons
+    $("btnAddOneSlot").addEventListener("click", async () => {
+      const slot = await createExpandedSlot({});
+      state.selectedN = slot.n;
+      renderAll();
+      toast(`Added slot bb:skin${slot.n} (auto-registered in suggestions)`, "ok");
+    });
+
+    $("btnExpandFive").addEventListener("click", async () => {
+      let last;
+      for (let i = 0; i < 5; i++) last = await createExpandedSlot({});
+      if (last) state.selectedN = last.n;
+      renderAll();
+      toast(`Expanded +5 skin entities (now ${state.skins.length} total)`, "ok");
+    });
+
+    $("btnExpandCustom").addEventListener("click", () => {
+      const bar = $("customExpandBar");
+      bar.classList.toggle("hidden");
+      if (!bar.classList.contains("hidden")) {
+        $("customExpandCount").focus();
+        $("customExpandCount").select();
+      }
+    });
+
+    $("btnCancelCustomExpand").addEventListener("click", () => {
+      $("customExpandBar").classList.add("hidden");
+    });
+
+    $("btnApplyCustomExpand").addEventListener("click", async () => {
+      const count = Math.max(1, Math.min(200, parseInt($("customExpandCount").value, 10) || 0));
+      if (!count) return;
+      $("customExpandBar").classList.add("hidden");
+      let last;
+      for (let i = 0; i < count; i++) last = await createExpandedSlot({});
+      if (last) state.selectedN = last.n;
+      renderAll();
+      toast(`Expanded +${count} skin entities (now ${state.skins.length} total)`, "ok");
+    });
+
+    $("btnTrimTail").addEventListener("click", () => {
+      if (state.skins.length <= state.origSkinCount) return;
+      state.skins = state.skins.filter(s => s.n <= state.origSkinCount);
+      if (state.selectedN > state.skins.length) state.selectedN = state.skins.length;
+      renderAll();
+      toast(`Trimmed expanded slots back to bb:skin1..bb:skin${state.origSkinCount}`, "ok");
+    });
+
+    // Batch PNG drop / upload
+    async function handleBatchPngFiles(files) {
+      const valid = Array.from(files).filter(f => /\.(png|jpe?g|webp)$/i.test(f.name) || f.type.startsWith("image/"));
+      if (!valid.length) { toast("No PNG/image files found.", "err"); return; }
+      let lastSlot = null;
+      for (const file of valid) {
+        const nextN = getNextSlotNumber();
+        const img = await processUploadedPngFile(file);
+        const name = cleanFilenameToDisplayName(file.name, nextN);
+        lastSlot = await createExpandedSlot({
+          name,
+          pngBytes: img.pngBytes,
+          canvas: img.canvas,
+          width: img.width,
+          height: img.height,
+          arm: img.isSlim ? "slim" : "classic"
+        });
+      }
+      if (lastSlot) state.selectedN = lastSlot.n;
+      renderAll();
+      toast(`Added ${valid.length} custom skin${valid.length === 1 ? "" : "s"} & registered in suggestions!`, "ok");
+    }
+
+    $("btnBatchPick").addEventListener("click", (e) => { e.stopPropagation(); $("batchPngInput").click(); });
+    $("batchDropZone").addEventListener("click", () => $("batchPngInput").click());
+    $("batchPngInput").addEventListener("change", (e) => {
+      if (e.target.files?.length) handleBatchPngFiles(e.target.files);
+      e.target.value = "";
+    });
+    const bdz = $("batchDropZone");
+    bdz.addEventListener("dragover", (e) => { e.preventDefault(); bdz.classList.add("dragover"); });
+    bdz.addEventListener("dragleave", () => bdz.classList.remove("dragover"));
+    bdz.addEventListener("drop", (e) => {
+      e.preventDefault();
+      bdz.classList.remove("dragover");
+      if (e.dataTransfer?.files?.length) handleBatchPngFiles(e.dataTransfer.files);
+    });
+
+    // Inspector actions
+    $("btnReplacePng").addEventListener("click", () => $("singlePngInput").click());
+    $("singlePngInput").addEventListener("change", async (e) => {
+      const file = e.target.files?.[0];
+      e.target.value = "";
+      if (!file) return;
+      const skin = state.skins.find(s => s.n === state.selectedN);
+      if (!skin) return;
+      const img = await processUploadedPngFile(file);
+      skin.pngBytes = img.pngBytes;
+      skin.canvas = img.canvas;
+      skin.width = img.width;
+      skin.height = img.height;
+      skin.arm = img.isSlim ? "slim" : "classic";
+      skin.textureDirty = true;
+      renderAll();
+      toast(`Replaced texture for bb:skin${skin.n}`, "ok");
+    });
+
+    $("btnConvert64").addEventListener("click", async () => {
+      const skin = state.skins.find(s => s.n === state.selectedN);
+      if (!skin || !skin.canvas) return;
+      const converted = convertLegacy64x32To64x64(skin.canvas);
+      skin.canvas = converted;
+      skin.width = converted.width;
+      skin.height = converted.height;
+      skin.pngBytes = await canvasToPngBytes(converted);
+      skin.textureDirty = true;
+      renderAll();
+      toast(`Converted bb:skin${skin.n} to 64\u00d764 Bedrock layout!`, "ok");
+    });
+
+    $("btnDownloadPng").addEventListener("click", () => {
+      const skin = state.skins.find(s => s.n === state.selectedN);
+      if (!skin?.pngBytes) return;
+      const a = document.createElement("a");
+      a.href = `data:image/png;base64,${bytesToBase64(skin.pngBytes)}`;
+      a.download = `skin${skin.n}.png`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    });
+
+    $("inspNameInput").addEventListener("input", () => {
+      const skin = state.skins.find(s => s.n === state.selectedN);
+      if (!skin) return;
+      skin.name = $("inspNameInput").value;
+      $("inspNamePreview").innerHTML = renderMcFormattedHtml(skin.name);
+      $("inspAutoKeysPreview").textContent = generateAutoKeys(skin.n, skin.name).join(", ");
+      renderHeaderBadges();
+      renderSkinGrid();
+    });
+
+    $("inspArmSelect").addEventListener("change", () => {
+      const skin = state.skins.find(s => s.n === state.selectedN);
+      if (!skin) return;
+      skin.arm = $("inspArmSelect").value;
+      renderHeaderBadges();
+      renderSkinGrid();
+      renderInspector();
+    });
+
+    $("inspRegCatalog").addEventListener("change", () => {
+      const skin = state.skins.find(s => s.n === state.selectedN);
+      if (!skin) return;
+      skin.registerSuggestions = $("inspRegCatalog").checked;
+      renderHeaderBadges();
+      renderSkinGrid();
+    });
+
+    $("inspKeywordsInput").addEventListener("input", () => {
+      const skin = state.skins.find(s => s.n === state.selectedN);
+      if (!skin) return;
+      skin.customKeywords = $("inspKeywordsInput").value.split(",").map(s => s.trim().toLowerCase()).filter(Boolean);
+      renderHeaderBadges();
+    });
+
+    $("btnRestoreSlot").addEventListener("click", async () => {
+      const skin = state.skins.find(s => s.n === state.selectedN);
+      if (!skin || skin.isAdded) return;
+      skin.name = skin.origName;
+      skin.arm = skin.origArm;
+      skin.registerSuggestions = skin.origRegisterSuggestions;
+      skin.customKeywords = [...skin.origCustomKeywords];
+      skin.pngBytes = skin.origPngBytes;
+      skin.textureDirty = false;
+      if (skin.origPngBytes) {
+        const loaded = await loadImageFromBytes(skin.origPngBytes);
+        skin.canvas = loaded.canvas;
+        skin.width = loaded.width;
+        skin.height = loaded.height;
+      }
+      renderAll();
+      toast(`Restored bb:skin${skin.n} to original`, "ok");
+    });
+
+    $("btnDeleteSlot").addEventListener("click", () => {
+      const last = state.skins[state.skins.length - 1];
+      if (!last || !last.isAdded || last.n !== state.selectedN) return;
+      state.skins.pop();
+      state.selectedN = state.skins[state.skins.length - 1]?.n || 1;
+      renderAll();
+      toast(`Deleted slot bb:skin${last.n}`, "ok");
+    });
+
+    // Inspector preview modes & 3D spin drag
+    document.querySelectorAll("[data-view]").forEach(b => {
+      b.addEventListener("click", () => {
+        document.querySelectorAll("[data-view]").forEach(x => x.classList.remove("btn-primary"));
+        b.classList.add("btn-primary");
+        state.previewMode = b.dataset.view;
+        const skin = state.skins.find(s => s.n === state.selectedN);
+        renderInspectorPreviewCanvas(skin);
+      });
+    });
+
+    let dragging3d = false, lastX = 0, lastY = 0;
+    const inspCanvas = $("inspCanvas");
+    inspCanvas.addEventListener("pointerdown", (e) => {
+      if (state.previewMode !== "3d") return;
+      dragging3d = true;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      inspCanvas.setPointerCapture(e.pointerId);
+    });
+    inspCanvas.addEventListener("pointermove", (e) => {
+      if (!dragging3d || state.previewMode !== "3d") return;
+      state.yaw += (e.clientX - lastX) * 0.015;
+      state.pitch = Math.max(-0.9, Math.min(0.9, state.pitch + (e.clientY - lastY) * 0.01));
+      lastX = e.clientX;
+      lastY = e.clientY;
+      const skin = state.skins.find(s => s.n === state.selectedN);
+      renderInspectorPreviewCanvas(skin);
+    });
+    inspCanvas.addEventListener("pointerup", () => { dragging3d = false; });
+
+    // Suggestions tab
+    $("simSearchInput").addEventListener("input", renderSuggestionsTab);
+
+    // Description tab
+    $("bpNameInput").addEventListener("input", renderManifestPreviews);
+    $("bpDescInput").addEventListener("input", renderManifestPreviews);
+    $("rpNameInput").addEventListener("input", renderManifestPreviews);
+    $("rpDescInput").addEventListener("input", renderManifestPreviews);
+    $("btnCopyBpToRp").addEventListener("click", () => {
+      $("rpDescInput").value = $("bpDescInput").value;
+      renderManifestPreviews();
+      toast("Copied Behavior Pack description to Resource Pack!", "ok");
+    });
+    $("btnCleanRpDup").addEventListener("click", () => {
+      const lines = $("rpDescInput").value.split("\n");
+      while (lines.length >= 2 && lines[lines.length - 1].trim() === lines[lines.length - 2].trim() && lines[lines.length - 1].trim() !== "") {
+        lines.pop();
+      }
+      $("rpDescInput").value = lines.join("\n").replace(/\n{3,}/g, "\n\n");
+      renderManifestPreviews();
+      toast("Cleaned duplicate trailing lines!", "ok");
+    });
+    $("btnBumpPatch").addEventListener("click", () => {
+      $("verPatch").value = String((parseInt($("verPatch").value, 10) || 0) + 1);
+      $("badgeVersion").textContent = `v${$("verMajor").value}.${$("verMinor").value}.${$("verPatch").value}`;
+      toast("Bumped version to v" + `${$("verMajor").value}.${$("verMinor").value}.${$("verPatch").value}`, "ok");
+    });
+    ["verMajor", "verMinor", "verPatch"].forEach(id => {
+      $(id).addEventListener("input", () => {
+        $("badgeVersion").textContent = `v${$("verMajor").value}.${$("verMinor").value}.${$("verPatch").value}`;
+      });
+    });
+
+    // Health & Export
+    $("btnReRunChecks").addEventListener("click", renderHealthAudit);
+    $("optFixMolang").addEventListener("change", renderHealthAudit);
+    $("optRegenUuids").addEventListener("change", renderHealthAudit);
+    $("exportFilenameInput").addEventListener("input", () => { $("exportFilenameInput").dataset.userEdited = "1"; });
+    $("btnExport").addEventListener("click", () => {
+      document.querySelector('[data-tab="healthTab"]').click();
+      buildAndExportMcaddon(false);
+    });
+    $("btnExportMain").addEventListener("click", () => buildAndExportMcaddon(false));
+  }
+
+  init();
+})();
+</script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5966e045b9d898b',t:'MTc5NDQ5NTg3Mg=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5966e045b9d898b',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
