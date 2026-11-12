@@ -3,36 +3,36 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>BlockBuster Studio — Offline Skin &amp; Addon Workbench</title>
+  <title>BlockBuster Studio — Skin &amp; Addon Builder</title>
 <style>
   :root,
   body[data-theme="mc-night"] {
-    --bg: #050814;
-    --bg-sky: linear-gradient(180deg, #040713 0%, #081128 45%, #0c1b3a 84%, #081224 100%);
-    --bg-elev: rgba(13, 19, 36, 0.90);
-    --bg-topbar: linear-gradient(135deg, rgba(18, 27, 50, 0.95), rgba(10, 15, 29, 0.96));
-    --bg-card: #121a30;
-    --bg-card-hover: #182342;
-    --bg-card-selected: #1b2544;
-    --bg-input: #080d1a;
-    --border: #253459;
-    --border-bright: #3c548a;
-    --bevel-top: rgba(168, 206, 255, 0.14);
-    --bevel-bot: rgba(2, 4, 12, 0.65);
-    --text: #eef4ff;
-    --text-dim: #a4b5d6;
-    --text-muted: #687b9e;
+    --bg: #040712;
+    --bg-sky: linear-gradient(180deg, #030611 0%, #071026 45%, #0c1b3b 84%, #071122 100%);
+    --bg-elev: rgba(11, 17, 34, 0.92);
+    --bg-topbar: linear-gradient(135deg, rgba(18, 28, 54, 0.96), rgba(9, 14, 28, 0.97));
+    --bg-card: #121b33;
+    --bg-card-hover: #192647;
+    --bg-card-selected: #1c294c;
+    --bg-input: #070c18;
+    --border: #2a3b66;
+    --border-bright: #4663a3;
+    --bevel-top: rgba(186, 218, 255, 0.16);
+    --bevel-bot: rgba(2, 4, 12, 0.72);
+    --text: #ffffff;
+    --text-dim: #c3d4f2;
+    --text-muted: #8da4cc;
     --gold: #ffbe3b;
-    --gold-glow: rgba(255, 190, 59, 0.28);
-    --gold-dim: rgba(255, 190, 59, 0.15);
+    --gold-glow: rgba(255, 190, 59, 0.30);
+    --gold-dim: rgba(255, 190, 59, 0.16);
     --teal: #3be8d0;
-    --teal-dim: rgba(59, 232, 208, 0.15);
+    --teal-dim: rgba(59, 232, 208, 0.16);
     --green: #56f073;
-    --green-dim: rgba(86, 240, 115, 0.14);
+    --green-dim: rgba(86, 240, 115, 0.15);
     --red: #ff6b6b;
-    --red-dim: rgba(255, 107, 107, 0.15);
+    --red-dim: rgba(255, 107, 107, 0.16);
     --purple: #c084fc;
-    --purple-dim: rgba(192, 132, 252, 0.16);
+    --purple-dim: rgba(192, 132, 252, 0.17);
     --stage-bg:
       radial-gradient(2px 2px at 16% 18%, rgba(255,255,255,0.65) 50%, transparent 51%),
       radial-gradient(2px 2px at 82% 24%, rgba(186,230,253,0.7) 50%, transparent 51%),
@@ -399,15 +399,35 @@
     border-color: var(--border-bright);
     transform: translateY(-2px);
   }
+  .feature-card:nth-child(1) { border-left: 4px solid var(--gold); }
+  .feature-card:nth-child(2) { border-left: 4px solid var(--teal); }
+  .feature-card:nth-child(3) { border-left: 4px solid var(--purple); }
+  .feature-card:nth-child(4) { border-left: 4px solid var(--green); }
   .feature-card strong {
     display: block;
-    color: var(--gold);
+    color: #ffffff;
     margin-bottom: 5px;
-    font-size: 13.5px;
+    font-size: 14px;
+    letter-spacing: 0.2px;
   }
   .feature-card span {
     font-size: 12.5px;
     color: var(--text-dim);
+  }
+
+  /* High-Contrast Keyword Accents */
+  .kw-white { color: #ffffff; font-weight: 700; }
+  .kw-gold { color: var(--gold); font-weight: 800; }
+  .kw-teal { color: var(--teal); font-weight: 800; }
+  .kw-green { color: var(--green); font-weight: 800; }
+  .kw-purple { color: var(--purple); font-weight: 800; }
+
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 12px auto 22px;
   }
 
   /* Loaded Info Bar */
@@ -980,18 +1000,21 @@
       </div>
       <div>
         <h1>
-          BlockBuster Studio — Offline Skin &amp; Addon Workbench
+          BlockBuster Studio &mdash; Skin &amp; Addon Builder
           <span class="pill pill-gold" id="themeBadgePill">Minecraft Night</span>
-          <span class="pill pill-teal">100% Offline HTML</span>
+          <span class="pill pill-teal">Bedrock .mcaddon</span>
         </h1>
         <div class="brand-sub">
-          Upload <code>.mcaddon</code> &bull; Add/Replace Custom Skins &bull; Expand <code>bb:skin</code> Entities &bull; Register in Suggestions &bull; Edit Descriptions
+          <span class="kw-gold">Skins</span> &bull;
+          <span class="kw-teal">Entities</span> &bull;
+          <span class="kw-purple">Suggestions</span> &bull;
+          <span class="kw-green">Manifest</span>
         </div>
       </div>
     </div>
     <div class="topbar-actions">
-      <button class="btn btn-sm" id="btnCycleTheme" title="Switch visual theme (Minecraft Night / End Dimension / Classic Slate)">Theme: MC Night</button>
-      <button class="btn btn-sm" id="btnLoadNew" title="Upload a different .mcaddon file">Upload .mcaddon</button>
+      <button class="btn btn-sm" id="btnCycleTheme" title="Switch Theme">Theme: MC Night</button>
+      <button class="btn btn-sm" id="btnLoadNew">Upload .mcaddon</button>
       <button class="btn btn-sm hidden" id="btnRunAudit">Pack Health</button>
       <button class="btn btn-primary hidden" id="btnExport">Export .mcaddon</button>
     </div>
@@ -1015,41 +1038,36 @@
           <rect x="6" y="9" width="4" height="2" fill="#e0f2fe" />
         </svg>
       </div>
-      <h2>Drop your BlockBuster Studio <code>.mcaddon</code> here</h2>
-      <p>
-        Everything runs locally in your browser with zero internet required. Upload your
-        <code>BlockBuster_Studio_*.mcaddon</code> to inspect existing skins, replace or expand
-        <code>bb:skin</code> entities, register every skin in <code>MOB_CATALOG</code> &amp;
-        <code>MOB_ALIASES</code> suggestions, and customize your pack descriptions.
-      </p>
-      <button class="btn btn-primary" type="button" id="btnPickAddon">Choose .mcaddon File</button>
-      <div style="margin-top:12px;font-size:12px;color:var(--text-muted);">
-        Supports nested <code>.mcpack</code> bundles (like v4.5.5 Director's Cut) and folder-structured <code>.mcaddon</code> archives.
+      <h2>Drop <span class="kw-gold"><code>.mcaddon</code></span> Pack</h2>
+      <div class="hero-tags">
+        <span class="pill pill-gold">Custom Skins</span>
+        <span class="pill pill-teal">Expand bb:skin</span>
+        <span class="pill pill-purple">Suggest Mob + Aliases</span>
+        <span class="pill pill-green">BP / RP Manifest</span>
+      </div>
+      <button class="btn btn-primary" type="button" id="btnPickAddon">Select .mcaddon</button>
+      <div style="margin-top:14px;font-size:12px;color:var(--text-dim);">
+        <span class="kw-white">.mcpack Bundles</span> &bull; <span class="kw-white">Folder Packs</span>
       </div>
     </div>
 
     <div class="feature-grid">
       <div class="feature-card">
-        <strong>1. Add &amp; Replace Custom Skins</strong>
-        <span>Drop one or dozens of 64&times;64 / 128&times;128 PNG skins (plus auto-upgrade for legacy 64&times;32 skins) with live 3D spin &amp; 2D preview.</span>
+        <strong style="color:var(--gold);">1. Custom Skins</strong>
+        <span><span class="kw-white">64&times;64 &bull; 128&times;128 &bull; 64&times;32</span> &bull; 3D Spin &bull; Slim &amp; Classic</span>
       </div>
       <div class="feature-card">
-        <strong>2. Expand Skin Entities (<code>bb:skin41+</code>)</strong>
-        <span>Automatically generates BP entity JSON, RP client entity JSON (with full Molang vars), Classic/Slim geometry, and <code>en_US.lang</code> entries.</span>
+        <strong style="color:var(--teal);">2. Expand Entities</strong>
+        <span><span class="kw-white">bb:skin41+</span> &bull; BP + RP JSON &bull; Molang &bull; Slim Geo</span>
       </div>
       <div class="feature-card">
-        <strong>3. Auto-Register in Suggestions</strong>
-        <span>Patches <code>SKINS</code>, <code>MOB_CATALOG</code> (Suggest Mob), and <code>MOB_ALIASES</code> (Quick Morph &amp; Playback) in <code>StudioUI.js</code>.</span>
+        <strong style="color:var(--purple);">3. Auto Suggestions</strong>
+        <span><span class="kw-white">SKINS</span> &bull; <code>MOB_CATALOG</code> &bull; <code>MOB_ALIASES</code></span>
       </div>
       <div class="feature-card">
-        <strong>4. Edit Pack Descriptions &amp; Export</strong>
-        <span>Customize BP &amp; RP manifest descriptions with live Minecraft <code>&sect;</code> color preview and export a ready-to-import <code>.mcaddon</code>.</span>
+        <strong style="color:var(--green);">4. Pack Manifest</strong>
+        <span><span class="kw-white">&sect; Colors</span> &bull; Version &bull; UUID &bull; Export</span>
       </div>
-    </div>
-
-    <div class="panel" style="max-width:960px;margin:16px auto 0;font-size:12.5px;color:var(--text-dim);">
-      <strong style="color:var(--green);">Offline Mode Ready:</strong>
-      This single <code>.html</code> file contains zero external links, CDNs, fonts, or network calls, and uses pure-JavaScript ZIP/PNG/JS-parser engines with zero <code>eval()</code> or browser popups. Download this HTML file to your PC or phone and open it locally (<code>file://</code>) in Chrome, Edge, Firefox, Safari, or an offline HTML viewer anytime with Wi-Fi / mobile data turned off.
     </div>
   </section>
 
@@ -1064,7 +1082,8 @@
         <span class="pill hidden" id="badgeChanges">0 edits</span>
       </div>
       <div style="font-size:12px;color:var(--text-dim);">
-        Original skin range detected: <code id="lblOrigCount">1..40</code> &bull; Active range: <code id="lblActiveCount">1..40</code>
+        <span class="kw-white">Original:</span> <code id="lblOrigCount">1..40</code> &bull;
+        <span class="kw-gold">Active:</span> <code id="lblActiveCount">1..40</code>
       </div>
     </div>
 
@@ -1082,37 +1101,41 @@
         <!-- LEFT: SKIN GRID & EXPANSION TOOLS -->
         <div class="panel">
           <div class="panel-header">
-            <h2 class="panel-title">Skin Entity Roster (<code>bb:skin1</code> .. <code>bb:skin<span id="hdrMaxN">40</span></code>)</h2>
+            <h2 class="panel-title">Skin Roster (<code class="kw-gold">bb:skin1</code> .. <code class="kw-gold">bb:skin<span id="hdrMaxN">40</span></code>)</h2>
             <div style="display:flex;gap:6px;flex-wrap:wrap;">
-              <button class="btn btn-sm btn-teal" id="btnAddOneSlot">+1 New Skin Slot</button>
-              <button class="btn btn-sm" id="btnExpandFive">+5 Blank Slots</button>
-              <button class="btn btn-sm" id="btnExpandCustom">Expand +N...</button>
-              <button class="btn btn-sm btn-danger hidden" id="btnTrimTail" title="Remove trailing slots above original count">Trim Added Tail</button>
+              <button class="btn btn-sm btn-teal" id="btnAddOneSlot">+1 Slot</button>
+              <button class="btn btn-sm" id="btnExpandFive">+5 Slots</button>
+              <button class="btn btn-sm" id="btnExpandCustom">+N Slots...</button>
+              <button class="btn btn-sm btn-danger hidden" id="btnTrimTail" title="Remove added slots">Trim Tail</button>
             </div>
           </div>
 
-          <div id="customExpandBar" class="hidden" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;margin-bottom:12px;background:var(--bg-card);border:1px solid var(--gold);border-radius:var(--radius-sm);">
-            <span style="font-size:12.5px;font-weight:700;color:var(--gold);">Expand blank slots (1–200):</span>
+          <div id="customExpandBar" class="hidden" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;margin-bottom:12px;background:var(--bg-card);border:2px solid var(--gold);border-radius:var(--radius-sm);">
+            <span style="font-size:12.5px;font-weight:800;color:var(--gold);">New Slots (1&ndash;200):</span>
             <input type="number" class="input" id="customExpandCount" min="1" max="200" value="10" style="width:95px;padding:6px 9px;" />
-            <button class="btn btn-sm btn-primary" type="button" id="btnApplyCustomExpand">Add Slots</button>
+            <button class="btn btn-sm btn-primary" type="button" id="btnApplyCustomExpand">Add</button>
             <button class="btn btn-sm" type="button" id="btnCancelCustomExpand">Cancel</button>
           </div>
 
           <div class="batch-drop" id="batchDropZone">
             <div>
-              <strong style="color:var(--teal);font-size:13px;">Batch Add Custom Skins: Drop multiple PNG files here</strong>
-              <div style="font-size:12px;color:var(--text-dim);">Automatically creates new <code>bb:skinN</code> entities, detects Classic vs Slim arms, cleans filenames into names, and registers suggestions.</div>
+              <strong style="color:var(--teal);font-size:13.5px;">Drop Skin PNGs</strong>
+              <div style="font-size:12px;color:var(--text-dim);">
+                <span class="kw-white">Auto Slot</span> &bull;
+                <span class="kw-gold">Auto Slim</span> &bull;
+                <span class="kw-purple">Auto Suggest</span>
+              </div>
             </div>
-            <button class="btn btn-sm btn-teal" type="button" id="btnBatchPick">Choose PNGs</button>
+            <button class="btn btn-sm btn-teal" type="button" id="btnBatchPick">Add PNGs</button>
           </div>
 
           <div class="toolbar">
-            <input type="text" class="input search-input" id="skinSearchInput" placeholder="Filter by skin name, bb:skinN, or suggestion keyword..." />
+            <input type="text" class="input search-input" id="skinSearchInput" placeholder="Search skin, bb:skinN, keyword..." />
             <select class="select" id="skinFilterSelect" style="width:auto;min-width:155px;">
               <option value="all">All Skins</option>
-              <option value="edited">Modified / Added Only</option>
-              <option value="added">Newly Expanded Only</option>
-              <option value="slim">Slim Arm (3px) Only</option>
+              <option value="edited">Edited / New</option>
+              <option value="added">Expanded Only</option>
+              <option value="slim">Slim (3px)</option>
             </select>
           </div>
 
@@ -1124,69 +1147,69 @@
           <div class="panel-header">
             <div>
               <h2 class="panel-title">Slot <code id="inspId">bb:skin1</code></h2>
-              <div style="font-size:11.5px;color:var(--text-dim);" id="inspStatusText">Existing slot</div>
+              <div style="font-size:11.5px;color:var(--text-dim);" id="inspStatusText">Original Slot</div>
             </div>
             <div style="display:flex;gap:6px;">
-              <button class="btn btn-xs hidden" id="btnRestoreSlot">Restore Original</button>
-              <button class="btn btn-xs btn-danger hidden" id="btnDeleteSlot">Delete Slot</button>
+              <button class="btn btn-xs hidden" id="btnRestoreSlot">Restore</button>
+              <button class="btn btn-xs btn-danger hidden" id="btnDeleteSlot">Delete</button>
             </div>
           </div>
 
           <div class="preview-stage">
             <canvas id="inspCanvas" width="220" height="220"></canvas>
-            <div style="font-size:11px;color:var(--text-muted);margin-top:4px;" id="inspCanvasHint">Drag horizontally on 3D view to spin</div>
+            <div style="font-size:11px;color:var(--text-dim);margin-top:4px;" id="inspCanvasHint">Drag to Spin</div>
             <div class="preview-modes">
-              <button class="btn btn-xs btn-primary" data-view="3d">3D Spin</button>
+              <button class="btn btn-xs btn-primary" data-view="3d">3D</button>
               <button class="btn btn-xs" data-view="front">Front</button>
               <button class="btn btn-xs" data-view="back">Back</button>
-              <button class="btn btn-xs" data-view="uv">Raw UV Sheet</button>
+              <button class="btn btn-xs" data-view="uv">UV Map</button>
             </div>
           </div>
 
           <div class="field-group">
             <div class="field-label">
-              <span>Skin Texture PNG</span>
+              <span>Skin PNG</span>
               <span id="inspDimBadge" class="pill">64&times;64</span>
             </div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <button class="btn btn-sm btn-teal" id="btnReplacePng">Upload / Replace Skin PNG</button>
-              <button class="btn btn-sm hidden" id="btnConvert64">Upgrade 64&times;32 &rarr; 64&times;64</button>
-              <button class="btn btn-sm" id="btnDownloadPng">Download PNG</button>
+              <button class="btn btn-sm btn-teal" id="btnReplacePng">Replace PNG</button>
+              <button class="btn btn-sm hidden" id="btnConvert64">64&times;32 &rarr; 64&times;64</button>
+              <button class="btn btn-sm" id="btnDownloadPng">Save PNG</button>
             </div>
-            <div class="field-hint">Supports 64&times;64, 128&times;128 HD, and legacy 64&times;32 skins (auto-convertible).</div>
+            <div class="field-hint"><span class="kw-white">64&times;64</span> &bull; <span class="kw-teal">128&times;128 HD</span> &bull; <span class="kw-gold">64&times;32 Legacy</span></div>
           </div>
 
           <div class="field-group">
             <div class="field-label">
-              <span>Display Name (Menu &amp; Entity Name)</span>
+              <span>Display Name</span>
               <span class="mc-preview-box" id="inspNamePreview" style="padding:2px 8px;min-height:auto;font-size:12px;">Skin 1</span>
             </div>
             <div class="mc-palette" id="inspColorBar"></div>
             <input type="text" class="input" id="inspNameInput" placeholder="e.g. §bCyber Knight" />
-            <div class="field-hint">Updates <code>SKINS</code>, <code>MOB_CATALOG</code>, and <code>en_US.lang</code>. Supports Minecraft <code>&sect;</code> color codes.</div>
+            <div class="field-hint"><span class="kw-gold">&sect; Colors</span> &bull; <code>SKINS</code> &bull; <code>MOB_CATALOG</code> &bull; <code>en_US.lang</code></div>
           </div>
 
           <div class="field-group">
             <div class="field-label">
-              <span>Arm Model Geometry</span>
+              <span>Arm Geometry</span>
               <span id="inspArmAutoHint" style="font-size:11px;color:var(--teal);"></span>
             </div>
             <select class="select" id="inspArmSelect">
-              <option value="classic">Classic (4px Steve arms — geometry.humanoid.custom)</option>
-              <option value="slim">Slim (3px Alex arms — geometry.humanoid.customSlim)</option>
+              <option value="classic">Classic (4px) &mdash; humanoid.custom</option>
+              <option value="slim">Slim (3px) &mdash; humanoid.customSlim</option>
             </select>
           </div>
 
           <div class="field-group">
             <div class="field-label">
-              <span>Suggestion Registration (<code>StudioUI.js</code>)</span>
+              <span>Suggestions (<code>StudioUI.js</code>)</span>
             </div>
             <label class="checkbox-row" style="margin-bottom:8px;">
               <input type="checkbox" id="inspRegCatalog" checked />
-              <span>Register in <strong>Suggest Mob</strong> (<code>MOB_CATALOG</code>) &amp; <strong>Quick Morph / Playback</strong> (<code>MOB_ALIASES</code>)</span>
+              <span><strong class="kw-gold">Suggest Mob</strong> (<code>MOB_CATALOG</code>) + <strong class="kw-teal">Aliases</strong> (<code>MOB_ALIASES</code>)</span>
             </label>
-            <input type="text" class="input" id="inspKeywordsInput" placeholder="Extra search keywords, comma-separated (e.g. ninja, hero, stealth)" />
-            <div class="field-hint">Auto-generated keys always added: <code id="inspAutoKeysPreview">skin1, skin 1, bbskin1</code></div>
+            <input type="text" class="input" id="inspKeywordsInput" placeholder="Keywords: ninja, hero, stealth" />
+            <div class="field-hint"><span class="kw-teal">Auto Keys:</span> <code id="inspAutoKeysPreview">skin1, skin 1, bbskin1</code></div>
           </div>
         </aside>
       </div>
@@ -1197,29 +1220,30 @@
       <div class="two-col">
         <div class="panel">
           <div class="panel-header">
-            <h2 class="panel-title">In-Game Suggestion Simulator (<code>_mobSuggestionPicker</code>)</h2>
-            <span class="pill pill-teal">Live Preview</span>
+            <h2 class="panel-title">Suggestion Tester (<code>_mobSuggestionPicker</code>)</h2>
+            <span class="pill pill-teal">Live Match</span>
           </div>
-          <p style="font-size:13px;color:var(--text-dim);margin-top:0;">
-            Test exactly what players will see when they open <strong>Choose a Mob &rarr; Type / Suggest Mob...</strong>
-            or type a name in <strong>Quick Morph</strong> / <strong>Playback Actor Select</strong> inside Minecraft Bedrock.
-          </p>
+          <div style="font-size:12.5px;color:var(--text-dim);margin-bottom:10px;">
+            <strong class="kw-gold">Suggest Mob</strong> &bull;
+            <strong class="kw-teal">Quick Morph</strong> &bull;
+            <strong class="kw-purple">Playback</strong>
+          </div>
           <div class="field-group">
-            <input type="text" class="input" id="simSearchInput" placeholder="Type any partial skin name or alias (e.g. smiler, skin41, nova)..." />
+            <input type="text" class="input" id="simSearchInput" placeholder="Search name or alias (e.g. smiler, skin41, nova)..." />
           </div>
           <div class="panel" style="background:var(--bg-card);margin-bottom:14px;">
             <div style="font-size:12px;color:var(--text-dim);margin-bottom:6px;">
-              <code>resolveEntityId(input)</code> (Quick Morph / Playback): <strong id="simAliasResult" style="color:var(--teal);">-</strong>
+              <code>resolveEntityId()</code> <span class="kw-white">(Morph / Playback):</span> <strong id="simAliasResult" style="color:var(--teal);">-</strong>
             </div>
             <div style="font-size:12px;color:var(--text-dim);">
-              <code>filterMobCatalog(input)</code> matches (Bedrock caps display at 25 per query): <strong id="simCountResult" style="color:var(--gold);">0</strong>
+              <code>filterMobCatalog()</code> <span class="kw-white">(Max 25):</span> <strong id="simCountResult" style="color:var(--gold);">0</strong>
             </div>
           </div>
           <div class="table-wrap" style="max-height:360px;overflow-y:auto;">
             <table>
               <thead>
                 <tr>
-                  <th>Display Label</th>
+                  <th>Label</th>
                   <th>Entity ID</th>
                   <th>Search Keys</th>
                 </tr>
@@ -1231,33 +1255,33 @@
 
         <div class="panel">
           <div class="panel-header">
-            <h2 class="panel-title">Script Suggestion &amp; Text Sync Options</h2>
+            <h2 class="panel-title">Script Sync &amp; Fixes</h2>
           </div>
           <div class="check-list" style="margin-bottom:16px;">
             <label class="checkbox-row">
               <input type="checkbox" id="optSyncStudioHints" checked />
               <span>
-                <strong>Sync <code>StudioUI.js</code> skin range labels</strong><br />
-                <span style="color:var(--text-dim);font-size:12px;">Updates hardcoded <code>"bb:skin1...20 + classic"</code> button hints to match the actual total skin count.</span>
+                <strong class="kw-white">Sync <code>StudioUI.js</code> Hints</strong><br />
+                <span style="color:var(--teal);font-size:12px;"><code>bb:skin1...20</code> &rarr; <code>bb:skin1...N</code></span>
               </span>
             </label>
             <label class="checkbox-row">
               <input type="checkbox" id="optSyncHelpText" checked />
               <span>
-                <strong>Sync <code>CommandHandler.js</code> &amp; <code>AIAssistant.js</code> skin range text</strong><br />
-                <span style="color:var(--text-dim);font-size:12px;">Updates <code>/bb tutorial skins</code> and Vegapunk <code>/bb ai skins</code> messages from <code>bb:skin1-bb:skin20</code> to <code>bb:skin1-bb:skinN</code>.</span>
+                <strong class="kw-white">Sync <code>CommandHandler</code> &amp; <code>AIAssistant</code></strong><br />
+                <span style="color:var(--gold);font-size:12px;"><code>/bb tutorial skins</code> &bull; <code>/bb ai skins</code></span>
               </span>
             </label>
             <label class="checkbox-row">
               <input type="checkbox" id="optFixMolang" checked />
               <span>
-                <strong>Fix missing Molang initializers on <code>bb:skin21..40</code></strong><br />
-                <span style="color:var(--text-dim);font-size:12px;">Adds missing <code>variable.item_use_normalized</code>, <code>is_paperdoll</code>, <code>map_face_icon</code>, <code>is_first_person</code>, and <code>player_x_rotation</code> matching <code>bb_skin1.json</code> (also applied to all new slots).</span>
+                <strong class="kw-white">Fix Molang (<code>bb:skin21..40</code>)</strong><br />
+                <span style="color:var(--purple);font-size:12px;"><code>item_use_normalized</code> &bull; <code>is_paperdoll</code> &bull; <code>player_x_rotation</code></span>
               </span>
             </label>
           </div>
 
-          <h3 style="font-size:14px;margin:0 0 8px;">Registered Skin Entries Overview</h3>
+          <h3 style="font-size:14px;margin:0 0 8px;">Registered Skins</h3>
           <div class="table-wrap" style="max-height:320px;overflow-y:auto;">
             <table>
               <thead>
@@ -1279,16 +1303,16 @@
     <section class="tab-panel" id="descriptionTab">
       <div class="panel" style="margin-bottom:16px;">
         <div class="panel-header">
-          <h2 class="panel-title">Shared Pack Controls &amp; Formatting Tools</h2>
+          <h2 class="panel-title">Pack Controls</h2>
           <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button class="btn btn-sm btn-teal" id="btnCopyBpToRp">Copy BP Desc &rarr; RP</button>
-            <button class="btn btn-sm" id="btnCleanRpDup">Remove Duplicate Lines in RP Desc</button>
-            <button class="btn btn-sm" id="btnBumpPatch">Bump Patch Version (+0.0.1)</button>
+            <button class="btn btn-sm btn-teal" id="btnCopyBpToRp">Copy BP &rarr; RP</button>
+            <button class="btn btn-sm" id="btnCleanRpDup">Clean RP Duplicates</button>
+            <button class="btn btn-sm" id="btnBumpPatch">+0.0.1 Patch</button>
           </div>
         </div>
         <div class="two-col" style="align-items:end;">
           <div class="field-group" style="margin-bottom:0;">
-            <div class="field-label"><span>Pack Version (<code>[major, minor, patch]</code> — synced across BP, RP &amp; dependencies)</span></div>
+            <div class="field-label"><span>Version (<code>[major, minor, patch]</code> &mdash; BP + RP)</span></div>
             <div style="display:flex;gap:8px;">
               <input type="number" class="input" id="verMajor" min="0" value="4" />
               <input type="number" class="input" id="verMinor" min="0" value="5" />
@@ -1299,8 +1323,8 @@
             <label class="checkbox-row">
               <input type="checkbox" id="optRegenUuids" />
               <span>
-                <strong>Regenerate BP &amp; RP UUIDs on export</strong><br />
-                <span style="color:var(--text-dim);font-size:11.5px;">Leave OFF to update existing BlockBuster worlds seamlessly; turn ON to install as a separate variant pack.</span>
+                <strong class="kw-white">Regenerate UUIDs</strong><br />
+                <span style="font-size:11.5px;"><strong class="kw-gold">OFF:</strong> Update World &bull; <strong class="kw-teal">ON:</strong> New Variant Pack</span>
               </span>
             </label>
           </div>
@@ -1315,15 +1339,15 @@
             <span class="pill pill-green" id="bpUuidBadge">UUID</span>
           </div>
           <div class="field-group">
-            <div class="field-label"><span>Behavior Pack Name</span></div>
+            <div class="field-label"><span>BP Name</span></div>
             <input type="text" class="input" id="bpNameInput" />
             <div class="mc-preview-box" id="bpNamePreview" style="margin-top:6px;"></div>
           </div>
           <div class="field-group" style="margin-bottom:0;">
-            <div class="field-label"><span>Behavior Pack Description</span></div>
+            <div class="field-label"><span>BP Description</span></div>
             <div class="mc-palette" id="bpDescPalette"></div>
             <textarea class="textarea" id="bpDescInput" rows="8"></textarea>
-            <div class="field-label" style="margin-top:8px;"><span>Live Minecraft In-Game Preview</span></div>
+            <div class="field-label" style="margin-top:8px;"><span>In-Game Preview</span></div>
             <div class="mc-preview-box" id="bpDescPreview"></div>
           </div>
         </div>
@@ -1335,15 +1359,15 @@
             <span class="pill pill-teal" id="rpUuidBadge">UUID</span>
           </div>
           <div class="field-group">
-            <div class="field-label"><span>Resource Pack Name</span></div>
+            <div class="field-label"><span>RP Name</span></div>
             <input type="text" class="input" id="rpNameInput" />
             <div class="mc-preview-box" id="rpNamePreview" style="margin-top:6px;"></div>
           </div>
           <div class="field-group" style="margin-bottom:0;">
-            <div class="field-label"><span>Resource Pack Description</span></div>
+            <div class="field-label"><span>RP Description</span></div>
             <div class="mc-palette" id="rpDescPalette"></div>
             <textarea class="textarea" id="rpDescInput" rows="8"></textarea>
-            <div class="field-label" style="margin-top:8px;"><span>Live Minecraft In-Game Preview</span></div>
+            <div class="field-label" style="margin-top:8px;"><span>In-Game Preview</span></div>
             <div class="mc-preview-box" id="rpDescPreview"></div>
           </div>
         </div>
@@ -1355,22 +1379,22 @@
       <div class="two-col">
         <div class="panel">
           <div class="panel-header">
-            <h2 class="panel-title">Pre-Export Integrity &amp; Compatibility Audit</h2>
-            <button class="btn btn-sm" id="btnReRunChecks">Re-check Now</button>
+            <h2 class="panel-title">Pack Audit</h2>
+            <button class="btn btn-sm" id="btnReRunChecks">Re-check</button>
           </div>
           <div class="check-list" id="healthCheckList"></div>
         </div>
 
         <div class="panel">
           <div class="panel-header">
-            <h2 class="panel-title">Export Summary &amp; Download</h2>
+            <h2 class="panel-title">Export</h2>
           </div>
           <div class="field-group">
-            <div class="field-label"><span>Export Filename</span></div>
+            <div class="field-label"><span>Filename</span></div>
             <input type="text" class="input" id="exportFilenameInput" value="BlockBuster_Studio_Custom.mcaddon" />
           </div>
           <div class="panel" style="background:var(--bg-card);margin-bottom:14px;">
-            <div style="font-size:13px;font-weight:700;margin-bottom:8px;">Changes to be packaged:</div>
+            <div style="font-size:13px;font-weight:800;margin-bottom:8px;color:var(--gold);">Changes Summary</div>
             <ul id="exportSummaryList" style="margin:0;padding-left:18px;font-size:12.5px;color:var(--text-dim);line-height:1.7;"></ul>
           </div>
           <button class="btn btn-emerald" style="width:100%;padding:12px;font-size:15px;" id="btnExportMain">
@@ -1397,7 +1421,7 @@
   "use strict";
 
   // =========================================================================
-  // 1. PURE-JS ZIP + INFLATE ENGINE (100% OFFLINE, ZERO EXTERNAL DEPS)
+  // 1. PURE-JS ZIP + INFLATE ENGINE (ZERO EXTERNAL DEPS)
   //    - Supports reading Stored (0) & Deflate (8) with Data Descriptors & UTF-8
   //    - Uses native DecompressionStream/CompressionStream('deflate-raw') when
   //      available, with pure-JS RFC 1951 Inflate fallback for older browsers.
@@ -3309,29 +3333,29 @@
 
     checks.push({
       level: "ok",
-      title: `Skin Entities & StudioUI Sync (${total} slots: bb:skin1 .. bb:skin${total})`,
-      desc: "BP entities, RP client entities, en_US.lang, SKINS, MOB_CATALOG, and MOB_ALIASES will all be synced cleanly."
+      title: `Entities + StudioUI Sync (${total} slots)`,
+      desc: `bb:skin1..${total} • BP + RP JSON • en_US.lang • SKINS • MOB_CATALOG • MOB_ALIASES`
     });
 
     if (missingTex.length) {
       checks.push({
         level: "err",
-        title: `Missing Skin Textures (${missingTex.length})`,
-        desc: `Slots missing PNG: ${missingTex.map(s => "bb:skin" + s.n).join(", ")}`
+        title: `Missing Textures (${missingTex.length})`,
+        desc: `Missing PNG: ${missingTex.map(s => "bb:skin" + s.n).join(", ")}`
       });
     } else {
       checks.push({
         level: "ok",
-        title: "All Skin PNG Textures Present",
-        desc: `Every slot from skin1.png to skin${total}.png has a valid PNG texture.`
+        title: `Textures Ready (skin1..${total}.png)`,
+        desc: `${total} / ${total} PNG textures present`
       });
     }
 
     if (badDims.length) {
       checks.push({
         level: "warn",
-        title: `Legacy 64\u00d732 Skin Layout Detected (${badDims.length})`,
-        desc: `Slots ${badDims.map(s => "bb:skin" + s.n).join(", ")} are 64\u00d732. Click "Upgrade 64\u00d732 -> 64\u00d764" in the inspector so legs/arms render cleanly.`
+        title: `Legacy 64\u00d732 Skins (${badDims.length})`,
+        desc: `${badDims.map(s => "bb:skin" + s.n).join(", ")} — click "64\u00d732 \u2192 64\u00d764"`
       });
     }
 
@@ -3339,34 +3363,34 @@
       const fixing = $("optFixMolang").checked;
       checks.push({
         level: fixing ? "ok" : "warn",
-        title: `Molang Variable Alignment (${state.molangGapsCount} skins in slots 21-40 missing item_use_normalized)`,
+        title: `Molang Init (${state.molangGapsCount} slots in 21\u201340)`,
         desc: fixing
-          ? "Auto-fix is ENABLED — all skin client entities will receive full Molang initialization matching bb_skin1.json."
-          : "Auto-fix is OFF — Bedrock may log uninitialized Molang variable warnings when those skins hold bows."
+          ? "Fix ENABLED — all client entities synced to bb_skin1.json"
+          : "Fix OFF — missing item_use_normalized, is_paperdoll, player_x_rotation"
       });
     }
 
     if (hasDupLine) {
       checks.push({
         level: "warn",
-        title: "Duplicate trailing line in RP Description",
-        desc: "Your RP manifest description ends with a repeated line. Use 'Remove Duplicate Lines in RP Desc' on the Description tab to clean it."
+        title: "Duplicate Line in RP Description",
+        desc: "Use 'Clean RP Duplicates' on Manifest tab"
       });
     }
 
     checks.push({
       level: "ok",
-      title: `Geometry Setup (${total - slimCount} Classic, ${slimCount} Slim)`,
+      title: `Geometry (${total - slimCount} Classic / ${slimCount} Slim)`,
       desc: slimCount > 0
-        ? "humanoid.customSlim.geo.json will be auto-generated from humanoid.custom.geo.json and bundled in RP/models/entity/."
-        : "All skins use standard geometry.humanoid.custom."
+        ? "humanoid.custom + auto-generated humanoid.customSlim.geo.json"
+        : "geometry.humanoid.custom"
     });
 
     if (unreg.length) {
       checks.push({
         level: "warn",
-        title: `${unreg.length} Skin(s) Not Registered in Suggestions`,
-        desc: "Some slots have 'Register in Suggest Mob' unchecked."
+        title: `${unreg.length} Unregistered Skin(s)`,
+        desc: "Check 'Suggest Mob + Aliases' on selected slots"
       });
     }
 
@@ -3388,11 +3412,11 @@
     const editedExisting = state.skins.filter(s => !s.isAdded && isSlotModified(s)).length;
     const addedCount = state.skins.filter(s => s.isAdded).length;
     sum.innerHTML = `
-      <li>Pack format: <strong>${state.layout === "mcpack" ? "Nested .mcpack inside .mcaddon" : "Folder-based .mcaddon"}</strong></li>
-      <li>Total skin entities: <strong>${total}</strong> (${state.origSkinCount} original, ${editedExisting} edited, ${addedCount} newly expanded)</li>
-      <li>Suggestions registered: <strong>${state.skins.filter(s => s.registerSuggestions).length}</strong> skins in <code>MOB_CATALOG</code> &amp; <code>MOB_ALIASES</code></li>
-      <li>Version: <strong>v${$("verMajor").value}.${$("verMinor").value}.${$("verPatch").value}</strong></li>
-      <li>UUID mode: <strong>${$("optRegenUuids").checked ? "Fresh UUIDs generated" : "Original UUIDs preserved"}</strong></li>
+      <li><span class="kw-white">Format:</span> <strong>${state.layout === "mcpack" ? ".mcpack Bundle" : "Folder .mcaddon"}</strong></li>
+      <li><span class="kw-gold">Skins:</span> <strong>${total}</strong> (${state.origSkinCount} base &bull; ${editedExisting} edited &bull; ${addedCount} new)</li>
+      <li><span class="kw-teal">Suggestions:</span> <strong>${state.skins.filter(s => s.registerSuggestions).length}</strong> registered</li>
+      <li><span class="kw-purple">Version:</span> <strong>v${$("verMajor").value}.${$("verMinor").value}.${$("verPatch").value}</strong></li>
+      <li><span class="kw-green">UUIDs:</span> <strong>${$("optRegenUuids").checked ? "Regenerated" : "Preserved"}</strong></li>
     `;
   }
 
@@ -3438,7 +3462,7 @@
     skinLines.push("];");
     const newSkinsCode = skinLines.join("\n");
 
-    // Validate generated JS blocks cleanly without eval/new Function (CSP-safe & offline-safe)
+    // Validate generated JS blocks cleanly without eval/new Function (CSP-safe)
     parseAliasesLiteral(newAliasesCode.replace(/^const\s+MOB_ALIASES\s*=\s*/, "").replace(/;$/, ""));
     parseCatalogLiteral(newCatalogCode.replace(/^const\s+MOB_CATALOG\s*=\s*/, "").replace(/;$/, ""));
     parseSkinsLiteral(newSkinsCode.replace(/^const\s+SKINS\s*=\s*/, "").replace(/;$/, ""));
@@ -3676,7 +3700,7 @@
         directLink.href = dlUrl;
         directLink.download = outName;
         directLink.textContent = `Save ${outName}`;
-        readyMeta.textContent = `${(finalBytes.length / 1048576).toFixed(2)} MB • ${maxN} skins (tap here if automatic download was blocked)`;
+        readyMeta.textContent = `${(finalBytes.length / 1048576).toFixed(2)} MB • ${maxN} skins`;
         readyBox.classList.remove("hidden");
       }
 
@@ -4068,5 +4092,5 @@
   init();
 })();
 </script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5966e045b9d898b',t:'MTc5NDQ5NTg3Mg=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5966e045b9d898b',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a596b2f2d8e32b0d',t:'MTc5NDQ5ODY5Ng=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a596b2f2d8e32b0d',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
