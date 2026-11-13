@@ -1,0 +1,10 @@
+# Local pack attachments / Google Drive downloads
+google_drive/
+*.mcaddon
+*.mcpack
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
