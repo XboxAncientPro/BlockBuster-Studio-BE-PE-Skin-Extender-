@@ -3203,7 +3203,7 @@
   // =========================================================================
   const $ = (id) => document.getElementById(id);
 
-  function toast(msg, kind = "info") {
+  function toast(msg, kind = "info", silent = false) {
     const wrap = $("toastWrap");
     if (!wrap) return;
     const el = document.createElement("div");
@@ -3211,6 +3211,7 @@
     el.textContent = msg;
     wrap.appendChild(el);
     setTimeout(() => { el.remove(); }, 4200);
+    if (silent) return;
     if (kind === "ok") FX.play("success");
     else if (kind === "err") FX.play("error");
   }
@@ -4952,7 +4953,7 @@
       setProg(`Done! Packaged ${(finalBytes.length / 1048576).toFixed(2)} MB.`);
       FX.play("export");
       FX.celebrate();
-      toast(`Packaged ${outName} (${maxN} skins)!`, "ok");
+      toast(`Packaged ${outName} (${maxN} skins)!`, "ok", true);
     } catch (err) {
       console.error(err);
       setProg("Export failed: " + err.message);
@@ -5161,7 +5162,7 @@
         }
         renderAll();
         FX.play("remove");
-        toast(`Trimmed expanded slots back to bb:skin1..bb:skin${state.origSkinCount}`, "ok");
+        toast(`Trimmed expanded slots back to bb:skin1..bb:skin${state.origSkinCount}`, "ok", true);
       });
     });
 
@@ -5295,7 +5296,7 @@
         textEditSession = null;
         renderAll();
         FX.play("remove");
-        toast(`Deleted slot bb:skin${last.n}`, "ok");
+        toast(`Deleted slot bb:skin${last.n}`, "ok", true);
       });
     });
 
