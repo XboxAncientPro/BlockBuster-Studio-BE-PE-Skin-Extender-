@@ -2,8 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BlockBuster Studio — Skin &amp; Addon Builder</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Bedrock Filmmaking Studio — a 100% offline, single-file .mcaddon workbench for Minecraft Bedrock. Reskin, expand bb:skin entities, auto-register suggestions, edit manifests and export a ready-to-import pack." />
+  <meta name="theme-color" content="#040712" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="application-name" content="Bedrock Filmmaking Studio" />
+  <meta name="apple-mobile-web-app-title" content="Bedrock Filmmaking Studio" />
+  <meta property="og:title" content="Bedrock Filmmaking Studio — Skin &amp; Addon Workbench" />
+  <meta property="og:description" content="Offline Minecraft Bedrock .mcaddon workbench: skins, entity expansion, suggestions, manifests, pack health and cinematic SFX/VFX." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%23040712'/%3E%3Crect x='1' y='2' width='14' height='3' fill='%23ffbe3b'/%3E%3Crect x='3' y='2' width='2' height='3' fill='%231e293b'/%3E%3Crect x='7' y='2' width='2' height='3' fill='%231e293b'/%3E%3Crect x='11' y='2' width='2' height='3' fill='%231e293b'/%3E%3Crect x='1' y='5' width='14' height='9' fill='%2318223d'/%3E%3Crect x='3' y='7' width='10' height='1' fill='%233be8d0'/%3E%3Crect x='7' y='9' width='1' height='4' fill='%23ffbe3b'/%3E%3Crect x='8' y='10' width='1' height='2' fill='%23ffbe3b'/%3E%3C/svg%3E" />
+  <title>Bedrock Filmmaking Studio — Skin &amp; Addon Workbench</title>
 <style>
   :root,
   body[data-theme="mc-night"] {
@@ -109,6 +118,44 @@
     --stage-bg: radial-gradient(circle at 50% 45%, #232a3b, #121620);
   }
 
+  /* ===== Bedrock Filmmaking Studio: Cinema Gold (spotlight premiere theme) ===== */
+  body[data-theme="cinema"] {
+    --bg: #090705;
+    --bg-sky:
+      radial-gradient(ellipse 80% 55% at 50% -12%, rgba(255, 196, 92, 0.16) 0%, transparent 62%),
+      radial-gradient(ellipse 60% 45% at 100% 100%, rgba(94, 234, 212, 0.07) 0%, transparent 60%),
+      linear-gradient(180deg, #0b0805 0%, #120d07 52%, #080605 100%);
+    --bg-elev: rgba(28, 22, 14, 0.92);
+    --bg-topbar: linear-gradient(135deg, rgba(58, 43, 22, 0.96), rgba(18, 14, 9, 0.98));
+    --bg-card: #1c1710;
+    --bg-card-hover: #272016;
+    --bg-card-selected: #332817;
+    --bg-input: #100c07;
+    --border: #4b3a22;
+    --border-bright: #a97c2f;
+    --bevel-top: rgba(255, 222, 160, 0.20);
+    --bevel-bot: rgba(0, 0, 0, 0.74);
+    --text: #fff8ec;
+    --text-dim: #dcc9a8;
+    --text-muted: #a58d68;
+    --gold: #ffc857;
+    --gold-glow: rgba(255, 200, 87, 0.34);
+    --gold-dim: rgba(255, 200, 87, 0.16);
+    --teal: #5eead4;
+    --teal-dim: rgba(94, 234, 212, 0.15);
+    --green: #74f0a0;
+    --green-dim: rgba(116, 240, 160, 0.14);
+    --red: #ff7a6b;
+    --red-dim: rgba(255, 122, 107, 0.16);
+    --purple: #d8a6ff;
+    --purple-dim: rgba(216, 166, 255, 0.16);
+    --stage-bg:
+      radial-gradient(ellipse 70% 60% at 50% 8%, rgba(255, 205, 110, 0.20) 0%, transparent 62%),
+      radial-gradient(2px 2px at 18% 22%, rgba(255, 220, 150, 0.8) 50%, transparent 51%),
+      radial-gradient(2px 2px at 82% 30%, rgba(255, 255, 255, 0.55) 50%, transparent 51%),
+      linear-gradient(180deg, #1a1108 0%, #2a1b0d 66%, #3a2812 70%, #1b140c 74%, #0c0906 100%);
+  }
+
   * { box-sizing: border-box; }
   html, body {
     margin: 0;
@@ -153,6 +200,10 @@
   }
   body[data-theme="classic"] .mc-night-backdrop { opacity: 0; }
   body[data-theme="end-void"] .mc-night-backdrop { filter: hue-rotate(245deg) saturate(1.25); }
+  body[data-theme="cinema"] .mc-night-backdrop {
+    filter: sepia(0.6) saturate(1.2) hue-rotate(-18deg) brightness(0.92);
+    opacity: 0.9;
+  }
 
   .mc-night-backdrop svg {
     width: 100%;
@@ -403,6 +454,7 @@
   .feature-card:nth-child(2) { border-left: 4px solid var(--teal); }
   .feature-card:nth-child(3) { border-left: 4px solid var(--purple); }
   .feature-card:nth-child(4) { border-left: 4px solid var(--green); }
+  .feature-card:nth-child(5) { border-left: 4px solid var(--red); }
   .feature-card strong {
     display: block;
     color: #ffffff;
@@ -888,6 +940,328 @@
     opacity: 0;
     pointer-events: none;
   }
+
+  /* =====================================================================
+     BEDROCK FILMMAKING STUDIO — Studio Shell, FX & ACCESSIBILITY ADDITIONS
+     ===================================================================== */
+
+  .brand-suffix {
+    font-weight: 600;
+    font-size: 0.76em;
+    color: var(--text-dim);
+    letter-spacing: 0;
+  }
+  @media (max-width: 780px) { .brand-suffix { display: none; } }
+
+  .btn, .tab-btn, .skin-card, .upload-hero, .batch-drop, .checkbox-row, .mc-swatch {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .btn, .tab-btn, .mc-swatch { user-select: none; }
+
+  .topbar-actions .icon-btn {
+    width: 34px;
+    height: 32px;
+    padding: 0;
+    display: inline-grid;
+    place-items: center;
+    font-size: 14px;
+    line-height: 1;
+  }
+  .topbar-actions .icon-btn svg { width: 15px; height: 15px; display: block; }
+  .btn[aria-pressed="false"] { opacity: 0.55; filter: grayscale(0.55); }
+
+  /* ---------- Live stat cards ---------- */
+  .stats-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+    gap: 10px;
+    margin: 0 0 16px;
+  }
+  .stat-card {
+    position: relative;
+    overflow: hidden;
+    padding: 11px 13px;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(160deg, rgba(30, 42, 74, 0.6), rgba(9, 13, 26, 0.72));
+    border: 1px solid var(--border);
+    box-shadow: inset 0 1px 0 var(--bevel-top);
+    transition: border-color 0.16s ease, transform 0.16s ease;
+  }
+  body[data-theme="cinema"] .stat-card { background: linear-gradient(160deg, rgba(60, 44, 22, 0.6), rgba(16, 12, 7, 0.8)); }
+  body[data-theme="end-void"] .stat-card { background: linear-gradient(160deg, rgba(45, 27, 82, 0.6), rgba(12, 8, 24, 0.8)); }
+  .stat-card:hover { border-color: var(--border-bright); transform: translateY(-1px); }
+  .stat-card::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background: var(--gold);
+    opacity: 0.75;
+  }
+  .stat-card:nth-child(2)::after { background: var(--teal); }
+  .stat-card:nth-child(3)::after { background: var(--purple); }
+  .stat-card:nth-child(4)::after { background: var(--green); }
+  .stat-card:nth-child(5)::after { background: var(--red); }
+  .stat-label {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    font-weight: 800;
+  }
+  .stat-value {
+    margin-top: 3px;
+    font-family: var(--mono);
+    font-size: 21px;
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--text);
+  }
+  .stat-value small { font-size: 11px; font-weight: 700; color: var(--text-dim); }
+  .stat-sub { font-size: 11px; color: var(--text-dim); margin-top: 1px; }
+
+  /* ---------- Bulk toolbar ---------- */
+  .bulk-bar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+    padding: 8px 10px;
+    margin: 0 0 12px;
+    border-radius: var(--radius-sm);
+    border: 1px dashed var(--border-bright);
+    background: rgba(10, 15, 30, 0.5);
+  }
+  .bulk-bar .bulk-label {
+    font-size: 10.5px;
+    font-weight: 900;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-right: 2px;
+  }
+  .bulk-bar .spacer { flex: 1 1 auto; }
+
+  /* ---------- Cinematic intro steps ---------- */
+  .step-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 10px;
+    margin-top: 16px;
+    text-align: left;
+  }
+  .step-card {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 11px 13px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: rgba(8, 13, 26, 0.55);
+  }
+  .step-num {
+    flex: 0 0 auto;
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 5px;
+    background: var(--gold-dim);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-weight: 900;
+    font-size: 11px;
+    font-family: var(--mono);
+  }
+  .step-card strong { display: block; font-size: 12.5px; color: var(--text); }
+  .step-card span { font-size: 11.5px; color: var(--text-dim); }
+
+  .hero-note {
+    margin-top: 14px;
+    font-size: 11.5px;
+    color: var(--text-muted);
+  }
+  .hero-note code { color: var(--text-dim); }
+
+  /* ---------- FX layer ---------- */
+  #fxCanvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9998;
+  }
+  .fx-ripple {
+    position: fixed;
+    width: 14px;
+    height: 14px;
+    margin: -7px 0 0 -7px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    box-shadow: 0 0 14px var(--gold-glow);
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: screen;
+    animation: fxRipple 0.55s cubic-bezier(0.2, 0.75, 0.25, 1) forwards;
+  }
+  @keyframes fxRipple {
+    from { transform: scale(0.35); opacity: 0.95; }
+    to { transform: scale(7.5); opacity: 0; }
+  }
+  .fx-tap { animation: fxTap 0.3s ease-out; }
+  @keyframes fxTap {
+    0% { transform: scale(1); }
+    45% { transform: scale(0.96); }
+    100% { transform: scale(1); }
+  }
+  .skin-card.fx-tap { animation: fxCardTap 0.34s ease-out; }
+  @keyframes fxCardTap {
+    0% { transform: scale(1); }
+    45% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+  }
+
+  /* ---------- Keyboard-shortcuts modal ---------- */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: rgba(2, 4, 10, 0.78);
+    backdrop-filter: blur(6px);
+    animation: modalFade 0.18s ease-out;
+  }
+  @keyframes modalFade { from { opacity: 0; } to { opacity: 1; } }
+  .modal {
+    width: min(560px, 100%);
+    max-height: min(88vh, 720px);
+    overflow: auto;
+    border-radius: 14px;
+    border: 2px solid var(--border-bright);
+    background: linear-gradient(170deg, var(--bg-card) 0%, var(--bg-input) 100%);
+    box-shadow: inset 0 1px 0 var(--bevel-top), 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px var(--gold-glow);
+    animation: modalPop 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  }
+  @keyframes modalPop {
+    from { transform: translateY(12px) scale(0.98); opacity: 0; }
+    to { transform: none; opacity: 1; }
+  }
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 15px 17px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(255, 190, 59, 0.09), transparent);
+  }
+  .modal-header h2 { margin: 0; font-size: 16px; letter-spacing: 0.2px; }
+  .modal-body { padding: 15px 17px; }
+  .modal-footer {
+    padding: 12px 17px;
+    border-top: 1px solid var(--border);
+    font-size: 11.5px;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .shortcut-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 9px 16px;
+    align-items: center;
+    font-size: 13px;
+  }
+  .shortcut-grid .shortcut-desc { color: var(--text-dim); }
+  kbd, .kbd {
+    display: inline-block;
+    padding: 3px 7px;
+    border-radius: 5px;
+    border: 1px solid var(--border-bright);
+    border-bottom-width: 3px;
+    background: var(--bg-input);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .shortcut-grid .kbd-group { display: flex; gap: 5px; justify-content: flex-end; flex-wrap: wrap; }
+
+  /* ---------- Full-window drop overlay ---------- */
+  .drop-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10001;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: rgba(3, 6, 15, 0.82);
+    backdrop-filter: blur(5px);
+    pointer-events: none;
+  }
+  .drop-overlay-inner {
+    padding: 34px 42px;
+    border-radius: 16px;
+    border: 3px dashed var(--gold);
+    background: var(--bg-card);
+    box-shadow: 0 0 60px var(--gold-glow), inset 0 1px 0 var(--bevel-top);
+    text-align: center;
+    max-width: 520px;
+  }
+  .drop-overlay-inner strong { display: block; font-size: 20px; color: var(--gold); margin-bottom: 6px; }
+  .drop-overlay-inner span { color: var(--text-dim); font-size: 13px; }
+
+  /* ---------- Focus rings & motion preferences ---------- */
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  .btn:focus-visible, .tab-btn:focus-visible, .skin-card:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+    .mc-star-a, .mc-star-b, .mc-torch-glow { animation: none !important; }
+    #fxCanvas { display: none; }
+    .fx-ripple { display: none; }
+  }
+  @media (max-width: 680px) {
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .bulk-bar { gap: 6px; }
+    .modal-body { padding: 13px; }
+    .shortcut-grid { font-size: 12.5px; }
+  }
+
+  /* ---------- Studio footer ---------- */
+  .studio-footer {
+    margin-top: 26px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11.5px;
+    color: var(--text-muted);
+  }
+  .studio-footer strong { color: var(--text-dim); font-weight: 800; }
+  .studio-footer .dot { color: var(--gold); }
 </style>
 </head>
 <body data-theme="mc-night">
@@ -984,43 +1358,49 @@
   <!-- TOPBAR -->
   <header class="topbar">
     <div class="brand">
-      <div class="brand-logo" title="BlockBuster Studio — Minecraft Night Edition">
+      <div class="brand-logo" title="Bedrock Filmmaking Studio — clapperboard mark">
         <svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
-          <rect x="1" y="2" width="14" height="12" fill="#18223d" />
           <rect x="1" y="2" width="14" height="3" fill="#ffbe3b" />
           <rect x="3" y="2" width="2" height="3" fill="#1e293b" />
           <rect x="7" y="2" width="2" height="3" fill="#1e293b" />
           <rect x="11" y="2" width="2" height="3" fill="#1e293b" />
-          <rect x="3" y="7" width="3" height="3" fill="#3be8d0" />
-          <rect x="10" y="7" width="3" height="3" fill="#3be8d0" />
-          <rect x="6" y="10" width="4" height="3" fill="#ffbe3b" />
-          <rect x="5" y="11" width="2" height="3" fill="#ffbe3b" />
-          <rect x="9" y="11" width="2" height="3" fill="#ffbe3b" />
+          <rect x="15" y="2" width="1" height="3" fill="#1e293b" />
+          <rect x="1" y="5" width="14" height="9" fill="#18223d" />
+          <rect x="2" y="6" width="12" height="1" fill="#3be8d0" />
+          <rect x="3" y="8" width="6" height="3" fill="#ffbe3b" />
+          <rect x="9" y="8" width="4" height="3" fill="#ffbe3b" />
+          <rect x="3" y="12" width="10" height="1" fill="#4663a3" />
         </svg>
       </div>
       <div>
         <h1>
-          BlockBuster Studio &mdash; Skin &amp; Addon Builder
-          <span class="pill pill-gold" id="themeBadgePill">Minecraft Night</span>
+          Bedrock Filmmaking Studio <span class="brand-suffix">&mdash; Skin &amp; Addon Workbench</span>
+          <span class="pill pill-gold" id="themeBadgePill">Studio Night</span>
           <span class="pill pill-teal">Bedrock .mcaddon</span>
         </h1>
         <div class="brand-sub">
           <span class="kw-gold">Skins</span> &bull;
           <span class="kw-teal">Entities</span> &bull;
           <span class="kw-purple">Suggestions</span> &bull;
-          <span class="kw-green">Manifest</span>
+          <span class="kw-green">Manifest</span> &bull;
+          <span class="kw-white">SFX / FX</span>
         </div>
       </div>
     </div>
     <div class="topbar-actions">
-      <button class="btn btn-sm" id="btnCycleTheme" title="Switch Theme">Theme: MC Night</button>
-      <button class="btn btn-sm" id="btnLoadNew">Upload .mcaddon</button>
+      <button class="btn btn-sm" id="btnUndo" title="Undo (Ctrl+Z)" aria-label="Undo last change" disabled>&#8630; Undo</button>
+      <button class="btn btn-sm" id="btnRedo" title="Redo (Ctrl+Shift+Z)" aria-label="Redo change" disabled>&#8631; Redo</button>
+      <button class="btn btn-sm" id="btnCycleTheme" title="Switch theme (T)">Theme: Studio Night</button>
+      <button class="btn btn-sm" id="btnToggleSfx" aria-pressed="true" title="Toggle generated sound effects (M)">SFX: On</button>
+      <button class="btn btn-sm" id="btnToggleVfx" aria-pressed="true" title="Toggle pointer trails, ripples and bursts (V)">FX: On</button>
+      <button class="btn btn-sm icon-btn" id="btnHelp" title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+      <button class="btn btn-sm" id="btnLoadNew">Open .mcaddon</button>
       <button class="btn btn-sm hidden" id="btnRunAudit">Pack Health</button>
       <button class="btn btn-primary hidden" id="btnExport">Export .mcaddon</button>
     </div>
   </header>
 
-  <input type="file" id="addonFileInput" class="sr-file-input" />
+  <input type="file" id="addonFileInput" accept=".mcaddon,.mcpack,.zip,application/zip,application/octet-stream" class="sr-file-input" />
   <input type="file" id="batchPngInput" accept="image/png,image/jpeg,image/webp,.png,.jpg,.jpeg,.webp" multiple class="sr-file-input" />
   <input type="file" id="singlePngInput" accept="image/png,image/jpeg,image/webp,.png,.jpg,.jpeg,.webp" class="sr-file-input" />
 
@@ -1029,25 +1409,35 @@
     <div class="upload-hero" id="dropZone">
       <div class="upload-hero-icon">
         <svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
-          <rect x="2" y="3" width="12" height="11" fill="#0f172a" />
-          <rect x="2" y="3" width="12" height="3" fill="#ffbe3b" />
-          <rect x="4" y="3" width="2" height="3" fill="#78350f" />
-          <rect x="8" y="3" width="2" height="3" fill="#78350f" />
-          <rect x="12" y="3" width="2" height="3" fill="#78350f" />
-          <rect x="5" y="8" width="6" height="4" fill="#3be8d0" />
-          <rect x="6" y="9" width="4" height="2" fill="#e0f2fe" />
+          <rect x="1" y="2" width="14" height="3" fill="#ffbe3b" />
+          <rect x="3" y="2" width="2" height="3" fill="#1e293b" />
+          <rect x="7" y="2" width="2" height="3" fill="#1e293b" />
+          <rect x="11" y="2" width="2" height="3" fill="#1e293b" />
+          <rect x="15" y="2" width="1" height="3" fill="#1e293b" />
+          <rect x="1" y="5" width="14" height="9" fill="#0f172a" />
+          <rect x="2" y="6" width="12" height="1" fill="#3be8d0" />
+          <rect x="3" y="8" width="6" height="3" fill="#ffbe3b" />
+          <rect x="9" y="8" width="4" height="3" fill="#ffbe3b" />
+          <rect x="3" y="12" width="10" height="1" fill="#4663a3" />
         </svg>
       </div>
-      <h2>Drop <span class="kw-gold"><code>.mcaddon</code></span> Pack</h2>
+      <h2>Open a <span class="kw-gold"><code>.mcaddon</code></span> Build</h2>
+      <p>
+        The Bedrock Filmmaking Studio workbench for Minecraft Bedrock. Reskin, expand, register and
+        re-export your pack <span class="kw-white">entirely in this browser</span> &mdash; no uploads,
+        no servers, no internet required.
+      </p>
       <div class="hero-tags">
         <span class="pill pill-gold">Custom Skins</span>
         <span class="pill pill-teal">Expand bb:skin</span>
         <span class="pill pill-purple">Suggest Mob + Aliases</span>
         <span class="pill pill-green">BP / RP Manifest</span>
+        <span class="pill">Touch FX + SFX</span>
       </div>
       <button class="btn btn-primary" type="button" id="btnPickAddon">Select .mcaddon</button>
-      <div style="margin-top:14px;font-size:12px;color:var(--text-dim);">
-        <span class="kw-white">.mcpack Bundles</span> &bull; <span class="kw-white">Folder Packs</span>
+      <div class="hero-note">
+        <span class="kw-white">.mcpack Bundles</span> &bull; <span class="kw-white">Folder Packs</span> &bull;
+        <span class="kw-teal">BlockBuster Studio compatible</span> &bull; <kbd>Ctrl</kbd> + <kbd>O</kbd>
       </div>
     </div>
 
@@ -1065,9 +1455,19 @@
         <span><span class="kw-white">SKINS</span> &bull; <code>MOB_CATALOG</code> &bull; <code>MOB_ALIASES</code></span>
       </div>
       <div class="feature-card">
-        <strong style="color:var(--green);">4. Pack Manifest</strong>
-        <span><span class="kw-white">&sect; Colors</span> &bull; Version &bull; UUID &bull; Export</span>
+        <strong style="color:var(--green);">4. Manifest &amp; Audit</strong>
+        <span><span class="kw-white">&sect; Colors</span> &bull; Version &bull; UUID &bull; Pack Health &bull; Export</span>
       </div>
+      <div class="feature-card">
+        <strong style="color:var(--red);">5. Studio Feel</strong>
+        <span><span class="kw-white">Pointer Trails</span> &bull; Click Ripples &bull; Generated SFX &bull; Undo / Redo</span>
+      </div>
+    </div>
+
+    <div class="step-strip">
+      <div class="step-card"><span class="step-num">1</span><div><strong>Open your pack</strong><span>Drop a Bedrock Filmmaking Studio / BlockBuster Studio .mcaddon.</span></div></div>
+      <div class="step-card"><span class="step-num">2</span><div><strong>Reskin &amp; expand</strong><span>Swap PNGs, add bb:skinN slots, tune names and suggestions.</span></div></div>
+      <div class="step-card"><span class="step-num">3</span><div><strong>Audit &amp; export</strong><span>Run pack health, then build a ready-to-import .mcaddon.</span></div></div>
     </div>
   </section>
 
@@ -1087,16 +1487,44 @@
       </div>
     </div>
 
+    <div class="stats-strip" aria-label="Pack statistics">
+      <div class="stat-card">
+        <div class="stat-label">Skins</div>
+        <div class="stat-value" id="statTotal">40</div>
+        <div class="stat-sub" id="statTotalSub">bb:skin1..40</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Edited</div>
+        <div class="stat-value" id="statEdited">0</div>
+        <div class="stat-sub" id="statEditedSub">original + new</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Slim Arms</div>
+        <div class="stat-value" id="statSlim">0</div>
+        <div class="stat-sub">3px geometry</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Suggestions</div>
+        <div class="stat-value" id="statRegistered">0</div>
+        <div class="stat-sub">MOB_CATALOG</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Molang Gaps</div>
+        <div class="stat-value" id="statMolang">0</div>
+        <div class="stat-sub">slots to repair</div>
+      </div>
+    </div>
+
     <!-- TABS -->
-    <nav class="tabs" role="tablist">
-      <button class="tab-btn active" data-tab="skinsTab">Skins &amp; Entities (<span id="tabSkinCount">40</span>)</button>
-      <button class="tab-btn" data-tab="suggestionsTab">Suggestions &amp; Aliases</button>
-      <button class="tab-btn" data-tab="descriptionTab">Addon Description &amp; Manifest</button>
-      <button class="tab-btn" data-tab="healthTab">Pack Health &amp; Export</button>
+    <nav class="tabs" role="tablist" aria-label="Workbench sections">
+      <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="skinsTab" data-tab="skinsTab">Skins &amp; Entities (<span id="tabSkinCount">40</span>)</button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="suggestionsTab" data-tab="suggestionsTab">Suggestions &amp; Aliases</button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="descriptionTab" data-tab="descriptionTab">Addon Description &amp; Manifest</button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="healthTab" data-tab="healthTab">Pack Health &amp; Export</button>
     </nav>
 
     <!-- TAB 1: SKINS & ENTITIES -->
-    <section class="tab-panel active" id="skinsTab">
+    <section class="tab-panel active" id="skinsTab" role="tabpanel" aria-label="Skins and Entities">
       <div class="workbench">
         <!-- LEFT: SKIN GRID & EXPANSION TOOLS -->
         <div class="panel">
@@ -1139,6 +1567,16 @@
             </select>
           </div>
 
+          <div class="bulk-bar" role="group" aria-label="Bulk skin actions">
+            <span class="bulk-label">Bulk</span>
+            <button class="btn btn-xs" id="btnBulkRegister" title="Register every skin in MOB_CATALOG and MOB_ALIASES">Register All</button>
+            <button class="btn btn-xs" id="btnBulkUnregister" title="Remove every skin from suggestions">Unregister All</button>
+            <button class="btn btn-xs" id="btnBulkAutoArm" title="Re-detect Classic vs Slim arms from the PNGs">Auto-Detect Arms</button>
+            <button class="btn btn-xs" id="btnExportCsv" title="Download the skin roster as a spreadsheet">Roster .csv</button>
+            <span class="spacer"></span>
+            <button class="btn btn-xs btn-danger" id="btnResetEdits" title="Undo every skin edit in this session">Reset Edits</button>
+          </div>
+
           <div class="skin-grid" id="skinGrid"></div>
         </div>
 
@@ -1149,14 +1587,15 @@
               <h2 class="panel-title">Slot <code id="inspId">bb:skin1</code></h2>
               <div style="font-size:11.5px;color:var(--text-dim);" id="inspStatusText">Original Slot</div>
             </div>
-            <div style="display:flex;gap:6px;">
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <button class="btn btn-xs" id="btnCopyId" title="Copy this entity ID">Copy ID</button>
               <button class="btn btn-xs hidden" id="btnRestoreSlot">Restore</button>
               <button class="btn btn-xs btn-danger hidden" id="btnDeleteSlot">Delete</button>
             </div>
           </div>
 
           <div class="preview-stage">
-            <canvas id="inspCanvas" width="220" height="220"></canvas>
+            <canvas id="inspCanvas" width="220" height="220" role="img" aria-label="Selected skin 3D preview"></canvas>
             <div style="font-size:11px;color:var(--text-dim);margin-top:4px;" id="inspCanvasHint">Drag to Spin</div>
             <div class="preview-modes">
               <button class="btn btn-xs btn-primary" data-view="3d">3D</button>
@@ -1175,6 +1614,7 @@
               <button class="btn btn-sm btn-teal" id="btnReplacePng">Replace PNG</button>
               <button class="btn btn-sm hidden" id="btnConvert64">64&times;32 &rarr; 64&times;64</button>
               <button class="btn btn-sm" id="btnDownloadPng">Save PNG</button>
+              <button class="btn btn-sm" id="btnDuplicateSlot" title="Copy this skin into a new slot">Duplicate</button>
             </div>
             <div class="field-hint"><span class="kw-white">64&times;64</span> &bull; <span class="kw-teal">128&times;128 HD</span> &bull; <span class="kw-gold">64&times;32 Legacy</span></div>
           </div>
@@ -1216,7 +1656,7 @@
     </section>
 
     <!-- TAB 2: SUGGESTIONS & ALIASES -->
-    <section class="tab-panel" id="suggestionsTab">
+    <section class="tab-panel" id="suggestionsTab" role="tabpanel" aria-label="Suggestions and Aliases">
       <div class="two-col">
         <div class="panel">
           <div class="panel-header">
@@ -1300,7 +1740,7 @@
     </section>
 
     <!-- TAB 3: ADDON DESCRIPTION & MANIFEST -->
-    <section class="tab-panel" id="descriptionTab">
+    <section class="tab-panel" id="descriptionTab" role="tabpanel" aria-label="Addon Description and Manifest">
       <div class="panel" style="margin-bottom:16px;">
         <div class="panel-header">
           <h2 class="panel-title">Pack Controls</h2>
@@ -1375,7 +1815,7 @@
     </section>
 
     <!-- TAB 4: PACK HEALTH & EXPORT -->
-    <section class="tab-panel" id="healthTab">
+    <section class="tab-panel" id="healthTab" role="tabpanel" aria-label="Pack Health and Export">
       <div class="two-col">
         <div class="panel">
           <div class="panel-header">
@@ -1390,8 +1830,11 @@
             <h2 class="panel-title">Export</h2>
           </div>
           <div class="field-group">
-            <div class="field-label"><span>Filename</span></div>
-            <input type="text" class="input" id="exportFilenameInput" value="BlockBuster_Studio_Custom.mcaddon" />
+            <div class="field-label">
+              <span>Filename</span>
+              <span class="field-hint" style="margin:0;">Build with <kbd>Ctrl</kbd> + <kbd>E</kbd></span>
+            </div>
+            <input type="text" class="input" id="exportFilenameInput" value="Bedrock_Filmmaking_Studio_Custom.mcaddon" />
           </div>
           <div class="panel" style="background:var(--bg-card);margin-bottom:14px;">
             <div style="font-size:13px;font-weight:800;margin-bottom:8px;color:var(--gold);">Changes Summary</div>
@@ -1404,7 +1847,7 @@
           <div id="exportReadyBox" class="hidden" style="margin-top:12px;padding:12px;background:var(--green-dim);border:1px solid rgba(74,222,128,0.45);border-radius:var(--radius-sm);font-size:12.5px;">
             <strong style="color:var(--green);display:block;margin-bottom:6px;">Package Ready!</strong>
             <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              <a id="exportDirectLink" class="btn btn-sm btn-primary" download="BlockBuster_Studio_Custom.mcaddon" href="#">Save .mcaddon</a>
+              <a id="exportDirectLink" class="btn btn-sm btn-primary" download="Bedrock_Filmmaking_Studio_Custom.mcaddon" href="#">Save .mcaddon</a>
               <span id="exportReadyMeta" style="color:var(--text-dim);font-size:12px;"></span>
             </div>
           </div>
@@ -1412,9 +1855,66 @@
       </div>
     </section>
   </main>
+
+  <footer class="studio-footer">
+    <span><strong>Bedrock Filmmaking Studio</strong> <span class="dot">&bull;</span> Skin &amp; Addon Workbench v5.0</span>
+    <span>100% offline &bull; zero external assets &bull; loads <code>bb:skin</code> packs &bull; sound &amp; FX generated in-browser</span>
+  </footer>
 </div>
 
-<div class="toast-wrap" id="toastWrap"></div>
+<!-- FX particle layer (pointer trails / click bursts) -->
+<canvas id="fxCanvas" aria-hidden="true"></canvas>
+
+<!-- Full-window drag & drop layer -->
+<div class="drop-overlay hidden" id="dropOverlay" aria-hidden="true">
+  <div class="drop-overlay-inner">
+    <strong>Drop to open</strong>
+    <span id="dropOverlayHint">Release a .mcaddon to load it into the workbench</span>
+  </div>
+</div>
+
+<!-- Keyboard shortcuts / help dialog -->
+<div class="modal-backdrop hidden" id="helpModal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+  <div class="modal" role="document">
+    <div class="modal-header">
+      <h2 id="helpTitle">Studio Shortcuts &amp; Help</h2>
+      <button class="btn btn-sm" id="btnCloseHelp" aria-label="Close help dialog">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="shortcut-grid">
+        <span class="shortcut-desc">Open a .mcaddon</span>
+        <span class="kbd-group"><kbd>Ctrl</kbd><kbd>O</kbd></span>
+        <span class="shortcut-desc">Build &amp; download export</span>
+        <span class="kbd-group"><kbd>Ctrl</kbd><kbd>E</kbd></span>
+        <span class="shortcut-desc">Undo last skin change</span>
+        <span class="kbd-group"><kbd>Ctrl</kbd><kbd>Z</kbd></span>
+        <span class="shortcut-desc">Redo skin change</span>
+        <span class="kbd-group"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>Z</kbd></span>
+        <span class="shortcut-desc">Previous / next skin</span>
+        <span class="kbd-group"><kbd>[</kbd><kbd>]</kbd></span>
+        <span class="shortcut-desc">Toggle SFX / FX</span>
+        <span class="kbd-group"><kbd>M</kbd><kbd>V</kbd></span>
+        <span class="shortcut-desc">Cycle theme</span>
+        <span class="kbd-group"><kbd>T</kbd></span>
+        <span class="shortcut-desc">Open this help</span>
+        <span class="kbd-group"><kbd>?</kbd></span>
+        <span class="shortcut-desc">Close dialogs</span>
+        <span class="kbd-group"><kbd>Esc</kbd></span>
+      </div>
+      <p style="margin:16px 0 0;font-size:12px;color:var(--text-dim);line-height:1.6;">
+        On touch screens, tap a skin card, press and hold the 3D stage, and drag to spin.
+        Pointer trails, ripples and the click cues are generated locally with Canvas and Web Audio &mdash;
+        nothing is downloaded, and both can be switched off from the topbar.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <span>Bedrock Filmmaking Studio &bull; Workbench v5.0</span>
+      <span>100% offline &bull; no telemetry</span>
+    </div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toastWrap" role="status" aria-live="polite" aria-atomic="false"></div>
 
 <script>
 (() => {
@@ -1942,6 +2442,15 @@
     return String(str || "").replace(/§[0-9a-gk-or]/gi, "");
   }
 
+  function escapeHtml(str) {
+    return String(str == null ? "" : str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
   function renderMcFormattedHtml(text) {
     const s = String(text || "");
     let html = "";
@@ -1981,7 +2490,7 @@
   }
 
   // =========================================================================
-  // 3. BLOCKBUSTER STUDIO JS / JSON PARSING & PATCHING ENGINE
+  // 3. BEDROCK FILMMAKING STUDIO JS / JSON PARSING & PATCHING ENGINE
   // =========================================================================
 
   function findMatchingLiteralSpan(src, varDeclRegex) {
@@ -2694,13 +3203,339 @@
   // =========================================================================
   const $ = (id) => document.getElementById(id);
 
-  function toast(msg, kind = "info") {
+  function toast(msg, kind = "info", silent = false) {
     const wrap = $("toastWrap");
+    if (!wrap) return;
     const el = document.createElement("div");
     el.className = "toast" + (kind === "ok" ? " ok" : kind === "err" ? " err" : "");
     el.textContent = msg;
     wrap.appendChild(el);
     setTimeout(() => { el.remove(); }, 4200);
+    if (silent) return;
+    if (kind === "ok") FX.play("success");
+    else if (kind === "err") FX.play("error");
+  }
+
+  // =========================================================================
+  // 6b. STUDIO PREFERENCES, GENERATED SFX & CANVAS VFX (ZERO ASSETS)
+  // =========================================================================
+
+  const PREFS_KEY = "bfs.prefs.v1";
+  const prefs = { theme: "mc-night", sfx: true, vfx: true };
+
+  function loadPrefs() {
+    try {
+      const raw = localStorage.getItem(PREFS_KEY);
+      if (!raw) return;
+      const obj = JSON.parse(raw);
+      if (typeof obj.theme === "string") prefs.theme = obj.theme;
+      if (typeof obj.sfx === "boolean") prefs.sfx = obj.sfx;
+      if (typeof obj.vfx === "boolean") prefs.vfx = obj.vfx;
+    } catch (_) {}
+  }
+
+  function savePrefs() {
+    try { localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch (_) {}
+  }
+
+  function prefersReducedMotion() {
+    try { return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches); }
+    catch (_) { return false; }
+  }
+
+  const FX = (() => {
+    let audioCtx = null, masterGain = null;
+    let canvas = null, cctx = null, dpr = 1;
+    let particles = [];
+    let rafId = 0;
+    let lastTrail = 0;
+    let lastTick = 0;
+    const palette = ["#ffbe3b", "#3be8d0", "#c084fc", "#ffffff"];
+
+    function readyCanvas() {
+      if (canvas) return true;
+      canvas = $("fxCanvas");
+      if (!canvas) return false;
+      cctx = canvas.getContext("2d");
+      if (!cctx) { canvas = null; return false; }
+      resize();
+      window.addEventListener("resize", resize, { passive: true });
+      return true;
+    }
+
+    function resize() {
+      if (!canvas) return;
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      canvas.width = Math.max(1, Math.floor(window.innerWidth * dpr));
+      canvas.height = Math.max(1, Math.floor(window.innerHeight * dpr));
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
+      cctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function ensureAudio() {
+      if (!prefs.sfx) return null;
+      if (!audioCtx) {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return null;
+        try {
+          audioCtx = new AC();
+          masterGain = audioCtx.createGain();
+          masterGain.gain.value = 0.32;
+          masterGain.connect(audioCtx.destination);
+        } catch (_) {
+          audioCtx = null;
+          return null;
+        }
+      }
+      if (audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
+      return audioCtx;
+    }
+
+    function tone(freq, dur, opts) {
+      const o = opts || {};
+      const ac = ensureAudio();
+      if (!ac) return;
+      const t0 = ac.currentTime + (o.delay || 0);
+      try {
+        const osc = ac.createOscillator();
+        const gain = ac.createGain();
+        osc.type = o.type || "square";
+        osc.frequency.setValueAtTime(freq, t0);
+        if (o.slide) osc.frequency.exponentialRampToValueAtTime(Math.max(40, o.slide), t0 + dur);
+        const vol = Math.max(0.0002, o.vol == null ? 0.05 : o.vol);
+        gain.gain.setValueAtTime(0.0001, t0);
+        gain.gain.exponentialRampToValueAtTime(vol, t0 + 0.008);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+        osc.connect(gain);
+        gain.connect(masterGain);
+        osc.start(t0);
+        osc.stop(t0 + dur + 0.03);
+      } catch (_) {}
+    }
+
+    const cues = {
+      click() {
+        tone(680, 0.05, { type: "triangle", vol: 0.05 });
+        tone(1180, 0.06, { type: "sine", vol: 0.02, delay: 0.012 });
+      },
+      soft() { tone(420, 0.05, { type: "sine", vol: 0.02 }); },
+      toggle() {
+        tone(560, 0.05, { type: "square", vol: 0.035 });
+        tone(880, 0.07, { type: "square", vol: 0.03, delay: 0.05 });
+      },
+      add() {
+        [523, 659, 784].forEach((f, i) => tone(f, 0.09, { type: "triangle", vol: 0.04, delay: i * 0.05 }));
+      },
+      remove() {
+        [392, 311, 233].forEach((f, i) => tone(f, 0.09, { type: "square", vol: 0.032, delay: i * 0.05 }));
+      },
+      success() {
+        [659, 880, 1175].forEach((f, i) => tone(f, 0.16, { type: "sine", vol: 0.04, delay: i * 0.065 }));
+      },
+      error() {
+        tone(196, 0.18, { type: "sawtooth", vol: 0.04, slide: 120 });
+        tone(147, 0.2, { type: "square", vol: 0.024, delay: 0.05 });
+      },
+      export() {
+        [523, 659, 784, 1047, 1319].forEach((f, i) => tone(f, 0.2, { type: "triangle", vol: 0.038, delay: i * 0.07 }));
+      },
+      undo() { tone(700, 0.09, { type: "sine", vol: 0.028, slide: 320 }); },
+      redo() { tone(320, 0.09, { type: "sine", vol: 0.028, slide: 700 }); }
+    };
+
+    function play(name) {
+      if (!prefs.sfx || !cues[name]) return;
+      try { cues[name](); } catch (_) {}
+    }
+
+    function burst(x, y, count, color, power) {
+      if (!prefs.vfx || prefersReducedMotion()) return;
+      if (!readyCanvas()) return;
+      const n = count || 12;
+      for (let i = 0; i < n; i++) {
+        const a = Math.random() * Math.PI * 2;
+        const sp = (0.7 + Math.random() * 2.2) * (power || 1);
+        particles.push({
+          x, y,
+          vx: Math.cos(a) * sp,
+          vy: Math.sin(a) * sp - 0.5,
+          life: 0,
+          max: 380 + Math.random() * 420,
+          size: 2 + Math.random() * 3,
+          color: color || palette[(Math.random() * palette.length) | 0]
+        });
+      }
+      if (!rafId) rafId = requestAnimationFrame(tick);
+    }
+
+    function trail(x, y) {
+      if (!prefs.vfx || prefersReducedMotion()) return;
+      const now = performance.now();
+      if (now - lastTrail < 24) return;
+      lastTrail = now;
+      if (!readyCanvas()) return;
+      particles.push({
+        x, y,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35 - 0.15,
+        life: 0,
+        max: 260 + Math.random() * 220,
+        size: 1.5 + Math.random() * 2.5,
+        color: palette[(Math.random() * palette.length) | 0]
+      });
+      if (!rafId) rafId = requestAnimationFrame(tick);
+    }
+
+    function tick(ts) {
+      rafId = 0;
+      if (!cctx) return;
+      const w = window.innerWidth, h = window.innerHeight;
+      const dt = Math.min(40, ts - (lastTick || ts)) || 16;
+      lastTick = ts;
+      cctx.clearRect(0, 0, w, h);
+      const alive = [];
+      for (const p of particles) {
+        p.life += dt;
+        if (p.life >= p.max) continue;
+        p.vy += 0.02;
+        p.vx *= 0.985;
+        p.vy *= 0.985;
+        p.x += p.vx * (dt / 16.7);
+        p.y += p.vy * (dt / 16.7);
+        const t = 1 - p.life / p.max;
+        cctx.globalAlpha = Math.max(0, Math.min(1, t));
+        cctx.fillStyle = p.color;
+        const size = Math.max(1, p.size * t);
+        cctx.fillRect(Math.round(p.x), Math.round(p.y), size, size);
+        alive.push(p);
+      }
+      particles = alive;
+      cctx.globalAlpha = 1;
+      if (particles.length) rafId = requestAnimationFrame(tick);
+      else {
+        cctx.clearRect(0, 0, w, h);
+        lastTick = 0;
+      }
+    }
+
+    function ripple(x, y) {
+      if (!prefs.vfx || prefersReducedMotion()) return;
+      const el = document.createElement("span");
+      el.className = "fx-ripple";
+      el.style.left = x + "px";
+      el.style.top = y + "px";
+      document.body.appendChild(el);
+      el.addEventListener("animationend", () => el.remove(), { once: true });
+    }
+
+    function tap(el) {
+      if (!el || !prefs.vfx || prefersReducedMotion()) return;
+      el.classList.remove("fx-tap");
+      void el.offsetWidth;
+      el.classList.add("fx-tap");
+      setTimeout(() => el.classList.remove("fx-tap"), 380);
+    }
+
+    function celebrate() {
+      if (!prefs.vfx || prefersReducedMotion()) return;
+      const x = window.innerWidth / 2;
+      const y = Math.max(90, window.innerHeight * 0.3);
+      burst(x, y, 32, null, 2.4);
+      setTimeout(() => burst(window.innerWidth * 0.28, y + 46, 16, null, 1.7), 90);
+      setTimeout(() => burst(window.innerWidth * 0.72, y + 46, 16, null, 1.7), 160);
+    }
+
+    return { play, burst, trail, ripple, tap, celebrate, unlock: ensureAudio, resize, readyCanvas };
+  })();
+
+  const THEMES = [
+    { id: "mc-night", btn: "Studio Night", pill: "Studio Night", cls: "pill pill-gold", meta: "#040712" },
+    { id: "cinema", btn: "Cinema Gold", pill: "Cinema Gold", cls: "pill pill-gold", meta: "#090705" },
+    { id: "end-void", btn: "End Void", pill: "End Dimension", cls: "pill pill-purple", meta: "#080512" },
+    { id: "classic", btn: "Slate", pill: "Studio Slate", cls: "pill pill-teal", meta: "#0c0e13" }
+  ];
+  let themeIdx = 0;
+
+  function applyTheme(index, announce) {
+    const count = THEMES.length;
+    themeIdx = ((Number(index) || 0) % count + count) % count;
+    const t = THEMES[themeIdx];
+    if (document.body) document.body.setAttribute("data-theme", t.id);
+    const btn = $("btnCycleTheme");
+    const pill = $("themeBadgePill");
+    if (btn) btn.textContent = `Theme: ${t.btn}`;
+    if (pill) { pill.textContent = t.pill; pill.className = t.cls; }
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", t.meta);
+    prefs.theme = t.id;
+    savePrefs();
+    if (announce) {
+      FX.play("toggle");
+      toast(`Theme: ${t.pill}`, "info");
+    }
+  }
+
+  function cycleTheme() { applyTheme(themeIdx + 1, true); }
+
+  function updateFxButtons() {
+    const sfxBtn = $("btnToggleSfx");
+    const vfxBtn = $("btnToggleVfx");
+    if (sfxBtn) {
+      sfxBtn.textContent = `SFX: ${prefs.sfx ? "On" : "Off"}`;
+      sfxBtn.setAttribute("aria-pressed", String(prefs.sfx));
+    }
+    if (vfxBtn) {
+      vfxBtn.textContent = `FX: ${prefs.vfx ? "On" : "Off"}`;
+      vfxBtn.setAttribute("aria-pressed", String(prefs.vfx));
+    }
+  }
+
+  function toggleSfx(announce) {
+    prefs.sfx = !prefs.sfx;
+    savePrefs();
+    updateFxButtons();
+    if (prefs.sfx) {
+      FX.unlock();
+      FX.play("toggle");
+    }
+    if (announce) toast(`Sound effects ${prefs.sfx ? "on" : "off"}`, "info");
+  }
+
+  function toggleVfx(announce) {
+    prefs.vfx = !prefs.vfx;
+    savePrefs();
+    updateFxButtons();
+    if (prefs.vfx) {
+      FX.readyCanvas();
+      FX.burst(window.innerWidth / 2, window.innerHeight * 0.4, 12, null, 1.2);
+      FX.play("toggle");
+    }
+    if (announce) toast(`Visual effects ${prefs.vfx ? "on" : "off"}`, "info");
+  }
+
+  async function copyText(text) {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    } catch (_) {}
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      ta.style.pointerEvents = "none";
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      const ok = document.execCommand("copy");
+      ta.remove();
+      return !!ok;
+    } catch (_) {
+      return false;
+    }
   }
 
   async function detectAddonStructure(outerEntries) {
@@ -2784,7 +3619,7 @@
 
       const studioEntry = detected.bpEntries.get("scripts/ui/StudioUI.js");
       if (!studioEntry) {
-        throw new Error("This pack does not contain scripts/ui/StudioUI.js — please upload a BlockBuster Studio .mcaddon.");
+        throw new Error("This pack does not contain scripts/ui/StudioUI.js — please open a Bedrock Filmmaking Studio .mcaddon (BlockBuster Studio packs are fully compatible).");
       }
       const studioSrc = await readEntryText(studioEntry);
       const parsedUI = parseStudioUIBlocks(studioSrc);
@@ -2942,6 +3777,8 @@
       state.skins = skins;
       state.selectedN = 1;
       state.molangGapsCount = molangGaps;
+      clearHistory();
+      textEditSession = null;
 
       // Populate UI
       $("uploadScreen").classList.add("hidden");
@@ -3038,6 +3875,354 @@
   }
 
   // =========================================================================
+  // 7b. UNDO / REDO HISTORY (SKIN ROSTER SNAPSHOTS)
+  // =========================================================================
+
+  const editHistory = { past: [], future: [], limit: 80 };
+  let textEditSession = null;
+
+  function cloneSkin(s) {
+    return {
+      ...s,
+      customKeywords: [...(s.customKeywords || [])],
+      origCustomKeywords: [...(s.origCustomKeywords || [])]
+    };
+  }
+
+  function snapshotRoster() {
+    return { skins: state.skins.map(cloneSkin), selectedN: state.selectedN };
+  }
+
+  function restoreRoster(snap) {
+    state.skins = snap.skins.map(cloneSkin);
+    state.selectedN = snap.selectedN;
+    if (!state.skins.some(s => s.n === state.selectedN)) {
+      state.selectedN = state.skins[0] ? state.skins[0].n : 1;
+    }
+    textEditSession = null;
+  }
+
+  function updateHistoryButtons() {
+    const undoBtn = $("btnUndo");
+    const redoBtn = $("btnRedo");
+    if (undoBtn) {
+      undoBtn.disabled = editHistory.past.length === 0;
+      undoBtn.title = editHistory.past.length
+        ? `Undo (${editHistory.past.length} step${editHistory.past.length === 1 ? "" : "s"} left)`
+        : "Nothing to undo";
+    }
+    if (redoBtn) {
+      redoBtn.disabled = editHistory.future.length === 0;
+      redoBtn.title = editHistory.future.length ? "Redo (Ctrl+Shift+Z)" : "Nothing to redo";
+    }
+  }
+
+  function pushHistory() {
+    if (!state.loaded) return;
+    editHistory.past.push(snapshotRoster());
+    if (editHistory.past.length > editHistory.limit) editHistory.past.shift();
+    editHistory.future.length = 0;
+    updateHistoryButtons();
+  }
+
+  function clearHistory() {
+    editHistory.past.length = 0;
+    editHistory.future.length = 0;
+    updateHistoryButtons();
+  }
+
+  function undoEdit() {
+    if (!editHistory.past.length) {
+      toast("Nothing to undo yet", "info");
+      return;
+    }
+    editHistory.future.push(snapshotRoster());
+    restoreRoster(editHistory.past.pop());
+    updateHistoryButtons();
+    renderAll();
+    FX.play("undo");
+    toast("Undid the last skin change", "info");
+  }
+
+  function redoEdit() {
+    if (!editHistory.future.length) {
+      toast("Nothing to redo", "info");
+      return;
+    }
+    editHistory.past.push(snapshotRoster());
+    restoreRoster(editHistory.future.pop());
+    updateHistoryButtons();
+    renderAll();
+    FX.play("redo");
+    toast("Redid the skin change", "info");
+  }
+
+  function beginTextEdit(key) {
+    if (textEditSession === key) return;
+    textEditSession = key;
+    pushHistory();
+  }
+
+  function stepSelection(direction) {
+    if (!state.loaded || !state.skins.length) return;
+    const idx = state.skins.findIndex(s => s.n === state.selectedN);
+    const nextIdx = Math.max(0, Math.min(state.skins.length - 1, (idx < 0 ? 0 : idx) + direction));
+    const next = state.skins[nextIdx];
+    if (!next) return;
+    state.selectedN = next.n;
+    textEditSession = null;
+    renderSkinGrid();
+    renderInspector();
+    if (prefs.vfx) {
+      FX.play("soft");
+      const card = document.querySelector(`.skin-card[data-n="${next.n}"]`);
+      if (card && card.scrollIntoView) {
+        card.scrollIntoView({ block: "nearest", behavior: prefersReducedMotion() ? "auto" : "smooth" });
+      }
+    }
+  }
+
+  // =========================================================================
+  // 7c. BULK ROSTER ACTIONS, DUPLICATION & ROSTER EXPORT
+  // =========================================================================
+
+  function bulkSetSuggestions(enabled) {
+    if (!state.loaded) return;
+    pushHistory();
+    for (const skin of state.skins) skin.registerSuggestions = !!enabled;
+    renderAll();
+    toast(
+      enabled
+        ? `Registered ${state.skins.length} skins in MOB_CATALOG + MOB_ALIASES`
+        : `Removed all ${state.skins.length} skins from suggestions`,
+      "ok"
+    );
+  }
+
+  function bulkAutoDetectArms() {
+    if (!state.loaded) return;
+    pushHistory();
+    let changed = 0;
+    for (const skin of state.skins) {
+      if (!skin.canvas) continue;
+      const nextArm = detectSlimFromCanvas(skin.canvas) ? "slim" : "classic";
+      if (skin.arm !== nextArm) {
+        skin.arm = nextArm;
+        changed++;
+      }
+    }
+    renderAll();
+    toast(
+      changed
+        ? `Re-detected arms: ${changed} slot${changed === 1 ? "" : "s"} updated`
+        : "Arm detection complete — every slot already matches its PNG",
+      "ok"
+    );
+  }
+
+  async function resetAllEdits() {
+    if (!state.loaded) return;
+    pushHistory();
+    state.skins = state.skins.filter(s => !s.isAdded);
+    for (const skin of state.skins) {
+      skin.name = skin.origName;
+      skin.arm = skin.origArm;
+      skin.registerSuggestions = skin.origRegisterSuggestions;
+      skin.customKeywords = [...skin.origCustomKeywords];
+      skin.pngBytes = skin.origPngBytes;
+      skin.textureDirty = false;
+      if (skin.origPngBytes) {
+        try {
+          const loaded = await loadImageFromBytes(skin.origPngBytes);
+          skin.canvas = loaded.canvas;
+          skin.width = loaded.width;
+          skin.height = loaded.height;
+        } catch (_) {}
+      }
+    }
+    state.selectedN = state.skins[0] ? state.skins[0].n : 1;
+    renderAll();
+    toast("Reset every skin edit back to the uploaded pack", "ok");
+  }
+
+  async function duplicateSelectedSkin() {
+    const source = state.skins.find(s => s.n === state.selectedN);
+    if (!source) return;
+    pushHistory();
+    const slot = await createExpandedSlot({
+      name: `${stripMcCodes(source.name).trim() || "Skin"} Copy`,
+      pngBytes: source.pngBytes ? new Uint8Array(source.pngBytes) : null,
+      canvas: source.canvas,
+      width: source.width,
+      height: source.height,
+      arm: source.arm
+    });
+    slot.customKeywords = [...(source.customKeywords || [])];
+    slot.registerSuggestions = true;
+    state.selectedN = slot.n;
+    textEditSession = null;
+    renderAll();
+    toast(`Duplicated bb:skin${source.n} into new slot bb:skin${slot.n}`, "ok");
+  }
+
+  function exportRosterCsv() {
+    if (!state.loaded) return;
+    const quote = (value) => `"${String(value == null ? "" : value).replace(/"/g, '""')}"`;
+    const rows = [["Slot", "Entity ID", "Name", "Arm", "Width", "Height", "Registered", "Search Keys"]];
+    for (const skin of state.skins) {
+      rows.push([
+        skin.n,
+        `bb:skin${skin.n}`,
+        stripMcCodes(skin.name),
+        skin.arm,
+        skin.width,
+        skin.height,
+        skin.registerSuggestions ? "yes" : "no",
+        buildFinalSearchKeys(skin).join(" ")
+      ]);
+    }
+    const csv = "\ufeff" + rows.map(r => r.map(quote).join(",")).join("\r\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const base = (state.fileName || "Bedrock_Filmmaking_Studio").replace(/\.(mcaddon|zip)$/i, "");
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${base}_roster.csv`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => { try { URL.revokeObjectURL(url); } catch (_) {} }, 5000);
+    toast(`Exported ${state.skins.length}-skin roster as .csv`, "ok");
+  }
+
+  const armedConfirms = new WeakMap();
+
+  function confirmAction(btn, armedLabel, action) {
+    if (!btn) return;
+    if (btn.dataset.confirmArmed === "1") {
+      btn.dataset.confirmArmed = "0";
+      const timer = armedConfirms.get(btn);
+      if (timer) clearTimeout(timer);
+      if (btn.dataset.originalLabel != null) {
+        btn.textContent = btn.dataset.originalLabel;
+        delete btn.dataset.originalLabel;
+      }
+      action();
+      return;
+    }
+    btn.dataset.confirmArmed = "1";
+    if (btn.dataset.originalLabel == null) btn.dataset.originalLabel = btn.textContent;
+    btn.textContent = armedLabel || "Click again to confirm";
+    FX.play("toggle");
+    const timer = setTimeout(() => {
+      btn.dataset.confirmArmed = "0";
+      if (btn.dataset.originalLabel != null) {
+        btn.textContent = btn.dataset.originalLabel;
+        delete btn.dataset.originalLabel;
+      }
+    }, 4200);
+    armedConfirms.set(btn, timer);
+  }
+
+  // =========================================================================
+  // 7d. HELP DIALOG, FX WIRING & FULL-WINDOW DROP
+  // =========================================================================
+
+  let helpLastFocus = null;
+
+  function openHelp() {
+    const modal = $("helpModal");
+    if (!modal) return;
+    helpLastFocus = document.activeElement;
+    modal.classList.remove("hidden");
+    const closeBtn = $("btnCloseHelp");
+    if (closeBtn) closeBtn.focus();
+    FX.play("toggle");
+  }
+
+  function closeHelp() {
+    const modal = $("helpModal");
+    if (!modal || modal.classList.contains("hidden")) return;
+    modal.classList.add("hidden");
+    if (helpLastFocus && typeof helpLastFocus.focus === "function") helpLastFocus.focus();
+    helpLastFocus = null;
+    FX.play("soft");
+  }
+
+  function wireStudioFx() {
+    FX.readyCanvas();
+
+    document.addEventListener("pointerdown", (event) => {
+      FX.unlock();
+      if (event.pointerType === "touch" && navigator.vibrate) {
+        try { navigator.vibrate(7); } catch (_) {}
+      }
+    }, { passive: true });
+
+    document.addEventListener("pointermove", (event) => {
+      FX.trail(event.clientX, event.clientY);
+    }, { passive: true });
+
+    document.addEventListener("click", (event) => {
+      const target = event.target && event.target.closest
+        ? event.target.closest("button, a, .skin-card, .upload-hero, .batch-drop, .tab-btn, .checkbox-row, .mc-swatch")
+        : null;
+      if (!target) return;
+      FX.ripple(event.clientX, event.clientY);
+      FX.tap(target);
+      FX.play("click");
+    }, true);
+
+    document.addEventListener("pointerdown", (event) => {
+      const target = event.target && event.target.closest
+        ? event.target.closest(".btn, .tab-btn, .skin-card")
+        : null;
+      if (target) FX.burst(event.clientX, event.clientY, 5, null, 0.8);
+    }, { passive: true });
+  }
+
+  let dropDepth = 0;
+
+  function showDropOverlay(show) {
+    const overlay = $("dropOverlay");
+    if (!overlay) return;
+    overlay.classList.toggle("hidden", !show);
+    const hint = $("dropOverlayHint");
+    if (hint) {
+      hint.textContent = state.loaded
+        ? "Drop a .mcaddon to reopen, or PNGs to add new skins"
+        : "Release a .mcaddon to load it into the workbench";
+    }
+  }
+
+  function isFileDrag(event) {
+    const dt = event.dataTransfer;
+    if (!dt) return false;
+    if (dt.types) return Array.from(dt.types).includes("Files");
+    return (dt.files && dt.files.length > 0);
+  }
+
+  async function handleDroppedFiles(files) {
+    const list = Array.from(files || []);
+    if (!list.length) return;
+    const addon = list.find(f => /\.(mcaddon|mcpack|zip)$/i.test(f.name));
+    if (addon) {
+      await loadMcaddonFile(addon);
+      return;
+    }
+    const images = list.filter(f => (f.type && f.type.startsWith("image/")) || /\.(png|jpe?g|webp)$/i.test(f.name));
+    if (images.length) {
+      if (!state.loaded) {
+        toast("Open a .mcaddon first, then drop PNGs to add skins", "err");
+        return;
+      }
+      await handleBatchPngFiles(images);
+      return;
+    }
+    toast("Unsupported file — drop a .mcaddon or PNG skin textures", "err");
+  }
+
+  // =========================================================================
   // 8. RENDERING UI
   // =========================================================================
 
@@ -3064,6 +4249,31 @@
     $("lblOrigCount").textContent = `1..${state.origSkinCount}`;
     $("lblActiveCount").textContent = `1..${total}`;
 
+    const slimTotal = state.skins.filter(s => s.arm === "slim").length;
+    const registered = state.skins.filter(s => s.registerSuggestions).length;
+    const editedExisting = state.skins.filter(s => !s.isAdded && isSlotModified(s)).length;
+    const addedTotal = state.skins.filter(s => s.isAdded).length;
+    const totalEl = $("statTotal");
+    if (totalEl) totalEl.textContent = String(total);
+    const totalSub = $("statTotalSub");
+    if (totalSub) totalSub.textContent = `bb:skin1..${total}`;
+    const editedEl = $("statEdited");
+    if (editedEl) editedEl.textContent = String(mods);
+    const editedSub = $("statEditedSub");
+    if (editedSub) editedSub.textContent = `${editedExisting} edited \u00b7 ${addedTotal} new`;
+    const slimEl = $("statSlim");
+    if (slimEl) slimEl.textContent = String(slimTotal);
+    const regEl = $("statRegistered");
+    if (regEl) regEl.textContent = String(registered);
+    const gapEl = $("statMolang");
+    if (gapEl) {
+      const gaps = $("optFixMolang") && $("optFixMolang").checked ? 0 : state.molangGapsCount;
+      gapEl.textContent = String(gaps);
+      gapEl.style.color = gaps > 0 ? "var(--red)" : "var(--green)";
+    }
+
+    updateHistoryButtons();
+
     const chBadge = $("badgeChanges");
     if (mods > 0) {
       chBadge.classList.remove("hidden");
@@ -3077,7 +4287,7 @@
     if (total > state.origSkinCount) trimBtn.classList.remove("hidden");
     else trimBtn.classList.add("hidden");
 
-    const baseName = state.fileName.replace(/\.mcaddon$/i, "").replace(/\.zip$/i, "") || "BlockBuster_Studio";
+    const baseName = state.fileName.replace(/\.mcaddon$/i, "").replace(/\.zip$/i, "") || "Bedrock_Filmmaking_Studio";
     if (!$("exportFilenameInput").dataset.userEdited) {
       $("exportFilenameInput").value = `${baseName}_Custom_${total}Skins.mcaddon`;
     }
@@ -3125,15 +4335,29 @@
 
       const idEl = document.createElement("div");
       idEl.className = "skin-card-id";
-      idEl.innerHTML = `<span>bb:skin${skin.n}</span><span style="color:${skin.arm === "slim" ? "var(--purple)" : "var(--text-muted)"}">${skin.arm === "slim" ? "Slim" : "Classic"}</span>`;
+      idEl.innerHTML = `<span>bb:skin${skin.n} &bull; ${skin.width}\u00d7${skin.height}</span><span style="color:${skin.arm === "slim" ? "var(--purple)" : "var(--text-muted)"}">${skin.arm === "slim" ? "Slim" : "Classic"}</span>`;
 
       card.appendChild(canvasWrap);
       card.appendChild(nameEl);
       card.appendChild(idEl);
-      card.addEventListener("click", () => {
+      card.dataset.n = String(skin.n);
+      card.tabIndex = 0;
+      card.setAttribute("role", "button");
+      card.setAttribute("aria-pressed", skin.n === state.selectedN ? "true" : "false");
+      card.setAttribute("aria-label", `bb:skin${skin.n}, ${stripMcCodes(skin.name)}, ${skin.arm} arms`);
+      card.title = `Select bb:skin${skin.n}${skin.isAdded ? " (new slot)" : mod ? " (edited)" : ""}`;
+      const selectCard = () => {
         state.selectedN = skin.n;
+        textEditSession = null;
         renderSkinGrid();
         renderInspector();
+      };
+      card.addEventListener("click", selectCard);
+      card.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          selectCard();
+        }
       });
       grid.appendChild(card);
     }
@@ -3276,7 +4500,7 @@
     simBody.innerHTML = "";
     for (const e of matches.slice(0, 40)) {
       const tr = document.createElement("tr");
-      tr.innerHTML = `<td>${renderMcFormattedHtml(e[0])}</td><td><code>${e[1]}</code></td><td style="color:var(--text-dim);">${e.slice(2).join(", ")}</td>`;
+      tr.innerHTML = `<td>${renderMcFormattedHtml(e[0])}</td><td><code>${escapeHtml(e[1])}</code></td><td style="color:var(--text-dim);">${escapeHtml(e.slice(2).join(", "))}</td>`;
       simBody.appendChild(tr);
     }
 
@@ -3289,7 +4513,7 @@
         <td><code>bb:skin${s.n}</code></td>
         <td>${renderMcFormattedHtml(s.name)}</td>
         <td>${s.registerSuggestions ? '<span class="pill pill-green">Yes</span>' : '<span class="pill">No</span>'}</td>
-        <td style="color:var(--text-dim);">${s.registerSuggestions ? keys.slice(0, 4).join(", ") : "-"}</td>
+        <td style="color:var(--text-dim);">${s.registerSuggestions ? escapeHtml(keys.slice(0, 4).join(", ")) : "-"}</td>
       `;
       regBody.appendChild(tr);
     }
@@ -3363,10 +4587,25 @@
       const fixing = $("optFixMolang").checked;
       checks.push({
         level: fixing ? "ok" : "warn",
-        title: `Molang Init (${state.molangGapsCount} slots in 21\u201340)`,
+        title: `Molang Init (${state.molangGapsCount} slot${state.molangGapsCount === 1 ? "" : "s"} flagged)`,
         desc: fixing
-          ? "Fix ENABLED — all client entities synced to bb_skin1.json"
-          : "Fix OFF — missing item_use_normalized, is_paperdoll, player_x_rotation"
+          ? "Fix ENABLED \u2014 all client entities synced to the bb_skin1.json template"
+          : "Fix OFF \u2014 missing item_use_normalized, is_paperdoll, player_x_rotation"
+      });
+    }
+
+    const nameCounts = new Map();
+    for (const skin of state.skins) {
+      const clean = stripMcCodes(skin.name).trim().toLowerCase();
+      if (!clean) continue;
+      nameCounts.set(clean, (nameCounts.get(clean) || 0) + 1);
+    }
+    const dupeNames = Array.from(nameCounts.entries()).filter(([, count]) => count > 1).map(([name]) => name);
+    if (dupeNames.length) {
+      checks.push({
+        level: "warn",
+        title: `Duplicate Display Names (${dupeNames.length})`,
+        desc: `${escapeHtml(dupeNames.slice(0, 4).join(", "))}${dupeNames.length > 4 ? "\u2026" : ""} \u2014 rename for clearer in-game search`
       });
     }
 
@@ -3487,7 +4726,7 @@
   }
 
   function updateLangText(originalLang, skins) {
-    const lines = originalLang ? originalLang.split(/\r?\n/) : ["## Blockbuster Studio - Language File", "## en_US"];
+    const lines = originalLang ? originalLang.split(/\r?\n/) : ["## Bedrock Filmmaking Studio - Language File", "## en_US"];
     const byN = new Map(skins.map(s => [s.n, s]));
     const foundN = new Set();
     const outLines = [];
@@ -3684,7 +4923,7 @@
       const finalBytes = await buildZip(outerOut);
       if (returnBytesOnly) return finalBytes;
 
-      const outNameRaw = ($("exportFilenameInput").value || "BlockBuster_Studio_Custom.mcaddon").trim();
+      const outNameRaw = ($("exportFilenameInput").value || "Bedrock_Filmmaking_Studio_Custom.mcaddon").trim();
       const outName = outNameRaw.endsWith(".mcaddon") ? outNameRaw : outNameRaw + ".mcaddon";
       const blob = new Blob([finalBytes], { type: "application/octet-stream" });
       if (state.lastExportUrl) {
@@ -3712,7 +4951,9 @@
       a.remove();
 
       setProg(`Done! Packaged ${(finalBytes.length / 1048576).toFixed(2)} MB.`);
-      toast(`Packaged ${outName} (${maxN} skins)!`, "ok");
+      FX.play("export");
+      FX.celebrate();
+      toast(`Packaged ${outName} (${maxN} skins)!`, "ok", true);
     } catch (err) {
       console.error(err);
       setProg("Export failed: " + err.message);
@@ -3724,6 +4965,30 @@
   // =========================================================================
   // 10. EVENT WIRING & INTERACTIONS
   // =========================================================================
+
+  async function handleBatchPngFiles(files) {
+    const valid = Array.from(files || []).filter(f => /\.(png|jpe?g|webp)$/i.test(f.name) || (f.type && f.type.startsWith("image/")));
+    if (!valid.length) { toast("No PNG/image files found.", "err"); return; }
+    pushHistory();
+    let lastSlot = null;
+    for (const file of valid) {
+      const nextN = getNextSlotNumber();
+      const img = await processUploadedPngFile(file);
+      const name = cleanFilenameToDisplayName(file.name, nextN);
+      lastSlot = await createExpandedSlot({
+        name,
+        pngBytes: img.pngBytes,
+        canvas: img.canvas,
+        width: img.width,
+        height: img.height,
+        arm: img.isSlim ? "slim" : "classic"
+      });
+    }
+    if (lastSlot) state.selectedN = lastSlot.n;
+    textEditSession = null;
+    renderAll();
+    toast(`Added ${valid.length} custom skin${valid.length === 1 ? "" : "s"} & registered in suggestions!`, "ok");
+  }
 
   function buildColorBar(containerId, targetInput, onChangeCb) {
     const bar = $(containerId);
@@ -3748,32 +5013,43 @@
   }
 
   function init() {
-    const themes = [
-      { id: "mc-night", btn: "Theme: MC Night", pill: "Minecraft Night", cls: "pill pill-gold" },
-      { id: "end-void", btn: "Theme: End Void", pill: "End Dimension", cls: "pill pill-purple" },
-      { id: "classic", btn: "Theme: Classic", pill: "Studio Slate", cls: "pill pill-teal" }
-    ];
-    let themeIdx = 0;
+    loadPrefs();
+    const savedThemeIdx = THEMES.findIndex(t => t.id === prefs.theme);
+    applyTheme(savedThemeIdx >= 0 ? savedThemeIdx : 0, false);
+    updateFxButtons();
+
     const btnTheme = $("btnCycleTheme");
-    const themePill = $("themeBadgePill");
-    if (btnTheme) {
-      btnTheme.addEventListener("click", () => {
-        themeIdx = (themeIdx + 1) % themes.length;
-        const t = themes[themeIdx];
-        if (document.body) {
-          document.body.setAttribute("data-theme", t.id);
-        }
-        btnTheme.textContent = t.btn;
-        if (themePill) {
-          themePill.textContent = t.pill;
-          themePill.className = t.cls;
+    if (btnTheme) btnTheme.addEventListener("click", cycleTheme);
+    const sfxBtn = $("btnToggleSfx");
+    if (sfxBtn) sfxBtn.addEventListener("click", () => toggleSfx(true));
+    const vfxBtn = $("btnToggleVfx");
+    if (vfxBtn) vfxBtn.addEventListener("click", () => toggleVfx(true));
+    const helpBtn = $("btnHelp");
+    if (helpBtn) helpBtn.addEventListener("click", openHelp);
+    const helpCloseBtn = $("btnCloseHelp");
+    if (helpCloseBtn) helpCloseBtn.addEventListener("click", closeHelp);
+    const helpModal = $("helpModal");
+    if (helpModal) {
+      helpModal.addEventListener("click", (e) => { if (e.target === helpModal) closeHelp(); });
+      helpModal.addEventListener("keydown", (e) => {
+        if (e.key === "Tab") {
+          e.preventDefault();
+          if (helpCloseBtn) helpCloseBtn.focus();
         }
       });
     }
+    const undoBtn = $("btnUndo");
+    if (undoBtn) undoBtn.addEventListener("click", undoEdit);
+    const redoBtn = $("btnRedo");
+    if (redoBtn) redoBtn.addEventListener("click", redoEdit);
+    updateHistoryButtons();
+
+    wireStudioFx();
 
     buildColorBar("inspColorBar", "inspNameInput", () => {
       const skin = state.skins.find(s => s.n === state.selectedN);
       if (!skin) return;
+      beginTextEdit("name");
       skin.name = $("inspNameInput").value;
       renderHeaderBadges();
       renderSkinGrid();
@@ -3808,9 +5084,14 @@
         document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
         document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
         btn.classList.add("active");
+        btn.setAttribute("aria-selected", "true");
+        document.querySelectorAll(".tab-btn").forEach(b => {
+          if (b !== btn) b.setAttribute("aria-selected", "false");
+        });
         $(btn.dataset.tab).classList.add("active");
         if (btn.dataset.tab === "suggestionsTab") renderSuggestionsTab();
         if (btn.dataset.tab === "healthTab") renderHealthAudit();
+        FX.play("soft");
       });
     });
 
@@ -3824,6 +5105,8 @@
 
     // Expansion buttons
     $("btnAddOneSlot").addEventListener("click", async () => {
+      pushHistory();
+      textEditSession = null;
       const slot = await createExpandedSlot({});
       state.selectedN = slot.n;
       renderAll();
@@ -3831,6 +5114,8 @@
     });
 
     $("btnExpandFive").addEventListener("click", async () => {
+      pushHistory();
+      textEditSession = null;
       let last;
       for (let i = 0; i < 5; i++) last = await createExpandedSlot({});
       if (last) state.selectedN = last.n;
@@ -3854,6 +5139,8 @@
     $("btnApplyCustomExpand").addEventListener("click", async () => {
       const count = Math.max(1, Math.min(200, parseInt($("customExpandCount").value, 10) || 0));
       if (!count) return;
+      pushHistory();
+      textEditSession = null;
       $("customExpandBar").classList.add("hidden");
       let last;
       for (let i = 0; i < count; i++) last = await createExpandedSlot({});
@@ -3864,34 +5151,20 @@
 
     $("btnTrimTail").addEventListener("click", () => {
       if (state.skins.length <= state.origSkinCount) return;
-      state.skins = state.skins.filter(s => s.n <= state.origSkinCount);
-      if (state.selectedN > state.skins.length) state.selectedN = state.skins.length;
-      renderAll();
-      toast(`Trimmed expanded slots back to bb:skin1..bb:skin${state.origSkinCount}`, "ok");
+      const trimBtn = $("btnTrimTail");
+      confirmAction(trimBtn, `Trim to ${state.origSkinCount}?`, () => {
+        pushHistory();
+        textEditSession = null;
+        state.skins = state.skins.filter(s => s.n <= state.origSkinCount);
+        if (state.selectedN > state.origSkinCount) state.selectedN = state.origSkinCount;
+        if (!state.skins.some(s => s.n === state.selectedN)) {
+          state.selectedN = state.skins[0] ? state.skins[0].n : 1;
+        }
+        renderAll();
+        FX.play("remove");
+        toast(`Trimmed expanded slots back to bb:skin1..bb:skin${state.origSkinCount}`, "ok", true);
+      });
     });
-
-    // Batch PNG drop / upload
-    async function handleBatchPngFiles(files) {
-      const valid = Array.from(files).filter(f => /\.(png|jpe?g|webp)$/i.test(f.name) || f.type.startsWith("image/"));
-      if (!valid.length) { toast("No PNG/image files found.", "err"); return; }
-      let lastSlot = null;
-      for (const file of valid) {
-        const nextN = getNextSlotNumber();
-        const img = await processUploadedPngFile(file);
-        const name = cleanFilenameToDisplayName(file.name, nextN);
-        lastSlot = await createExpandedSlot({
-          name,
-          pngBytes: img.pngBytes,
-          canvas: img.canvas,
-          width: img.width,
-          height: img.height,
-          arm: img.isSlim ? "slim" : "classic"
-        });
-      }
-      if (lastSlot) state.selectedN = lastSlot.n;
-      renderAll();
-      toast(`Added ${valid.length} custom skin${valid.length === 1 ? "" : "s"} & registered in suggestions!`, "ok");
-    }
 
     $("btnBatchPick").addEventListener("click", (e) => { e.stopPropagation(); $("batchPngInput").click(); });
     $("batchDropZone").addEventListener("click", () => $("batchPngInput").click());
@@ -3917,12 +5190,14 @@
       const skin = state.skins.find(s => s.n === state.selectedN);
       if (!skin) return;
       const img = await processUploadedPngFile(file);
+      pushHistory();
       skin.pngBytes = img.pngBytes;
       skin.canvas = img.canvas;
       skin.width = img.width;
       skin.height = img.height;
       skin.arm = img.isSlim ? "slim" : "classic";
       skin.textureDirty = true;
+      textEditSession = null;
       renderAll();
       toast(`Replaced texture for bb:skin${skin.n}`, "ok");
     });
@@ -3930,6 +5205,7 @@
     $("btnConvert64").addEventListener("click", async () => {
       const skin = state.skins.find(s => s.n === state.selectedN);
       if (!skin || !skin.canvas) return;
+      pushHistory();
       const converted = convertLegacy64x32To64x64(skin.canvas);
       skin.canvas = converted;
       skin.width = converted.width;
@@ -3954,6 +5230,7 @@
     $("inspNameInput").addEventListener("input", () => {
       const skin = state.skins.find(s => s.n === state.selectedN);
       if (!skin) return;
+      beginTextEdit("name");
       skin.name = $("inspNameInput").value;
       $("inspNamePreview").innerHTML = renderMcFormattedHtml(skin.name);
       $("inspAutoKeysPreview").textContent = generateAutoKeys(skin.n, skin.name).join(", ");
@@ -3964,6 +5241,7 @@
     $("inspArmSelect").addEventListener("change", () => {
       const skin = state.skins.find(s => s.n === state.selectedN);
       if (!skin) return;
+      pushHistory();
       skin.arm = $("inspArmSelect").value;
       renderHeaderBadges();
       renderSkinGrid();
@@ -3973,6 +5251,7 @@
     $("inspRegCatalog").addEventListener("change", () => {
       const skin = state.skins.find(s => s.n === state.selectedN);
       if (!skin) return;
+      pushHistory();
       skin.registerSuggestions = $("inspRegCatalog").checked;
       renderHeaderBadges();
       renderSkinGrid();
@@ -3981,6 +5260,7 @@
     $("inspKeywordsInput").addEventListener("input", () => {
       const skin = state.skins.find(s => s.n === state.selectedN);
       if (!skin) return;
+      beginTextEdit("keywords");
       skin.customKeywords = $("inspKeywordsInput").value.split(",").map(s => s.trim().toLowerCase()).filter(Boolean);
       renderHeaderBadges();
     });
@@ -3988,6 +5268,7 @@
     $("btnRestoreSlot").addEventListener("click", async () => {
       const skin = state.skins.find(s => s.n === state.selectedN);
       if (!skin || skin.isAdded) return;
+      pushHistory();
       skin.name = skin.origName;
       skin.arm = skin.origArm;
       skin.registerSuggestions = skin.origRegisterSuggestions;
@@ -4007,11 +5288,31 @@
     $("btnDeleteSlot").addEventListener("click", () => {
       const last = state.skins[state.skins.length - 1];
       if (!last || !last.isAdded || last.n !== state.selectedN) return;
-      state.skins.pop();
-      state.selectedN = state.skins[state.skins.length - 1]?.n || 1;
-      renderAll();
-      toast(`Deleted slot bb:skin${last.n}`, "ok");
+      const deleteBtn = $("btnDeleteSlot");
+      confirmAction(deleteBtn, "Delete slot?", () => {
+        pushHistory();
+        state.skins.pop();
+        state.selectedN = state.skins[state.skins.length - 1]?.n || 1;
+        textEditSession = null;
+        renderAll();
+        FX.play("remove");
+        toast(`Deleted slot bb:skin${last.n}`, "ok", true);
+      });
     });
+
+    ["inspNameInput", "inspKeywordsInput"].forEach(id => {
+      const el = $(id);
+      if (el) el.addEventListener("blur", () => { textEditSession = null; });
+    });
+
+    $("btnCopyId").addEventListener("click", async () => {
+      const skin = state.skins.find(s => s.n === state.selectedN);
+      if (!skin) return;
+      const ok = await copyText(`bb:skin${skin.n}`);
+      toast(ok ? `Copied bb:skin${skin.n} to clipboard` : "Clipboard unavailable in this browser", ok ? "ok" : "err");
+    });
+
+    $("btnDuplicateSlot").addEventListener("click", duplicateSelectedSkin);
 
     // Inspector preview modes & 3D spin drag
     document.querySelectorAll("[data-view]").forEach(b => {
@@ -4087,10 +5388,117 @@
       buildAndExportMcaddon(false);
     });
     $("btnExportMain").addEventListener("click", () => buildAndExportMcaddon(false));
+
+    // Bulk roster actions
+    const bulkRegisterBtn = $("btnBulkRegister");
+    if (bulkRegisterBtn) bulkRegisterBtn.addEventListener("click", () => bulkSetSuggestions(true));
+    const bulkUnregisterBtn = $("btnBulkUnregister");
+    if (bulkUnregisterBtn) bulkUnregisterBtn.addEventListener("click", () => bulkSetSuggestions(false));
+    const bulkArmBtn = $("btnBulkAutoArm");
+    if (bulkArmBtn) bulkArmBtn.addEventListener("click", bulkAutoDetectArms);
+    const csvBtn = $("btnExportCsv");
+    if (csvBtn) csvBtn.addEventListener("click", exportRosterCsv);
+    const resetBtn = $("btnResetEdits");
+    if (resetBtn) {
+      resetBtn.addEventListener("click", () => {
+        confirmAction(resetBtn, "Reset all edits?", resetAllEdits);
+      });
+    }
+
+    // Full-window drag & drop
+    const overLocalDropZone = (event) => !!(event.target && event.target.closest && event.target.closest("#dropZone, #batchDropZone"));
+    window.addEventListener("dragenter", (event) => {
+      if (!isFileDrag(event) || overLocalDropZone(event)) return;
+      event.preventDefault();
+      showDropOverlay(true);
+    });
+    window.addEventListener("dragover", (event) => {
+      if (!isFileDrag(event)) return;
+      event.preventDefault();
+      if (event.dataTransfer) event.dataTransfer.dropEffect = "copy";
+      if (!overLocalDropZone(event)) showDropOverlay(true);
+    });
+    window.addEventListener("dragleave", (event) => {
+      if (!event.relatedTarget) showDropOverlay(false);
+    });
+    window.addEventListener("drop", (event) => {
+      if (event.defaultPrevented) return;
+      if (!isFileDrag(event)) return;
+      event.preventDefault();
+      showDropOverlay(false);
+      handleDroppedFiles(event.dataTransfer && event.dataTransfer.files);
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener("keydown", (event) => {
+      const target = event.target;
+      const tag = target && target.tagName ? target.tagName.toLowerCase() : "";
+      const typing = tag === "input" || tag === "textarea" || tag === "select" || (target && target.isContentEditable);
+      const mod = event.ctrlKey || event.metaKey;
+      const key = event.key;
+
+      if (mod && (key === "o" || key === "O")) {
+        event.preventDefault();
+        $("addonFileInput").click();
+        return;
+      }
+      if (mod && (key === "e" || key === "E")) {
+        event.preventDefault();
+        if (state.loaded) {
+          const healthTab = document.querySelector('[data-tab="healthTab"]');
+          if (healthTab) healthTab.click();
+          buildAndExportMcaddon(false);
+        } else {
+          toast("Open a .mcaddon before exporting", "err");
+        }
+        return;
+      }
+      if (mod && (key === "z" || key === "Z")) {
+        event.preventDefault();
+        if (event.shiftKey) redoEdit();
+        else undoEdit();
+        return;
+      }
+      if (mod && (key === "y" || key === "Y")) {
+        event.preventDefault();
+        redoEdit();
+        return;
+      }
+      if (key === "Escape") {
+        closeHelp();
+        showDropOverlay(false);
+        return;
+      }
+      if (typing) return;
+
+      if (key === "?" || (event.shiftKey && key === "/")) {
+        event.preventDefault();
+        openHelp();
+      } else if (key === "t" || key === "T") {
+        cycleTheme();
+      } else if (key === "m" || key === "M") {
+        toggleSfx(true);
+      } else if (key === "v" || key === "V") {
+        toggleVfx(true);
+      } else if (key === "[") {
+        event.preventDefault();
+        stepSelection(-1);
+      } else if (key === "]") {
+        event.preventDefault();
+        stepSelection(1);
+      }
+    });
+
+    window.addEventListener("beforeunload", (event) => {
+      if (state.loaded && countModifiedOrAdded() > 0) {
+        event.preventDefault();
+        event.returnValue = "";
+      }
+    });
   }
 
   init();
 })();
 </script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a596b2f2d8e32b0d',t:'MTc5NDQ5ODY5Ng=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a596b2f2d8e32b0d',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
