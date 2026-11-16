@@ -1,0 +1,546 @@
+Camera-entity keyframe menu alignment for Bedrock Filmmaking Studio v4.5.5
+Apply from the pack root (the folder containing BP/ and RP/): patch -p1 < patches/bedrock-filmmaking-studio-v4.5.5-camera-kf-menu.patch
+
+--- a/BP/scripts/ui/StudioUI.js
++++ b/BP/scripts/ui/StudioUI.js
+@@ -5506,15 +5506,6 @@
+       const totalCam = easeKfs.length + presetKfs.length + shakeKfs.length + fovKfs.length
+         + speedKfs.length + lookKfs.length + cutKfs.length + visKfs.length + soundKfs.length + cmdKfs.length;
+ 
+-      const klBody =
+-        section("Camera Keyframe List") + "\n" +
+-        ` §7Camera §8› ${V(trackId)}  §7Total §8› §f${totalCam}\n` +
+-        THIN() + "\n" +
+-        (totalCam > 0
+-          ? ` §8Only active camera keyframes shown below.\n`
+-          : ` §8No camera keyframes configured yet.\n §8Tap 'Add Camera Keyframe' below to add one.\n`) +
+-        DIV();
+-
+       const camActions = {
+         ease:       { text: btn("§e","EAS","Easing Curves",     easeKfs.length ? `§e${easeKfs.length}` : `§8none`), run: () => this._cameraListEase(player, trackId, track, store) },
+         preset:     { text: btn("§6","PRE","Camera Presets",    presetKfs.length ? `§6${presetKfs.length}` : `§8none`), run: () => this._cameraListPresets(player, trackId, track, store) },
+@@ -5541,30 +5532,44 @@
+         command: cmdKfs.length,
+       };
+ 
+-      const activeKeys = Object.keys(camActions).filter(k => counts[k] > 0);
++      const defaultListOrder = ["ease","preset","shake","fov","speed","lookAt","cuts","visibility","sound","command"];
++      const order = [];
++      for (const k of defaultListOrder) {
++        if ((counts[k] ?? 0) > 0 && camActions[k]) {
++          order.push(k);
++        }
++      }
++
++      const hasAny = order.length > 0;
++      const klBody =
++        section("Keyframe List") + "\n" +
++        ` §7Track §8› ${V(trackId)}  §7Total §8› §f${totalCam}\n` +
++        THIN() + "\n" +
++        (hasAny
++          ? ` §8Only active keyframe categories shown below.\n`
++          : ` §8No keyframes configured on this track yet.\n §8Tap 'Add Keyframe Category' below to create one.\n`) +
++        DIV();
+ 
+       const form = new ActionFormData()
+-        .title("§6§l* CAMERA KEYFRAME LIST")
+-        .body(klBody);
++        .title("§3§l* KEYFRAME LIST")
++        .body(this._tips?.appendTip(player, "keyframeList", klBody) ?? klBody);
+ 
+-      for (const k of activeKeys) {
+-        form.button(camActions[k].text);
+-      }
+-      form.button(btn("§a", "+", "Add Camera Keyframe...", "add a camera tool keyframe to this track"));
++      for (const k of order) form.button(camActions[k].text);
++      form.button(btn("§a", "+", "Add Keyframe Category...", "add a camera tool keyframe to this track"));
+       form.button(btn("§8", "<<", "Back", ""));
+ 
+       const res = await this._show(form, player);
+       if (res.canceled) return "exit";
+ 
+-      if (res.selection === activeKeys.length) {
++      if (res.selection === order.length) {
+         await this._cameraAddKeyframePicker(player, trackId, track, store, total);
+         continue;
+       }
+-      if (res.selection === activeKeys.length + 1) {
++      if (res.selection === order.length + 1) {
+         return "back";
+       }
+ 
+-      const chosenKey = activeKeys[res.selection];
++      const chosenKey = order[res.selection];
+       if (chosenKey && camActions[chosenKey]?.run) {
+         const sub = await camActions[chosenKey].run();
+         if (sub === "exit" || sub === NAV.CLOSE) return "exit";
+@@ -5572,11 +5577,11 @@
+     }
+   }
+ 
+-  async _cameraListGeneric(player, trackId, track, store, listName, items, itemRenderer, onAdd) {
++  async _cameraListGeneric(player, trackId, track, store, listName, items, itemRenderer, onAdd, color = "§6") {
+     while (true) {
+       const form = new ActionFormData()
+-        .title(`§6§l* ${listName.toUpperCase()}`)
+-        .body(` §7${items.length} keyframe(s) configured\n` + DIV());
++        .title(`${color}§l* ${listName.toUpperCase()}`)
++        .body(` §7${items.length} keyframe(s) on §e${trackId}§7.\n` + DIV());
+ 
+       items.forEach((item, idx) => {
+         form.button(itemRenderer(item, idx));
+@@ -5586,7 +5591,7 @@
+       const backIdx = items.length + 2;
+ 
+       form.button(btn("§a", "+", "Add at Frame...", "add keyframe at frame"));
+-      form.button(btn("§4", "DEL×", "Delete Multiple...", "select multiple keyframes to remove"));
++      form.button(btn("§c", "DEL", "Delete Multiple...", "select multiple to remove"));
+       form.button(btn("§8", "<<", "Back", ""));
+ 
+       const res = await this._show(form, player);
+@@ -5615,34 +5620,19 @@
+       }
+ 
+       const chosen = items[res.selection];
+-      const optForm = new ActionFormData()
+-        .title("§e§l* KEYFRAME OPTIONS")
+-        .body(
+-          section("Keyframe") + "\n" +
+-          ` §7Category §8› §f${listName}\n` +
+-          ` §7Frame    §8› §e${chosen.frameIndex}\n` +
+-          ` §7Current  §8› §b${itemRenderer(chosen, res.selection)}\n` +
+-          DIV()
+-        )
+-        .button(btn("§b", "EDT", "Edit Keyframe", "modify frame index, value, or curve"))
+-        .button(btn("§c", "DEL", "Delete Keyframe", "remove from track"))
+-        .button(btn("§8", "<<", "Cancel", ""));
+-
+-      const optRes = await this._show(optForm, player);
+-      if (optRes.canceled || optRes.selection === 2) continue;
+-
+-      if (optRes.selection === 0) {
+-        // Edit Keyframe
++      if (!chosen) continue;
++      const action = await this._keyframeEntryActions(player, chosen.frameIndex ?? 0, itemRenderer(chosen, res.selection));
++      if (action === "edit") {
++        try { this._playback?.scrubToFrame?.(chosen.frameIndex ?? 0); } catch (_) {}
+         await this._keyframeEditGeneric(player, trackId, track, store, listName, chosen, items);
+         continue;
+-      } else if (optRes.selection === 1) {
+-        // Delete Keyframe
++      }
++      if (action === "delete") {
+         const idx = items.indexOf(chosen);
+         if (idx >= 0) items.splice(idx, 1);
+         try { store?.saveAll?.(); } catch (_) {}
+         player.sendMessage(`§c[CAM] Keyframe at frame §e${chosen.frameIndex}§c removed.`);
+         player.playSound("note.bass");
+-        continue;
+       }
+     }
+   }
+@@ -5656,7 +5646,7 @@
+     const keyType = listName.toLowerCase();
+     let editMode = "generic";
+ 
+-    if (keyType.includes("ease")) {
++    if (keyType.includes("eas")) {
+       editMode = "ease";
+       const easeNames = ["step", "in_out_sine", "in_out_cubic", "in_out_quad", "linear"];
+       const currIdx = Math.max(0, easeNames.indexOf(chosen.type));
+@@ -5742,7 +5732,7 @@
+     if (!track.easeKeyframes) track.easeKeyframes = [];
+     await this._cameraListGeneric(player, trackId, track, store, "Easing Curves", track.easeKeyframes,
+       (k) => `§ef${k.frameIndex} §8- §e${k.type}`,
+-      () => this._cameraAddKeyframePicker(player, trackId, track, store, track.frames?.length ?? 1)
++      () => this._cameraAddKeyframePicker(player, trackId, track, store, track.frames?.length ?? 1), "§e"
+     );
+   }
+ 
+@@ -5750,7 +5740,7 @@
+     if (!track.presetKeyframes) track.presetKeyframes = [];
+     await this._cameraListGeneric(player, trackId, track, store, "Camera Presets", track.presetKeyframes,
+       (k) => `§6f${k.frameIndex} §8- §6${k.name}`,
+-      () => this._cameraAddKeyframePicker(player, trackId, track, store, track.frames?.length ?? 1)
++      () => this._cameraAddKeyframePicker(player, trackId, track, store, track.frames?.length ?? 1), "§6"
+     );
+   }
+ 
+@@ -5758,7 +5748,7 @@
+     if (!track.shakeKeyframes) track.shakeKeyframes = [];
+     await this._cameraListGeneric(player, trackId, track, store, "Camera Shakes", track.shakeKeyframes,
+       (k) => `§cf${k.frameIndex} §8- §c${k.intensity}x (${k.durationTicks}t)`,
+-      () => this._cameraAddKeyframePicker(player, trackId, track, store, track.frames?.length ?? 1)
++      () => this._cameraAddKeyframePicker(player, trackId, track, store, track.frames?.length ?? 1), "§c"
+     );
+   }
+ 
+@@ -5766,7 +5756,7 @@
+     if (!track.fovKeyframes) track.fovKeyframes = [];
+     await this._cameraListGeneric(player, trackId, track, store, "Lens FOV / Zooms", track.fovKeyframes,
+       (k) => `§bf${k.frameIndex} §8- §b${k.fov}° (${k.easeTime ?? 0}s)`,
+-      () => this._cameraAddKeyframePicker(player, trackId, track, store, track.frames?.length ?? 1)
++      () => this._cameraAddKeyframePicker(player, trackId, track, store, track.frames?.length ?? 1), "§b"
+     );
+   }
+ 
+@@ -5774,7 +5764,7 @@
+     if (!track.lookAtKeyframes) track.lookAtKeyframes = [];
+     await this._cameraListGeneric(player, trackId, track, store, "Look-At Targets", track.lookAtKeyframes,
+       (k) => `§df${k.frameIndex} §8- §d${k.targetId || k.targetType}`,
+-      () => this._cameraAddKeyframePicker(player, trackId, track, store, track.frames?.length ?? 1)
++      () => this._cameraAddKeyframePicker(player, trackId, track, store, track.frames?.length ?? 1), "§d"
+     );
+   }
+ 
+@@ -5782,7 +5772,7 @@
+     if (!track.cutKeyframes) track.cutKeyframes = [];
+     await this._cameraListGeneric(player, trackId, track, store, "Cut Transitions", track.cutKeyframes,
+       (k) => `§9f${k.frameIndex} §8- §9${k.transition}`,
+-      () => this._cameraAddKeyframePicker(player, trackId, track, store, track.frames?.length ?? 1)
++      () => this._cameraAddKeyframePicker(player, trackId, track, store, track.frames?.length ?? 1), "§9"
+     );
+   }
+ 
+@@ -5790,35 +5780,47 @@
+     if (!track.visibilityKeyframes) track.visibilityKeyframes = [];
+     await this._cameraListGeneric(player, trackId, track, store, "Visibility Toggles", track.visibilityKeyframes,
+       (k) => `§ff${k.frameIndex} §8- ${k.visible ? "§aVisible" : "§7Invisible"}`,
+-      () => this._cameraAddKeyframePicker(player, trackId, track, store, track.frames?.length ?? 1)
++      () => this._cameraAddKeyframePicker(player, trackId, track, store, track.frames?.length ?? 1), "§f"
+     );
+   }
+ 
+   async _cameraAddKeyframePicker(player, trackId, track, store, total) {
++    const form = new ActionFormData()
++      .title("§a§l* ADD KEYFRAME CATEGORY")
++      .body(" §7Choose a camera keyframe type to add to this track:\n" + DIV())
++      .button(btn("§e", "EAS", "Easing Curve", "ease in / out / step"))
++      .button(btn("§6", "PRE", "Camera Preset", "wide / close-up / hero framing"))
++      .button(btn("§c", "SHK", "Camera Shake", "rumble or handheld shake"))
++      .button(btn("§b", "FOV", "Lens FOV / Zoom", "focal length zoom"))
++      .button(btn("§a", "SPD", "Dolly Speed Ramp", "slow-mo or timelapse"))
++      .button(btn("§d", "AIM", "Look-At Target Lock", "lock onto actor or player"))
++      .button(btn("§9", "CUT", "Cut Transition", "cut / fade to black"))
++      .button(btn("§f", "VIS", "Camera Visibility", "show or hide camera model"))
++      .button(btn("§b", "SND", "Foley & Audio", "sound effect at this frame"))
++      .button(btn("§e", "CMD", "Director Command", "run command at this frame"))
++      .button(btn("§8", "<<", "Back", ""));
++
++    const res = await this._show(form, player);
++    if (res.canceled || res.selection === 10) return;
++
+     const modal = new ModalFormData()
+-      .title("§a§l* ADD CAMERA KEYFRAME")
+-      .slider(`§7Frame Index (0 to ${Math.max(0, total - 1)}):`, 0, Math.max(0, total - 1), { valueStep: 1, defaultValue: 0 })
+-      .dropdown("§7Camera Tool Category:", [
+-        "Easing Curve (Ease In / Out / Step)",
+-        "Camera Preset (Wide / Close-up / Hero)",
+-        "Camera Shake (Intensity & Duration)",
+-        "Lens FOV / Zoom (Focal Length)",
+-        "Look-At Target Lock",
+-        "Cut Transition",
+-        "Visibility Toggle"
+-      ]);
+-    const res = await this._showModal(modal, player);
+-    if (res.canceled) return;
+-    const frameIdx = Math.round(res.formValues[0] ?? 0);
+-    const catIdx = res.formValues[1] ?? 0;
+-    switch (catIdx) {
++      .title("§a§l* CHOOSE FRAME")
++      .slider(`§7Frame Index (0 to ${Math.max(0, total - 1)}):`, 0, Math.max(0, total - 1), { valueStep: 1, defaultValue: 0 });
++    const mr = await this._showModal(modal, player);
++    if (mr.canceled) return;
++    const frameIdx = Math.round(mr.formValues[0] ?? 0);
++
++    switch (res.selection) {
+       case 0: await this._scrubberCameraEase(player, trackId, frameIdx, track, store); break;
+       case 1: await this._scrubberCameraPresets(player, trackId, frameIdx, track, store); break;
+       case 2: await this._scrubberCameraShake(player, trackId, frameIdx, track, store); break;
+       case 3: await this._scrubberCameraFov(player, trackId, frameIdx, track, store); break;
+-      case 4: await this._scrubberCameraLookAt(player, trackId, frameIdx, track, store); break;
+-      case 5: await this._scrubberCameraCutTransition(player, trackId, frameIdx, track, store); break;
+-      case 6: await this._scrubberCameraVisibility(player, trackId, frameIdx, track, store); break;
++      case 4: await this._scrubberSpeedRamp(player, trackId, frameIdx, track, store, total); break;
++      case 5: await this._scrubberCameraLookAt(player, trackId, frameIdx, track, store); break;
++      case 6: await this._scrubberCameraCutTransition(player, trackId, frameIdx, track, store); break;
++      case 7: await this._scrubberCameraVisibility(player, trackId, frameIdx, track, store); break;
++      case 8: await this._scrubberSoundPlay(player, trackId, frameIdx, track, store); break;
++      case 9: await this._scrubberCommandKeyframe(player, trackId, frameIdx, track, store); break;
+     }
+   }
+ 
+@@ -7027,6 +7029,8 @@
+ 
+     const { morphKfs, eqFrames, speedKfs, liquidKfs, cutFrames, particleKfs, animationKfs } = kf;
+ 
++    const isCamTrack = track.actorId === "bbs:cam" || track.isCameraEntity || track.type === "camera";
++
+     const hasMorph    = morphKfs.includes(frameIdx);
+     const hasName     = (track.nameKeyframes ?? []).some(n => n.frameIndex === frameIdx);
+     const hasEq       = eqFrames.includes(frameIdx);
+@@ -7052,6 +7056,23 @@
+     const hasChat     = (track.chatKeyframes ?? []).some(c => c.frameIndex === frameIdx);
+     const hasCmd      = (track.commandKeyframes ?? []).some(c => { const s=c.startFrame??c.frameIndex; const e=c.endFrame??c.frameIndex; return frameIdx>=s && frameIdx<=e; });
+ 
++    const camEaseK   = (track.easeKeyframes ?? []).find(k => k.frameIndex === frameIdx);
++    const camPresetK = (track.presetKeyframes ?? []).find(k => k.frameIndex === frameIdx);
++    const camShakeK  = (track.shakeKeyframes ?? []).find(k => k.frameIndex === frameIdx);
++    const camFovK    = (track.fovKeyframes ?? []).find(k => k.frameIndex === frameIdx);
++    const camSpeedK  = (track.speedKeyframes ?? []).find(k => k.frameIndex === frameIdx);
++    const camLookK   = (track.lookAtKeyframes ?? []).find(k => k.frameIndex === frameIdx);
++    const camCutK    = (track.cutKeyframes ?? []).find(k => k.frameIndex === frameIdx);
++    const camVisK    = (track.visibilityKeyframes ?? []).find(k => k.frameIndex === frameIdx);
++    const hasCamEase   = !!camEaseK;
++    const hasCamPreset = !!camPresetK;
++    const hasCamShake  = !!camShakeK;
++    const hasCamFov    = !!camFovK;
++    const hasCamSpeed  = !!camSpeedK;
++    const hasCamLook   = !!camLookK;
++    const hasCamCut    = !!camCutK;
++    const hasCamVis    = !!camVisK;
++
+     const mobLabel = hasMorph
+       ? (track.morphKeyframes.find(m=>m.frameIndex===frameIdx)?.mobId ?? "").replace("minecraft:","")
+       : "";
+@@ -7110,7 +7131,19 @@
+           : `${(activeRide.entityTypeId || "cushion").replace("minecraft:", "")}${activeRide.seatIndex ? ` [S${activeRide.seatIndex}]` : ""}`)
+       : (isDismount ? "§cDismounted" : "none");
+ 
+-    const rows = [
++    const rows = isCamTrack ? [
++      ["Easing",        hasCamEase   ? `§e${camEaseK.type}`                                             : "§8none"],
++      ["Camera Preset", hasCamPreset ? `§6${camPresetK.name}`                                           : "§8none"],
++      ["Camera Shake",  hasCamShake  ? `§c${camShakeK.intensity}x §8(${camShakeK.durationTicks}t)`      : "§8none"],
++      ["Lens FOV",      hasCamFov    ? `§b${camFovK.fov}° §8(${camFovK.easeTime ?? 0}s)`                : "§8none"],
++      ["Dolly Speed",   hasCamSpeed  ? `§a${camSpeedK.fromSpeed ?? camSpeedK.speed ?? 1}x§8->§a${camSpeedK.toSpeed ?? camSpeedK.speed ?? 1}x` : "§8none"],
++      ["Look-At",       hasCamLook   ? `§d${camLookK.targetId || camLookK.targetType}`                  : "§8none"],
++      ["Cut",           hasCamCut    ? `§9${camCutK.transition}`                                        : "§8none"],
++      ["Visibility",    hasCamVis    ? (camVisK.visible ? "§aVisible" : "§7Invisible")                   : "§8default"],
++      ["Sound",         hasSound     ? `§b${(soundEntry.soundId??"").replace("minecraft:","")} §8[${soundEntry.startFrame??soundEntry.frameIndex}-${soundEntry.endFrame??soundEntry.frameIndex}]` : "§8none"],
++      ["Command",       hasCmd       ? `§e${(cmdEntry.command??"").slice(0,22)}${(cmdEntry.command??"").length>22?"...":""}` : "§8none"],
++      ["Camera Cuts",   hasCut       ? `§9${cutsHere.length} here`                                      : "§8none"],
++    ] : [
+       ["Mob Transform", hasMorph    ? `§d${mobLabel}`                                        : "§8none"],
+       ["Equipment",     eqStatusText],
+       ["Ride / Mount",  hasRide     ? `§6${rideLabel}`                                       : "§8none"],
+@@ -7133,12 +7166,12 @@
+       THIN() + "\n" +
+       rows.map(([k,v]) => ` §7${k.padEnd(14)}§8: ${v}`).join("\n") + "\n" +
+       THIN() + "\n" +
+-      ` §8Actor is live-previewing this frame.\n` +
++      ` ${isCamTrack ? "§8Camera is live-previewing this frame." : "§8Actor is live-previewing this frame."}\n` +
+       DIV();
+ 
+     const frameActions = {
+       editContent: {
+-        text: btn("§a","EDT","Edit Content", "Mob - Equip - Anim - Speed - Chat - Command"),
++        text: btn("§a","EDT","Edit Content", isCamTrack ? "Camera - Ease - FOV - Shake - Cuts - Sound" : "Mob - Equip - Anim - Speed - Chat - Command"),
+         run: async () => {
+           const _cm = await this._scrubberContentMenu(player, trackId, frameIdx, track, store, total, {
+             hasMorph, hasName, hasEq, hasSpeed, hasScale, hasLiquid, hasParticle, hasSound, hasAnim, hasChat, hasCmd,
+@@ -7159,7 +7192,7 @@
+         },
+       },
+       keyframeList: {
+-        text: btn("§3","LST","Keyframe List", "browse / edit / delete by type"),
++        text: btn("§3","LST","Keyframe List", isCamTrack ? "browse / edit camera keyframes by type" : "browse / edit / delete by type"),
+         run: async () => {
+           const _kl = await this._keyframeListPanel(player, trackId, track, store, total);
+           if (_kl === "exit" || _kl === NAV.CLOSE) return "exit";
+@@ -7180,7 +7213,8 @@
+       },
+       clearKeyframes: {
+         text: btn("§c","x", "Clear Keyframes",
+-          (hasMorph||hasName||hasEq||hasSpeed||hasScale||hasLiquid||hasParticle||hasSound||hasAnim||hasChat||hasCmd)
++          (hasMorph||hasName||hasEq||hasSpeed||hasScale||hasLiquid||hasParticle||hasSound||hasAnim||hasChat||hasCmd
++            ||hasCamEase||hasCamPreset||hasCamShake||hasCamFov||hasCamSpeed||hasCamLook||hasCamCut||hasCamVis)
+             ? "§cremove all at this frame" : "§8nothing to clear"),
+         run: async () => {
+           if (hasMorph) track.morphKeyframes = (track.morphKeyframes??[]).filter(m=>m.frameIndex!==frameIdx);
+@@ -7208,6 +7242,14 @@
+             .filter(a => frameIdx < a.startFrame || frameIdx > a.endFrame);
+           if (hasChat) track.chatKeyframes = (track.chatKeyframes??[]).filter(c=>c.frameIndex!==frameIdx);
+           if (hasCmd) track.commandKeyframes = (track.commandKeyframes??[]).filter(c=>c.frameIndex!==frameIdx);
++          if (hasCamEase)   track.easeKeyframes       = (track.easeKeyframes??[]).filter(k=>k.frameIndex!==frameIdx);
++          if (hasCamPreset) track.presetKeyframes     = (track.presetKeyframes??[]).filter(k=>k.frameIndex!==frameIdx);
++          if (hasCamShake)  track.shakeKeyframes      = (track.shakeKeyframes??[]).filter(k=>k.frameIndex!==frameIdx);
++          if (hasCamFov)    track.fovKeyframes        = (track.fovKeyframes??[]).filter(k=>k.frameIndex!==frameIdx);
++          if (hasCamSpeed)  track.speedKeyframes      = (track.speedKeyframes??[]).filter(k=>k.frameIndex!==frameIdx);
++          if (hasCamLook)   track.lookAtKeyframes     = (track.lookAtKeyframes??[]).filter(k=>k.frameIndex!==frameIdx);
++          if (hasCamCut)    track.cutKeyframes        = (track.cutKeyframes??[]).filter(k=>k.frameIndex!==frameIdx);
++          if (hasCamVis)    track.visibilityKeyframes = (track.visibilityKeyframes??[]).filter(k=>k.frameIndex!==frameIdx);
+           store.saveAll?.();
+           player.sendMessage(`§c[KF] Cleared keyframes at frame §e${frameIdx}§c.`);
+           return "reframe";
+@@ -7252,55 +7294,100 @@
+ 
+ 
+   async _scrubberCameraContentMenu(player, trackId, frameIdx, track, store, total, st) {
+-    while (true) {
+-      const easeK = (track.easeKeyframes ?? []).find(k => k.frameIndex === frameIdx);
+-      const presetK = (track.presetKeyframes ?? []).find(k => k.frameIndex === frameIdx);
+-      const shakeK = (track.shakeKeyframes ?? []).find(k => k.frameIndex === frameIdx);
+-      const fovK = (track.fovKeyframes ?? []).find(k => k.frameIndex === frameIdx);
+-      const speedK = (track.speedKeyframes ?? []).find(k => k.frameIndex === frameIdx);
+-      const lookK = (track.lookAtKeyframes ?? []).find(k => k.frameIndex === frameIdx);
+-      const cutK = (track.cutKeyframes ?? []).find(k => k.frameIndex === frameIdx);
+-      const visK = (track.visibilityKeyframes ?? []).find(k => k.frameIndex === frameIdx);
+-
+-      const body =
+-        section("Camera Scrubber Tools") + "\n" +
+-        ` §7Frame §8› ${V(frameIdx)}  §7Camera §8› ${V(trackId)}\n` +
+-        THIN() + "\n" +
+-        ` §8Configure camera focal length, shakes, easing curves,\n` +
+-        ` §8speed ramps, and transitions at this frame.\n` +
+-        DIV();
+-
+-      const form = new ActionFormData()
+-        .title(`§6§l* CAMERA TOOLS — f${frameIdx}`)
+-        .body(body)
+-        .button(btn("§e", "EAS", "Easing Curve", easeK ? `§e${easeK.type}` : "§8none - ease in/out/step"))
+-        .button(btn("§6", "PRE", "Camera Preset", presetK ? `§6${presetK.name}` : "§8none - close-up/wide/hero"))
+-        .button(btn("§c", "SHK", "Camera Shake", shakeK ? `§c${shakeK.intensity}x (${shakeK.durationTicks}t)` : "§8none - rumble/handheld"))
+-        .button(btn("§b", "FOV", "Lens FOV / Zoom", fovK ? `§b${fovK.fov}° (${fovK.easeTime ?? 0}s)` : "§8none - focal length zoom"))
+-        .button(btn("§a", "SPD", "Dolly Speed Ramp", speedK ? `§a${speedK.fromSpeed ?? speedK.speed}x->${speedK.toSpeed ?? speedK.speed}x` : "§8none - slow-mo/timelapse"))
+-        .button(btn("§d", "AIM", "Look-At Target Lock", lookK ? `§d${lookK.targetId || lookK.targetType}` : "§8none - lock onto actor/player"))
+-        .button(btn("§9", "CUT", "Cut Point Transition", cutK ? `§9${cutK.transition}` : "§8none - cut / fade to black"))
+-        .button(btn("§f", "VIS", "Camera Visibility", visK ? (visK.visible ? "§aVisible" : "§7Invisible") : "§8default (invisible)"))
+-        .button(btn("§b", "SND", "Foley & Audio Stinger", "trigger shutter/boom sound"))
+-        .button(btn("§e", "CMD", "Director Command", "run command at this frame"))
+-        .button(btn("§8", "<<", "Back", ""));
++    const easeK = (track.easeKeyframes ?? []).find(k => k.frameIndex === frameIdx);
++    const presetK = (track.presetKeyframes ?? []).find(k => k.frameIndex === frameIdx);
++    const shakeK = (track.shakeKeyframes ?? []).find(k => k.frameIndex === frameIdx);
++    const fovK = (track.fovKeyframes ?? []).find(k => k.frameIndex === frameIdx);
++    const speedK = (track.speedKeyframes ?? []).find(k => k.frameIndex === frameIdx);
++    const lookK = (track.lookAtKeyframes ?? []).find(k => k.frameIndex === frameIdx);
++    const cutK = (track.cutKeyframes ?? []).find(k => k.frameIndex === frameIdx);
++    const visK = (track.visibilityKeyframes ?? []).find(k => k.frameIndex === frameIdx);
++
++    const body =
++      section("Edit Content") + "\n" +
++      ` §7Frame §8› ${V(frameIdx)}  §7Track §8› ${V(trackId)}\n` +
++      THIN() + "\n" +
++      ` §8Camera tools first - change how the shot is framed,\n` +
++      ` §8moved, cut, lit, or heard at this frame.\n` +
++      DIV();
+ 
+-      const res = await this._show(form, player);
+-      if (res.canceled || res.selection === 10) return "back";
++    const contentActions = {
++      ease: {
++        text: btn("§e", "EAS", "Easing Curve", easeK ? `§e${easeK.type}` : "§8none - ease in/out/step"),
++        run: async () => { await this._scrubberCameraEase(player, trackId, frameIdx, track, store); },
++      },
++      preset: {
++        text: btn("§6", "PRE", "Camera Preset", presetK ? `§6${presetK.name}` : "§8none - close-up/wide/hero"),
++        run: async () => { await this._scrubberCameraPresets(player, trackId, frameIdx, track, store); },
++      },
++      shake: {
++        text: btn("§c", "SHK", "Camera Shake", shakeK ? `§c${shakeK.intensity}x (${shakeK.durationTicks}t)` : "§8none - rumble/handheld"),
++        run: async () => { await this._scrubberCameraShake(player, trackId, frameIdx, track, store); },
++      },
++      fov: {
++        text: btn("§b", "FOV", "Lens FOV / Zoom", fovK ? `§b${fovK.fov}° (${fovK.easeTime ?? 0}s)` : "§8none - focal length zoom"),
++        run: async () => { await this._scrubberCameraFov(player, trackId, frameIdx, track, store); },
++      },
++      speed: {
++        text: btn("§a", "SPD", "Dolly Speed Ramp", speedK ? `§a${speedK.fromSpeed ?? speedK.speed}x->${speedK.toSpeed ?? speedK.speed}x` : "§8none - slow-mo/timelapse"),
++        run: async () => { await this._scrubberSpeedRamp(player, trackId, frameIdx, track, store, total); },
++      },
++      lookAt: {
++        text: btn("§d", "AIM", "Look-At Target Lock", lookK ? `§d${lookK.targetId || lookK.targetType}` : "§8none - lock onto actor/player"),
++        run: async () => { await this._scrubberCameraLookAt(player, trackId, frameIdx, track, store); },
++      },
++      cuts: {
++        text: btn("§9", "CUT", "Cut Point Transition", cutK ? `§9${cutK.transition}` : "§8none - cut / fade to black"),
++        run: async () => { await this._scrubberCameraCutTransition(player, trackId, frameIdx, track, store); },
++      },
++      visibility: {
++        text: btn("§f", "VIS", "Camera Visibility", visK ? (visK.visible ? "§aVisible" : "§7Invisible") : "§8default (invisible)"),
++        run: async () => { await this._scrubberCameraVisibility(player, trackId, frameIdx, track, store); },
++      },
++      sound: {
++        text: btn("§b", "SND", "Foley & Audio Stinger", "trigger shutter/boom sound"),
++        run: async () => { await this._scrubberSoundPlay(player, trackId, frameIdx, track, store); },
++      },
++      command: {
++        text: btn("§e", "CMD", "Director Command", "run command at this frame"),
++        run: async () => { await this._scrubberCommandKeyframe(player, trackId, frameIdx, track, store); },
++      },
++      back: {
++        text: btn("§8", "<<", "Back", ""),
++        run: async () => {},
++      },
++    };
+ 
+-      switch (res.selection) {
+-        case 0: await this._scrubberCameraEase(player, trackId, frameIdx, track, store); break;
+-        case 1: await this._scrubberCameraPresets(player, trackId, frameIdx, track, store); break;
+-        case 2: await this._scrubberCameraShake(player, trackId, frameIdx, track, store); break;
+-        case 3: await this._scrubberCameraFov(player, trackId, frameIdx, track, store); break;
+-        case 4: await this._scrubberSpeedRamp(player, trackId, frameIdx, track, store, total); break;
+-        case 5: await this._scrubberCameraLookAt(player, trackId, frameIdx, track, store); break;
+-        case 6: await this._scrubberCameraCutTransition(player, trackId, frameIdx, track, store); break;
+-        case 7: await this._scrubberCameraVisibility(player, trackId, frameIdx, track, store); break;
+-        case 8: await this._scrubberSoundPlay(player, trackId, frameIdx, track, store); break;
+-        case 9: await this._scrubberCommandKeyframe(player, trackId, frameIdx, track, store); break;
+-      }
++    const defaultContentOrder = ["ease","preset","shake","fov","speed","lookAt","cuts","visibility","sound","command","back"];
++    const cfgOrder = CONFIG?.keyframeScrubber?.cameraContentMenuOrder ?? defaultContentOrder;
++    const order = [];
++    const used = new Set();
++    for (const k of cfgOrder) {
++      if (contentActions[k] && !used.has(k)) { order.push(k); used.add(k); }
+     }
++    for (const k of defaultContentOrder) {
++      if (!used.has(k)) order.push(k);
++    }
++
++    const form = new ActionFormData()
++      .title(`§a§l* EDIT CONTENT - FRAME ${frameIdx}`)
++      .body(
++        (body || "") +
++        (CONFIG?.keyframeScrubber?.showMenuHints !== false
++          ? ("\n" + THIN() + "\n" +
++            " §8Camera §7ease - preset - shake - fov\n" +
++            " §8Motion §7speed - look-at   §8FX §7cut - visibility\n" +
++            " §8Script §7sound - command\n")
++          : "")
++      );
++    for (const k of order) form.button(contentActions[k].text);
++
++    const res = await this._show(form, player);
++    if (res.canceled) return "exit";
++    const key = order[res.selection];
++    if (!key || key === "back") return "back";
++    await contentActions[key].run();
++    return "back";
+   }
+ 
+   async _scrubberCameraEase(player, trackId, frameIdx, track, store) {
+--- a/BP/scripts/config.js
++++ b/BP/scripts/config.js
+@@ -210,6 +210,21 @@
+       "back",
+     ],
+ 
++    // Camera tracks - Edit Content tools (bbs:cam / isCameraEntity)
++    cameraContentMenuOrder: [
++      "ease",              // easing curves
++      "preset",            // framing presets
++      "shake",             // camera shake
++      "fov",               // lens / zoom
++      "speed",             // dolly speed ramp
++      "lookAt",            // look-at target lock
++      "cuts",              // cut transitions
++      "visibility",        // camera model visibility
++      "sound",             // foley / audio stinger
++      "command",           // director command
++      "back",
++    ],
++
+     // Keyframe List type picker (counts shown on buttons)
+     listMenuOrder: [
+       "mob",
