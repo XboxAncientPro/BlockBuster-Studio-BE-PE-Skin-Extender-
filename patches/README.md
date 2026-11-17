@@ -46,7 +46,7 @@ RP/textures/ui/bb_actionbar_bg.png
 
 ### Verification
 
-- 22/22 functional checks passed in a Node ESM harness with stubbed
+- 25/25 functional checks passed in a Node ESM harness with stubbed
   `@minecraft/server` and `@minecraft/server-ui` (camera capture/playback gates,
   legacy snapshot isolation, vanilla HUD text, transition menu flow, track limit).
 - Rebuilt addon re-extracted: **186 BP files / 311 RP files**, `58` scripts pass
@@ -54,8 +54,8 @@ RP/textures/ui/bb_actionbar_bg.png
   valid at `4.5.6`.
 - Final addon:
   `Bedrock_Filmmaking_Studio_v4.5.6_Vanilla_HUD_Camera_Safe.mcaddon`
-  (3,930,765 bytes, SHA-256
-  `33f32014d4f31e7106bc87d7a6d0e8b616c9c15792979057a0ec3cd3073a9297`).
+  (3,930,850 bytes, SHA-256
+  `b686df5e6488cae423e1728ae2a45dc33ce423239936866c7cb660f6603ceca1`).
 
 ### Existing builds
 

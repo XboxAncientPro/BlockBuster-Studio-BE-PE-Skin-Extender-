@@ -184,7 +184,7 @@ index 4d3da0e..a5bee41 100644
          const events = frame?.ev ?? frame?.e ?? frame?.events ?? [];
          if (!Array.isArray(events)) return;
 diff --git a/BP/scripts/systems/RecordingEngine.js b/BP/scripts/systems/RecordingEngine.js
-index f5bfd06..741aa02 100644
+index f5bfd06..0ea4c28 100644
 --- a/BP/scripts/systems/RecordingEngine.js
 +++ b/BP/scripts/systems/RecordingEngine.js
 @@ -1122,6 +1122,17 @@ export class RecordingEngine {
@@ -277,7 +277,29 @@ index f5bfd06..741aa02 100644
          this._bowChargeStart.delete(pid);
          const itemId = ev.itemStack?.typeId ?? "";
          if (isShooterOrStudioItem(itemId) || BB_ITEM_IDS.has(itemId)) return;
-@@ -1909,7 +1929,9 @@ export class RecordingEngine {
+@@ -1518,7 +1538,9 @@ export class RecordingEngine {
+         const pid    = ev.source.id;
+         const player = ev.source;
+         if (!this._sessions.has(pid)) return;
+-        if (this._sessions.get(pid).paused) return;
++        const releaseSession = this._sessions.get(pid);
++        if (releaseSession.paused) return;
++        if (this._isCameraTake(releaseSession.trackId, releaseSession)) return;
+ 
+         const itemId = ev.itemStack?.typeId ?? "";
+         if (!CHARGE_RELEASE_ITEMS.has(itemId)) { this._bowChargeStart.delete(pid); return; }
+@@ -1536,7 +1558,9 @@ export class RecordingEngine {
+         const pid    = ev.source.id;
+         const player = ev.source;
+         if (!this._sessions.has(pid)) return;
+-        if (this._sessions.get(pid).paused) return;
++        const useSession = this._sessions.get(pid);
++        if (useSession.paused) return;
++        if (this._isCameraTake(useSession.trackId, useSession)) return;
+ 
+         const itemId = ev.itemStack?.typeId ?? "unknown";
+ 
+@@ -1909,7 +1933,9 @@ export class RecordingEngine {
          if (!src || src.typeId !== "minecraft:player") return;
          const pid = src.id;
          if (!this._sessions.has(pid)) return;
@@ -288,7 +310,7 @@ index f5bfd06..741aa02 100644
          const target = ev.hurtEntity;
          if (!(target && (typeof target.isValid==="function"?target.isValid():target.isValid!==false))) return;
          const tl = target.location;
-@@ -2049,7 +2071,9 @@ export class RecordingEngine {
+@@ -2049,7 +2075,9 @@ export class RecordingEngine {
            if (!player) return;
            const pid = player.id;
            if (!this._sessions.has(pid)) return;
@@ -299,6 +321,32 @@ index f5bfd06..741aa02 100644
            const block = ev.block;
            if (!block) return;
            const tid = block.typeId ?? "";
+@@ -2209,6 +2237,8 @@ export class RecordingEngine {
+    * fires with power proportional to how long it was held).
+    */
+   _recordProjectileShot(pid, player, itemId, chargeFactor = null) {
++    const shotSession = this._sessions.get(pid);
++    if (shotSession && this._isCameraTake(shotSession.trackId, shotSession)) return;
+     const rot      = player.getRotation();
+     const yawRad   = (rot.y * Math.PI) / 180;
+     const pitchRad = (rot.x * Math.PI) / 180;
+@@ -2291,6 +2321,8 @@ export class RecordingEngine {
+   recordProjectileShotEvent(player, item, projectile, vel = null, pos = null, speed = null, yaw = null, pitch = null) {
+     const pid = player.id;
+     if (!this.isRecording(pid)) return;
++    const abilitySession = this._sessions.get(pid);
++    if (abilitySession && this._isCameraTake(abilitySession.trackId, abilitySession)) return;
+     const tickNow = system.currentTick ?? 0;
+     const last = this._lastShotEvent.get(pid);
+     if (last && last.tick === tickNow && (last.event?.data?.projectile === projectile || last.event?.data?.item === item)) {
+@@ -2372,6 +2404,7 @@ export class RecordingEngine {
+    * PlaybackPipeline for how the recorded velocity is used.
+    */
+   _pollItemDrop(player, session, preSnap = null) {
++    if (session.paused || this._isCameraTake(session.trackId, session)) return;
+     let snap = preSnap;
+     if (!snap) {
+       try { snap = this._snapshotInventory(player); } catch (_) { return; }
 diff --git a/BP/scripts/systems/modules/AIAssistant.js b/BP/scripts/systems/modules/AIAssistant.js
 index bf8f0b0..1799f2d 100644
 --- a/BP/scripts/systems/modules/AIAssistant.js
