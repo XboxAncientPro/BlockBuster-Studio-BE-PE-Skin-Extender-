@@ -53,9 +53,10 @@ RP/textures/ui/bb_actionbar_bg.png
   `node --check`, no `hud_screen.json` or `bb_actionbar_bg.png`, both manifests
   valid at `4.5.6`.
 - Final addon:
-  `Bedrock_Filmmaking_Studio_v4.5.6_Vanilla_HUD_Camera_Safe.mcaddon`
+  [`Bedrock_Filmmaking_Studio_v4.5.6_Vanilla_HUD_Camera_Safe.mcaddon`](https://drive.google.com/file/d/1wTp1qm1_L5pP6fVc8EAiHQQoH6yG5EiY/view)
   (3,930,850 bytes, SHA-256
   `b686df5e6488cae423e1728ae2a45dc33ce423239936866c7cb660f6603ceca1`).
+- Workspace copies: `work/releases/` and `google_drive/` (git-ignored).
 
 ### Existing builds
 
