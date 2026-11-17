@@ -69,7 +69,7 @@ Open [`index.html`](./index.html), drop your pack, reskin it, expand `bb:skin` e
 ### Option A — Run Completely Offline
 1. Download [`index.html`](./index.html).
 2. Double-click it (or open it in Chrome, Edge, Firefox, Safari, or a mobile offline HTML viewer).
-3. Drop your `.mcaddon` (for example `Bedrock_Filmmaking_Studio_v4.5.5_Directors_Cut.mcaddon`).
+3. Drop your `.mcaddon` (for example `Bedrock_Filmmaking_Studio_v4.5.6_Vanilla_HUD_Camera_Safe.mcaddon`).
 
 ### Option B — Host on GitHub Pages
 1. Keep the file named `index.html` at the repository root.
@@ -139,7 +139,7 @@ Works in modern desktop and mobile browsers: Chrome, Edge, Firefox, Safari, Andr
 
 - Entity IDs stay in the `bb:skinN` namespace and file paths stay `bb_skinN.json` / `skinN.png`, so exported packs remain drop-in compatible with existing worlds and StudioUI scripts.
 - The workbench identifies a pack by `scripts/ui/StudioUI.js`; both older **BlockBuster Studio** and current **Bedrock Filmmaking Studio** packs are accepted.
-- Verified end-to-end against **Bedrock Filmmaking Studio v4.5.5 (The Director's Cut)** — 40 `bb:skin` entities, nested `.mcpack` bundles — loading, expanding to 41 slots, rewriting `StudioUI.js`, `en_US.lang`, both manifests and re-exporting a valid `.mcaddon`.
+- Verified end-to-end against **Bedrock Filmmaking Studio v4.5.6 (The Director's Cut)** — 40 `bb:skin` entities, nested `.mcpack` bundles — loading, expanding to 41 slots, rewriting `StudioUI.js`, `en_US.lang`, both manifests and re-exporting a valid `.mcaddon`.
 - Always test an exported pack in a copied world first. UUID regeneration creates a separate variant pack; leave it off to update in place.
 
 ---

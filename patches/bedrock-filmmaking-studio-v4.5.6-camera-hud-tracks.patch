@@ -1,0 +1,780 @@
+diff --git a/BP/manifest.json b/BP/manifest.json
+index 209bd81..6b4a228 100644
+--- a/BP/manifest.json
++++ b/BP/manifest.json
+@@ -1,13 +1,13 @@
+ {
+   "format_version": 2,
+   "header": {
+-    "name": "§6§lBedrock Filmmaking Studio §eV4.5.5 §7(The Director's Cut) §8- §aBehavior Pack",
+-    "description": "§7Turn any world into a film set. Record actors, direct camera\n§r§7work, edit takes non-destructively, and assemble multi-track\n§r§7scenes -- a complete machinima toolkit built for Bedrock.\n§r§f80 camera presets §8- §fKeyframe Scrubber §8- §fScene Builder\n§r§fTrack Groups & Cuts §8- §fTemplates & Parenting §8- §fLive Director HUD\n\n§r§e§lMajor Update #02§r §7-- Full-screen Studio UI, 3D menu icons,\n§r§7Vegapunk AI assistant, /bb commands, chunked track storage,\n§r§7TNT recovery that survives re-plays, and tighter projectile\n§r§7recording & playback fidelity.\n\n§r§8by §ePrimeGamingBoyzzYT\n\n§r§e§l4.5.5§r §7— Director's Cut: 50-track registry, /bb play scene & track,\n§r§7AI watchtime auto-audit on delete, registry cut points (step ease),\n§r§7scrubber multi-delete & edit, 4-tick camera resample & cinema editor,\n§r§7and bbs:cam client-synced 3D pitch tracking.\n\n§r§e§l4.5.5 patch§r §7— Recording fix, synchronized cinema camera timing, and right-center HUD texture polish.",
++    "name": "§6§lBedrock Filmmaking Studio §eV4.5.6 §7(The Director's Cut) §8- §aBehavior Pack",
++    "description": "§7Turn any world into a film set. Record actors, direct camera\n§r§7work, edit takes non-destructively, and assemble multi-track\n§r§7scenes -- a complete machinima toolkit built for Bedrock.\n§r§f80 camera presets §8- §fKeyframe Scrubber §8- §fScene Builder\n§r§fTrack Groups & Cuts §8- §fTemplates & Parenting §8- §fLive Director HUD\n\n§r§e§lMajor Update #02§r §7-- Full-screen Studio UI, 3D menu icons,\n§r§7Vegapunk AI assistant, /bb commands, chunked track storage,\n§r§7TNT recovery that survives re-plays, and tighter projectile\n§r§7recording & playback fidelity.\n\n§r§8by §ePrimeGamingBoyzzYT\n\n§r§e§l4.5.5§r §7— Director's Cut: 60-track registry, /bb play scene & track,\n§r§7AI watchtime auto-audit on delete, registry cut points (step ease),\n§r§7scrubber multi-delete & edit, 4-tick camera resample & cinema editor,\n§r§7and bbs:cam client-synced 3D pitch tracking.\n\n§r§e§l4.5.6§r §7— Vanilla HUD restore, camera-safe takes (no block edits or attacks), cleaner cut transitions, and 60-track support.",
+     "uuid": "3a58aeb1-895a-4fb9-a07d-6b526085be9f",
+     "version": [
+       4,
+       5,
+-      5
++      6
+     ],
+     "min_engine_version": [
+       1,
+@@ -22,7 +22,7 @@
+       "version": [
+         4,
+         5,
+-        5
++        6
+       ]
+     },
+     {
+@@ -32,7 +32,7 @@
+       "version": [
+         4,
+         5,
+-        5
++        6
+       ],
+       "entry": "scripts/main.js"
+     }
+@@ -51,7 +51,7 @@
+       "version": [
+         4,
+         5,
+-        5
++        6
+       ]
+     }
+   ],
+diff --git a/BP/scripts/config.js b/BP/scripts/config.js
+index 1b97bc6..897aa98 100644
+--- a/BP/scripts/config.js
++++ b/BP/scripts/config.js
+@@ -396,7 +396,7 @@ export const CONFIG = {
+     // Maximum number of tracks the Track Registry can hold at once.
+     // Recording/duplicating/merging all refuse once this is hit -
+     // delete an old track to free a slot. Default: 50.
+-    maxTracks: 50,
++    maxTracks: 60,
+ 
+     // Maximum length of a SINGLE take, in frames (20 frames = 1
+     // second at the addon's fixed 20 TPS capture rate). Recording
+diff --git a/BP/scripts/core/Constants.js b/BP/scripts/core/Constants.js
+index d279196..1b30ba8 100644
+--- a/BP/scripts/core/Constants.js
++++ b/BP/scripts/core/Constants.js
+@@ -161,10 +161,10 @@ export const PROP_AI_BOOTSTRAPPED = "blockbuster:ai_bootstrapped";
+ export const PROP_AI_ENABLED      = "blockbuster:ai_enabled";
+ 
+ // -- Limits ---------------------------------------------------
+-export const PACK_VERSION    = "4.5.5";
++export const PACK_VERSION    = "4.5.6";
+ export const FPS             = 20;
+ export const TICKS_PER_FRAME = 1;
+-export const MAX_TRACKS      = CONFIG?.recording?.maxTracks         ?? 50;
++export const MAX_TRACKS      = CONFIG?.recording?.maxTracks         ?? 60;
+ export const MAX_FRAMES      = CONFIG?.recording?.maxFramesPerTrack ?? 72000;
+ /** Max unique block changes stored per track snapshot (1,000,000). */
+ export const MAX_BLOCKS_PER_TRACK = CONFIG?.recording?.maxBlocksPerTrack ?? 1_000_000;
+@@ -616,7 +616,7 @@ export const PROP_LOOP_PREFIX       = "blockbuster:loop_";
+ export const PROP_CAMPATH_PREFIX = "blockbuster:campath_";
+ export const CAMPATH_CHUNK_SUFFIX = "_chunk_";
+ export const PROP_CAMPATH_META    = "blockbuster:campath_meta";
+-export const MAX_CAMERA_PATHS     = CONFIG?.camera?.maxSavedPaths    ?? 30;   // mirrors MAX_TRACKS - sane library size
++export const MAX_CAMERA_PATHS     = CONFIG?.camera?.maxSavedPaths    ?? 30;   // independent camera-path library cap
+ export const MAX_CAMERA_POINTS    = CONFIG?.camera?.maxPointsPerPath ?? 128;  // supports the required 40+ comfortably
+ 
+ // Per-segment interpolation modes for position between two camera points.
+@@ -728,6 +728,19 @@ export const CAM_ATTACH_CATEGORIES = {
+ 
+ // ---- Version history (shown in-game via Changelog panel / bb changelog) ----
+ export const CHANGELOG = [
++  {
++    version: "4.5.6",
++    lines: [
++      "§6§lBEDROCK FILMMAKING STUDIO v4.5.6",
++      "- Camera-Safe Takes: bbs:cam recordings no longer capture block placement/breaking, item use or",
++      "  attacks, and camera playback never replays them. Legacy camera block snapshots are ignored too.",
++      "- Vanilla HUD Restored: removed the custom JSON UI actionbar frame and texture, along with the",
++      "  HUD Frame Skin setting. The Personal Director HUD now uses the standard vanilla actionbar.",
++      "- Cleaner Cut Transition Menu: transition effect, ease and duration now use the same icon menu",
++      "  style as the other camera tools, with canonical fade_black_short / fade_black_long effects.",
++      "- Track Limit 60: the registry now supports 60 simultaneous tracks (10 more than 50).",
++    ],
++  },
+   {
+     version: "4.5.5",
+     lines: [
+diff --git a/BP/scripts/systems/PlaybackPipeline.js b/BP/scripts/systems/PlaybackPipeline.js
+index 4d3da0e..a5bee41 100644
+--- a/BP/scripts/systems/PlaybackPipeline.js
++++ b/BP/scripts/systems/PlaybackPipeline.js
+@@ -402,6 +402,16 @@ const STUDIO_ITEMS = new Set([
+   TRACK_EDITOR_ITEM_ID, ATTACH_CAM_ITEM_ID, KEYFRAME_SCRUBBER_ITEM_ID,
+ ]);
+ 
++/** Event types a camera (bbs:cam) take must never replay: block edits, item
++ *  use and combat. Camera takes only drive position/rotation/FOV/etc. */
++const CAMERA_IGNORED_EVENTS = new Set([
++  "blockPlace", "blockBreak", "blockInteract", "blockInteractExtended", "blockData",
++  "liquidPlace", "liquidPickup",
++  "entityHit", "projectileShoot",
++  "itemUse", "itemStartUse", "itemStopUse", "itemDrop", "eat",
++  "fishCast", "fishCatch", "fishReelIn",
++]);
++
+ export class PlaybackPipeline {
+   _bus;
+   _sessions        = new Map();
+@@ -1019,6 +1029,7 @@ export class PlaybackPipeline {
+     };
+ 
+     for (const track of tracks) {
++      if (this._isCameraTake(track.id)) continue;
+       const frames = track.frames ?? [];
+       const brokenCells = new Map();
+       const placeCells = [];
+@@ -3676,6 +3687,17 @@ export class PlaybackPipeline {
+       const track = this._trackStore?.getTrack?.(trackId);
+       if (!track?.frames?.length) return;
+       if (track.suppressAutoAnims) return;
++      if (this._isCameraTake(trackId)) {
++        // Cameras never swing, place or break - drop legacy auto actions.
++        if (Array.isArray(track.animationKeyframes)) {
++          const kept = track.animationKeyframes.filter(a => !a?.autoAction);
++          if (kept.length !== track.animationKeyframes.length) {
++            track.animationKeyframes = kept;
++          }
++        }
++        track.autoAnimsSynced = true;
++        return;
++      }
+       if (track.autoAnimsSynced) return;
+       // Once per track length — rebuilding every frame destroyed multi-track performance
+       const sig = track.frames.length;
+@@ -3813,9 +3835,22 @@ export class PlaybackPipeline {
+     } catch (_) {}
+   }
+ 
++  /** True when the track is a cinema-camera take (bbs:cam). */
++  _isCameraTake(trackId) {
++    try {
++      const track = this._trackStore?.getTrack?.(trackId);
++      if (!track) return false;
++      return track.actorId === "bbs:cam" || track.isCameraEntity === true ||
++             track.type === "camera" || track.entityType === "bbs:cam";
++    } catch (_) { return false; }
++  }
++
+   _processEvents(entity, events, trackId, fi = 0) {
+     if (!events.length) return;
++    const cameraTake = this._isCameraTake(trackId);
+     for (const ev of events) {
++      // Camera takes must not replay block edits, item use or attacks.
++      if (cameraTake && CAMERA_IGNORED_EVENTS.has(ev?.type)) continue;
+       try { this._handleEvent(entity, ev, trackId, fi); } catch (e) { log.warn(`Ev(${ev.type}): ${e}`); }
+     }
+   }
+@@ -4893,6 +4928,7 @@ export class PlaybackPipeline {
+ 
+     for (const track of tracks) {
+       if (!track?.frames?.length) continue;
++      if (this._isCameraTake(track.id)) continue;
+       track.frames.forEach((frame, fi) => {
+         const events = frame?.ev ?? frame?.e ?? frame?.events ?? [];
+         if (!Array.isArray(events)) return;
+diff --git a/BP/scripts/systems/RecordingEngine.js b/BP/scripts/systems/RecordingEngine.js
+index f5bfd06..741aa02 100644
+--- a/BP/scripts/systems/RecordingEngine.js
++++ b/BP/scripts/systems/RecordingEngine.js
+@@ -1122,6 +1122,17 @@ export class RecordingEngine {
+ 
+   // -- Event Interceptors ------------------------------------
+ 
++  /** Camera (bbs:cam) takes capture only camera/movement data - never
++   *  block edits or combat. Keeps cinema takes clean and prevents a camera
++   *  pass from placing/breaking blocks or replaying punches. */
++  _isCameraTake(trackId, session = null) {
++    if (session?.isCamEntity === true || session?.isCameraEntity === true) return true;
++    try {
++      const t = this._store?.getTrack?.(trackId);
++      return !!(t && (t.actorId === "bbs:cam" || t.isCameraEntity === true || t.type === "camera"));
++    } catch (_) { return false; }
++  }
++
+   _subscribeInterceptors() {
+ 
+     // -- Block Place ---------------------------------------
+@@ -1131,6 +1142,7 @@ export class RecordingEngine {
+         if (!pid || !this._sessions.has(pid)) return;
+         const session = this._sessions.get(pid);
+         if (session.paused) return;
++        if (this._isCameraTake(session.trackId, session)) return;
+ 
+         const pos   = { x: ev.block.x, y: ev.block.y, z: ev.block.z };
+         const dimId = ev.player.dimension?.id ?? "minecraft:overworld";
+@@ -1205,6 +1217,7 @@ export class RecordingEngine {
+         if (!pid || !this._sessions.has(pid)) return;
+         const session = this._sessions.get(pid);
+         if (session.paused) return;
++        if (this._isCameraTake(session.trackId, session)) return;
+ 
+         const pos     = { x: Math.floor(ev.block.x), y: Math.floor(ev.block.y), z: Math.floor(ev.block.z) };
+         const blockId = ev.brokenBlockPermutation?.type?.id ?? "minecraft:stone";
+@@ -1260,6 +1273,7 @@ export class RecordingEngine {
+ 
+         for (const [pid, session] of this._sessions) {
+           if (session.paused) continue;
++          if (this._isCameraTake(session.trackId, session)) continue;
+           const player = this._getPlayer(pid);
+           if (!(typeof player?.isValid==="function"?player.isValid():player?.isValid!==false)) continue;
+           if ((player.dimension?.id ?? "minecraft:overworld") !== dimId) continue;
+@@ -1285,6 +1299,7 @@ export class RecordingEngine {
+         if (!pid || !this._sessions.has(pid)) return;
+         const session = this._sessions.get(pid);
+         if (session.paused) return;
++        if (this._isCameraTake(session.trackId, session)) return;
+ 
+         const block  = ev.block;
+         const typeId = block?.typeId ?? "";
+@@ -1347,6 +1362,7 @@ export class RecordingEngine {
+         if (!pid || !this._sessions.has(pid)) return;
+         const session = this._sessions.get(pid);
+         if (session.paused) return;
++        if (this._isCameraTake(session.trackId, session)) return;
+ 
+         const inventory = ev.player.getComponent("minecraft:inventory")?.container;
+         const heldItem  = inventory?.getItem(ev.player.selectedSlotIndex ?? 0);
+@@ -1380,6 +1396,7 @@ export class RecordingEngine {
+         if (!pid || !this._sessions.has(pid)) return;
+         const session = this._sessions.get(pid);
+         if (session.paused) return;
++        if (this._isCameraTake(session.trackId, session)) return;
+ 
+         const block = ev.block;
+         const typeId = block?.typeId ?? "";
+@@ -1411,6 +1428,7 @@ export class RecordingEngine {
+         if (!pid || !this._sessions.has(pid)) return;
+         const session = this._sessions.get(pid);
+         if (session.paused) return;
++        if (this._isCameraTake(session.trackId, session)) return;
+ 
+         const block  = ev.block;
+         const typeId = block?.typeId ?? "";
+@@ -1465,6 +1483,7 @@ export class RecordingEngine {
+         if (!this._sessions.has(pid)) return;
+         const session = this._sessions.get(pid);
+         if (session.paused) return;
++        if (this._isCameraTake(session.trackId, session)) return;
+         if (isShooterOrStudioItem(itemId) || BB_ITEM_IDS.has(itemId)) return;
+         if (CHARGE_RELEASE_ITEMS.has(itemId)) {
+           this._bowChargeStart.set(pid, { tick: Date.now(), itemId });
+@@ -1487,6 +1506,7 @@ export class RecordingEngine {
+         if (!this._sessions.has(pid)) return;
+         const session = this._sessions.get(pid);
+         if (session.paused) return;
++        if (this._isCameraTake(session.trackId, session)) return;
+         this._bowChargeStart.delete(pid);
+         const itemId = ev.itemStack?.typeId ?? "";
+         if (isShooterOrStudioItem(itemId) || BB_ITEM_IDS.has(itemId)) return;
+@@ -1909,7 +1929,9 @@ export class RecordingEngine {
+         if (!src || src.typeId !== "minecraft:player") return;
+         const pid = src.id;
+         if (!this._sessions.has(pid)) return;
+-        if (this._sessions.get(pid).paused) return;
++        const session = this._sessions.get(pid);
++        if (session.paused) return;
++        if (this._isCameraTake(session.trackId, session)) return;
+         const target = ev.hurtEntity;
+         if (!(target && (typeof target.isValid==="function"?target.isValid():target.isValid!==false))) return;
+         const tl = target.location;
+@@ -2049,7 +2071,9 @@ export class RecordingEngine {
+           if (!player) return;
+           const pid = player.id;
+           if (!this._sessions.has(pid)) return;
+-          if (this._sessions.get(pid).paused) return;
++          const btSession = this._sessions.get(pid);
++          if (btSession.paused) return;
++          if (this._isCameraTake(btSession.trackId, btSession)) return;
+           const block = ev.block;
+           if (!block) return;
+           const tid = block.typeId ?? "";
+diff --git a/BP/scripts/systems/modules/AIAssistant.js b/BP/scripts/systems/modules/AIAssistant.js
+index bf8f0b0..1799f2d 100644
+--- a/BP/scripts/systems/modules/AIAssistant.js
++++ b/BP/scripts/systems/modules/AIAssistant.js
+@@ -2390,7 +2390,7 @@ export class AIAssistant {
+         if (s?.totalCount) blocks += s.totalCount();
+         else if (s) blocks += (s.placed?.length ?? 0) + (s.broken?.length ?? 0) + (s.interactions?.length ?? 0);
+       }
+-      const maxT = MAX_TRACKS ?? 50;
++      const maxT = MAX_TRACKS ?? 60;
+       const maxF = MAX_FRAMES ?? 72000;
+       const maxB = MAX_BLOCKS_PER_TRACK ?? 1_000_000;
+       const leftT = Math.max(0, maxT - ids.length);
+diff --git a/BP/scripts/systems/modules/ScoreboardSystem.js b/BP/scripts/systems/modules/ScoreboardSystem.js
+index dc90535..26f0ad8 100644
+--- a/BP/scripts/systems/modules/ScoreboardSystem.js
++++ b/BP/scripts/systems/modules/ScoreboardSystem.js
+@@ -16,9 +16,7 @@ const log = new Logger("ScoreboardSystem");
+ const LEGACY_WORLD_KEY = "blockbuster:scoreboard_enabled";
+ const HUD_ENABLED_KEY = "blockbuster:director_hud_enabled";
+ const HUD_DEFAULT_ON_KEY = "blockbuster:director_hud_v455_defaulted";
+-const HUD_SKIN_KEY = "blockbuster:director_hud_skin";
+ const REFRESH_TICKS = 10;
+-const SKIN_MARKER = "§0§0§r"; // invisible text marker consumed by the JSON UI skin condition
+ 
+ export class ScoreboardSystem {
+   _recording = null;
+@@ -64,11 +62,6 @@ export class ScoreboardSystem {
+     } catch (_) { return true; }
+   }
+ 
+-  isSkinEnabled(player) {
+-    if (!player) return true;
+-    try { return player.getDynamicProperty(HUD_SKIN_KEY) !== false; } catch (_) { return true; }
+-  }
+-
+   isSuppressedFor(player) {
+     if (!player) return false;
+     return !!(this._recording?.isRecording?.(player.id) || this._playback?.isPlaying);
+@@ -84,14 +77,6 @@ export class ScoreboardSystem {
+     return next;
+   }
+ 
+-  /** Toggle only the BlockBuster frame around tagged HUD actionbars. */
+-  toggleSkin(player) {
+-    if (!player) return false;
+-    const next = !this.isSkinEnabled(player);
+-    try { player.setDynamicProperty(HUD_SKIN_KEY, next); } catch (e) { log.warn(`HUD skin preference save: ${e}`); }
+-    return next;
+-  }
+-
+   tick(tickCount) {
+     if (tickCount % REFRESH_TICKS !== 0) return;
+     let players = [];
+@@ -138,14 +123,13 @@ export class ScoreboardSystem {
+     const playbackOn = !!this._playback?.isPlaying;
+     const speed = Number(this._playback?.playbackSpeed ?? 1).toFixed(1);
+     const mode = String(this._camera?.attachMode ?? "none").replace(/_/g, " ").substring(0, 14);
+-    const skin = this.isSkinEnabled(player) ? SKIN_MARKER : "";
+ 
+     const status = isRec
+       ? `§c● REC §f${String(active ?? "take").substring(0, 12)} §8F${frame}`
+       : playbackOn
+         ? `§d▶ PLAY §f${speed}x`
+         : "§a● READY";
+-    const line1 = `${skin}§6§l◆ STUDIO §8| §fTAKES §b${trackCount} §8| §fACTORS §b${actorCount}`;
++    const line1 = `§6§l◆ STUDIO §8| §fTAKES §b${trackCount} §8| §fACTORS §b${actorCount}`;
+     const line2 = `${status} §8| §bCAM §f${mode}`;
+ 
+     const cue = this._findCue(player, tracks, groups);
+diff --git a/BP/scripts/ui/StudioUI.js b/BP/scripts/ui/StudioUI.js
+index 9a0e774..92bd674 100644
+--- a/BP/scripts/ui/StudioUI.js
++++ b/BP/scripts/ui/StudioUI.js
+@@ -7601,63 +7601,138 @@ if (typeof extraCallback === "function") {
+ 
+   async _scrubberCameraCutTransition(player, trackId, frameIdx, track, store) {
+     const existing = (track.cutKeyframes ?? []).find(k => k.frameIndex === frameIdx);
+-    const easeOptions = [
+-      "Step (Instant Cut / Hold — Default)",
+-      "Linear (Direct Geometric)",
+-      "In-Out Sine (Silky Smooth)",
+-      "In-Out Cubic (Dramatic Curve)",
+-      "In-Out Quad (Punchy Ease)",
+-      "InQuad (Slow Start)",
+-      "OutQuad (Smooth Decel)"
+-    ];
+-    const easeKeys = ["step", "linear", "in_out_sine", "in_out_cubic", "in_out_quad", "in_quad", "out_quad"];
+-    const currEaseIdx = Math.max(0, easeKeys.indexOf(existing?.easeType ?? "step"));
+ 
+     const transOptions = [
+-      "Instant Hard Cut",
+-      "Fade to Black (Cinematic)",
+-      "White Flashbang (Impact)",
+-      "Whip Pan Blur",
+-      "Camera Impact Shake"
++      { key: "instant_cut",      colour: "§9", tag: "CUT", label: "Instant Hard Cut",      desc: "snap straight to the new shot" },
++      { key: "fade_black_short", colour: "§8", tag: "FAD", label: "Fade to Black (0.5s)",   desc: "quick cinematic dip to black" },
++      { key: "fade_black_long",  colour: "§7", tag: "FDL", label: "Fade to Black (1.0s)",   desc: "slow dramatic dip to black" },
++      { key: "flash_white",      colour: "§f", tag: "FLS", label: "White Flashbang",        desc: "impact flash on the cut" },
++      { key: "whip_pan",         colour: "§b", tag: "WHP", label: "Whip Pan Blur",          desc: "fast blurred pan between shots" },
++      { key: "shake",            colour: "§c", tag: "SHK", label: "Camera Impact Shake",    desc: "jolt the lens on impact" },
++    ];
++    const easeOptions = [
++      { key: "step",         label: "Step (Instant Cut / Hold)", desc: "hard hold, then jump" },
++      { key: "linear",       label: "Linear",                    desc: "constant geometric move" },
++      { key: "in_out_sine",  label: "In-Out Sine",               desc: "silky smooth at both ends" },
++      { key: "in_out_cubic", label: "In-Out Cubic",              desc: "dramatic S-curve" },
++      { key: "in_out_quad",  label: "In-Out Quad",               desc: "punchy ease at both ends" },
++      { key: "in_quad",      label: "InQuad",                    desc: "slow start, quick finish" },
++      { key: "out_quad",     label: "OutQuad",                   desc: "quick start, smooth stop" },
+     ];
+-    const transKeys = ["instant_cut", "fade_black", "flash_white", "whip_pan", "shake"];
+-    const currTransIdx = Math.max(0, transKeys.indexOf(existing?.transition ?? "instant_cut"));
+ 
+-    const modal = new ModalFormData()
+-      .title("§9§l* CUT POINT TRANSITION & EASING")
+-      .dropdown("§7Transition Effect:", transOptions, { defaultValue: currTransIdx >= 0 ? currTransIdx : 0 })
+-      .dropdown("§7Transition Ease Type §8(Default: Step Ease):", easeOptions, { defaultValue: currEaseIdx >= 0 ? currEaseIdx : 0 })
+-      .slider("§7Transition Duration in Ticks §8(1=instant cut, 10=0.5s fade):", 1, 40, { valueStep: 1, defaultValue: existing?.duration ?? (currTransIdx === 0 ? 1 : 10) })
+-      .toggle("§cRemove / Clear Cut Point?", { defaultValue: false });
++    const baseTransition = existing?.transition === "fade_black"
++      ? "fade_black_short"
++      : (existing?.transition ?? "instant_cut");
++    const draft = {
++      transition: baseTransition,
++      easeType:   existing?.easeType ?? "step",
++      duration:   Number(existing?.duration) || (baseTransition === "instant_cut" ? 1 : 10),
++    };
++    const transLabel = (key) => transOptions.find(o => o.key === key)?.label ?? key;
++    const easeLabel  = (key) => easeOptions.find(o => o.key === key)?.label ?? key;
+ 
+-    const mr = await this._showModal(modal, player);
+-    if (mr.canceled) return;
++    while (true) {
++      const body =
++        section("Cut Transition") + "\n" +
++        ` §7Frame  §8› ${V(frameIdx)}\n` +
++        ` §7Effect §8› §9${transLabel(draft.transition)}\n` +
++        ` §7Ease   §8› §b${easeLabel(draft.easeType)}\n` +
++        ` §7Length §8› §f${draft.duration} tick(s)\n` +
++        THIN() + "\n" +
++        ` §8Choose the effect and ease used when the camera\n` +
++        ` §8cuts into this frame. Save to apply.\n` +
++        DIV();
+ 
+-    if (!track.cutKeyframes) track.cutKeyframes = [];
+-    track.cutKeyframes = track.cutKeyframes.filter(k => k.frameIndex !== frameIdx);
++      const form = new ActionFormData()
++        .title("§9§l* CUT TRANSITION")
++        .body(this._tips?.appendTip(player, "keyframeList", body) ?? body)
++        .button(btn("§9", "FX",  "Transition Effect", transLabel(draft.transition)))
++        .button(btn("§b", "EAS", "Ease Type",         easeLabel(draft.easeType)))
++        .button(btn("§f", "DUR", "Duration",          `${draft.duration} tick(s)`))
++        .button(btn("§a", "SET", existing ? "Update Cut Point" : "Save Cut Point", "apply to this frame"))
++        .button(btn(existing ? "§c" : "§8", "CLR", "Clear Cut Point", existing ? "remove cut at this frame" : "§8none set"))
++        .button(btn("§8", "<<",  "Back", ""));
+ 
+-    const remove = mr.formValues[3] === true;
+-    if (remove) {
+-      try { store?.saveAll?.(); } catch (_) {}
+-      player.sendMessage(`§c[CAM] Cut transition cleared at frame §f${frameIdx}§c.`);
+-      return;
+-    }
++      const res = await this._show(form, player);
++      if (res.canceled || res.selection === 5) return;
+ 
+-    const transition = transKeys[mr.formValues[0] ?? 0] || "instant_cut";
+-    const easeType = easeKeys[mr.formValues[1] ?? 0] || "step";
+-    const duration = Math.round(mr.formValues[2] ?? 1);
++      if (res.selection === 0) {
++        const picker = new ActionFormData()
++          .title("§9§l* TRANSITION EFFECT")
++          .body(
++            section("Transition Effect") + "\n" +
++            ` §7Frame §8› ${V(frameIdx)}  §7Current §8› §9${transLabel(draft.transition)}\n` +
++            THIN() + "\n" +
++            ` §7Pick how the picture changes into this shot:\n` +
++            DIV()
++          );
++        for (const o of transOptions) {
++          picker.button(btn(o.colour, o.tag, o.label, o.key === draft.transition ? `§aCurrent - ${o.desc}` : o.desc));
++        }
++        picker.button(btn("§8", "<<", "Back", ""));
++        const pr = await this._show(picker, player);
++        if (!pr.canceled && pr.selection < transOptions.length) {
++          draft.transition = transOptions[pr.selection].key;
++          if (draft.transition === "instant_cut") draft.duration = 1;
++        }
++        continue;
++      }
+ 
+-    track.cutKeyframes.push({
+-      frameIndex: frameIdx,
+-      transition,
+-      easeType,
+-      duration,
+-      isRecordingResume: existing?.isRecordingResume ?? false,
+-    });
+-    track.cutKeyframes.sort((a, b) => a.frameIndex - b.frameIndex);
+-    try { store?.saveAll?.(); } catch (_) {}
+-    player.sendMessage(`§a[CAM] Cut transition '§e${transition}§a' (§b${easeType}§a ease, §f${duration}t§a) set at frame §f${frameIdx}§a.`);
+-    player.playSound("blockbuster.keyframe_set");
++      if (res.selection === 1) {
++        const picker = new ActionFormData()
++          .title("§b§l* TRANSITION EASE")
++          .body(
++            section("Ease Type") + "\n" +
++            ` §7Frame §8› ${V(frameIdx)}  §7Current §8› §b${easeLabel(draft.easeType)}\n` +
++            THIN() + "\n" +
++            ` §7Pick the timing curve for this transition:\n` +
++            DIV()
++          );
++        for (const o of easeOptions) {
++          picker.button(btn("§b", "EAS", o.label, o.key === draft.easeType ? `§aCurrent - ${o.desc}` : o.desc));
++        }
++        picker.button(btn("§8", "<<", "Back", ""));
++        const pr = await this._show(picker, player);
++        if (!pr.canceled && pr.selection < easeOptions.length) {
++          draft.easeType = easeOptions[pr.selection].key;
++        }
++        continue;
++      }
++
++      if (res.selection === 2) {
++        const modal = new ModalFormData()
++          .title("§f§l* CUT DURATION")
++          .slider("§7Transition Duration §8(1 = instant, 10 = 0.5s, 40 = 2s):", 1, 40, { valueStep: 1, defaultValue: draft.duration });
++        const mr = await this._showModal(modal, player);
++        if (!mr.canceled) draft.duration = Math.round(Number(mr.formValues[0]) || 1);
++        continue;
++      }
++
++      if (res.selection === 3) {
++        if (!track.cutKeyframes) track.cutKeyframes = [];
++        track.cutKeyframes = track.cutKeyframes.filter(k => k.frameIndex !== frameIdx);
++        track.cutKeyframes.push({
++          frameIndex: frameIdx,
++          transition: draft.transition,
++          easeType: draft.easeType,
++          duration: Math.max(1, Math.round(draft.duration)),
++          isRecordingResume: existing?.isRecordingResume ?? false,
++        });
++        track.cutKeyframes.sort((a, b) => a.frameIndex - b.frameIndex);
++        try { store?.saveAll?.(); } catch (_) {}
++        player.sendMessage(`§a[CAM] Cut '§e${draft.transition}§a' (${draft.easeType} ease, §f${draft.duration}t§a) set at frame §f${frameIdx}§a.`);
++        player.playSound("blockbuster.keyframe_set");
++        return;
++      }
++
++      if (res.selection === 4) {
++        if (!existing) { player.sendMessage("§7[CAM] No cut transition at this frame."); continue; }
++        track.cutKeyframes = (track.cutKeyframes ?? []).filter(k => k.frameIndex !== frameIdx);
++        try { store?.saveAll?.(); } catch (_) {}
++        player.sendMessage(`§c[CAM] Cut transition cleared at frame §f${frameIdx}§c.`);
++        return;
++      }
++    }
+   }
+ 
+   async _scrubberCameraVisibility(player, trackId, frameIdx, track, store) {
+@@ -12430,7 +12505,6 @@ if (typeof extraCallback === "function") {
+   async _studioSettingsHub(player) {
+     while (true) {
+       const sbOn   = this._scoreboard?.isEnabledFor?.(player) ?? false;
+-      const skinOn = this._scoreboard?.isSkinEnabled?.(player) ?? true;
+       const tipsOn = this._tips?.isEnabled(player) ?? true;
+       const interp = this._playback?.interpolation ?? true;
+       const aiSuspended = this._aiAssistant?.isSuspendedForPlayback?.() ?? false;
+@@ -12440,13 +12514,13 @@ if (typeof extraCallback === "function") {
+       const body =
+         section("Studio Settings") + "\n" +
+         ` §7Personal Director HUD §8› ${sbOn ? "§a§lON" : "§8OFF"}\n` +
+-        ` §7HUD Frame Skin       §8› ${skinOn ? "§a§lON" : "§8OFF"}\n` +
+         ` §7Silent Studio Chat §8› ${silentChat ? "§a§lON - Muted" : "§8OFF - Verbose"}\n` +
+         ` §7AI Assist Tips    §8› ${tipsOn ? "§a§lON" : "§8OFF"}\n` +
+         ` §7AI Assistant      §8› ${aiSuspended ? "§e§lPAUSED (Playback Active)" : (aiOn ? "§a§lON" : "§8OFF")}\n` +
+         ` §7Camera Interp.    §8› ${interp ? "§aON - smooth" : "§7OFF - snap"}\n` +
+         THIN() + "\n" +
+-        ` §8UI Theme: §eStandard Studio§8 (classic high-readability styling)\n` +
++        ` §8Personal HUD uses the standard vanilla actionbar -\n` +
++        ` §8no custom frame or texture, exactly like vanilla.\n` +
+         ` §8Silent Studio Chat hides playback and recording messages\n` +
+         ` §8in chat during takes, while keeping actor dialogue visible.\n` +
+         ` §8AI Assist Tips are silent one-line hints shown inside menus.\n` +
+@@ -12460,7 +12534,6 @@ if (typeof extraCallback === "function") {
+         .title("§8§l* STUDIO SETTINGS")
+         .body(body)
+         .button(btn(sbOn ? "§a" : "§0§o", "HUD", "Personal Director HUD", sbOn ? "only your screen - tap to turn off" : "§0§oonly your screen - tap to turn on"))
+-        .button(btn(skinOn ? "§e" : "§0§o", "SKIN", "HUD Frame Skin", skinOn ? "BlockBuster frame on BB HUD messages" : "vanilla frame - tap to enable"))
+         .button(btn(silentChat ? "§a" : "§0§o", "CHAT", "Silent Studio Chat", silentChat ? "ON - playback/rec muted (actor chat kept)" : "§0§oOFF - show all studio messages"))
+         .button(btn(tipsOn ? "§a" : "§0§o", "TIP", "AI Assist Tips", tipsOn ? "tap to turn off" : "§0§otap to turn on"))
+         .button(btn(aiSuspended ? "§e" : (aiOn ? "§a" : "§0§o"), "AI", "AI Assistant", aiSuspended ? "auto-paused during playback" : (aiOn ? "tap to turn off" : "§0§otap to turn on")))
+@@ -12471,7 +12544,7 @@ if (typeof extraCallback === "function") {
+ 
+       const res = await this._show(form, player);
+       if (res.canceled) return NAV.CLOSE;
+-      if (res.selection === 8) return NAV.BACK;
++      if (res.selection === 7) return NAV.BACK;
+ 
+       if (res.selection === 0) {
+         const nowOn = this._scoreboard?.toggle?.(player);
+@@ -12483,33 +12556,27 @@ if (typeof extraCallback === "function") {
+           : "§7[BB] Personal Director HUD disabled.");
+       }
+       if (res.selection === 1) {
+-        const nowOn = this._scoreboard?.toggleSkin?.(player) ?? false;
+-        player.sendMessage(nowOn
+-          ? "§a[BB] HUD Frame Skin enabled §7(for BlockBuster HUD messages only)."
+-          : "§7[BB] HUD Frame Skin disabled §7(vanilla actionbar frame restored)." );
+-      }
+-      if (res.selection === 2) {
+         const nowOn = toggleSilentChat();
+         player.sendMessage(nowOn
+           ? "§a[BB] Silent Studio Chat turned ON §c(playback & recording messages muted in chat; actor dialogue kept)."
+           : "§c[BB] Silent Studio Chat turned OFF §8(all playback and recording messages will show in chat).");
+       }
+-      if (res.selection === 3) {
++      if (res.selection === 2) {
+         const nowOn = this._tips?.toggle(player) ?? true;
+         player.sendMessage(nowOn ? "§a[BB] AI Assist tips turned ON." : "§7[BB] AI Assist tips turned OFF.");
+       }
+-      if (res.selection === 4) {
++      if (res.selection === 3) {
+         this._aiAssistant?.toggle(player);
+       }
+-      if (res.selection === 5) {
++      if (res.selection === 4) {
+         const on = !interp;
+         this._playback?.setInterpolation(on);
+         player.sendMessage(`§b[BB] Camera interpolation -> §e${on ? "ON" : "OFF"}`);
+       }
+-      if (res.selection === 6) {
++      if (res.selection === 5) {
+         this._aiAssistant?.doctor?.(player);
+       }
+-      if (res.selection === 7) {
++      if (res.selection === 6) {
+         await this._aiRepairHub(player);
+       }
+     }
+diff --git a/BP/scripts/utils/TrackStore.js b/BP/scripts/utils/TrackStore.js
+index 1f6cc9f..70e00b8 100644
+--- a/BP/scripts/utils/TrackStore.js
++++ b/BP/scripts/utils/TrackStore.js
+@@ -435,6 +435,9 @@ export class TrackStore {
+   rebuildSnapshotFromEvents(trackId) {
+     const track = this._tracks.get(trackId);
+     if (!track?.frames?.length) return null;
++    // Camera entity takes never touch the world - ignore any legacy block
++    // events they may contain and never rebuild a block snapshot for them.
++    if (track.actorId === "bbs:cam" || track.isCameraEntity || track.type === "camera") return track.blockSnapshot ?? null;
+     let snap = track.blockSnapshot;
+     if (!snap) {
+       snap = new BlockSnapshot();
+@@ -492,7 +495,10 @@ export class TrackStore {
+     // Recover grass/etc from frame events if snapshot was empty or incomplete
+     try { this.rebuildAllSnapshotsFromEvents(); } catch (_) {}
+ 
+-    const tracks = [...this._tracks.values()].filter(t => t.blockSnapshot?.isDirty);
++    const tracks = [...this._tracks.values()].filter(t =>
++      t.blockSnapshot?.isDirty &&
++      !(t.actorId === "bbs:cam" || t.isCameraEntity || t.type === "camera")
++    );
+     const hasBaseline = SessionBlockLedger._baseline.size > 0;
+     if (!tracks.length && !hasBaseline) {
+       this._restoreBusy = false;
+diff --git a/RP/manifest.json b/RP/manifest.json
+index b8215d7..5495f7e 100644
+--- a/RP/manifest.json
++++ b/RP/manifest.json
+@@ -1,13 +1,13 @@
+ {
+   "format_version": 2,
+   "header": {
+-    "name": "§6§lBedrock Filmmaking Studio §eV4.5.5 §7(The Director's Cut) §8- §bResource Pack",
+-    "description": "§7Icons, sounds, and HUD assets that power Bedrock Filmmaking Studio's\n§r§7recording chrome and Studio UI menus.\n§r§f36 solid 3D UI icons §8| §fFull-screen forms §8| §fTool models\n\n§r§8by §ePrimeGamingBoyzzYT\n\n§r§e§l4.5.5§r §7— Director's Cut: 50-track registry, /bb play scene & track,\n§r§7AI watchtime auto-audit on delete, registry cut points (step ease),\n§r§7scrubber multi-delete & edit, 4-tick camera resample & cinema editor,\n§r§7and bbs:cam client-synced 3D pitch tracking.\n\n§r§e§l4.5.5 patch§r §7— Recording fix, custom JSON UI HUD skin, and scoreboard polish.\n\n§r§e§l4.5.5 patch§r §7— Recording fix, custom JSON UI HUD skin, and scoreboard polish.",
++    "name": "§6§lBedrock Filmmaking Studio §eV4.5.6 §7(The Director's Cut) §8- §bResource Pack",
++    "description": "§7Icons, sounds, and HUD assets that power Bedrock Filmmaking Studio's\n§r§7recording chrome and Studio UI menus.\n§r§f36 solid 3D UI icons §8| §fFull-screen forms §8| §fTool models\n\n§r§8by §ePrimeGamingBoyzzYT\n\n§r§e§l4.5.5§r §7— Director's Cut: 60-track registry, /bb play scene & track,\n§r§7AI watchtime auto-audit on delete, registry cut points (step ease),\n§r§7scrubber multi-delete & edit, 4-tick camera resample & cinema editor,\n§r§7and bbs:cam client-synced 3D pitch tracking.\n\n§r§e§l4.5.6§r §7— Vanilla HUD restore, camera-safe takes (no block edits or attacks), cleaner cut transitions, and 60-track support.",
+     "uuid": "42502176-3d8a-4132-b69c-77ac70d1a69d",
+     "version": [
+       4,
+       5,
+-      5
++      6
+     ],
+     "min_engine_version": [
+       1,
+@@ -22,7 +22,7 @@
+       "version": [
+         4,
+         5,
+-        5
++        6
+       ]
+     }
+   ],
+@@ -32,7 +32,7 @@
+       "version": [
+         4,
+         5,
+-        5
++        6
+       ]
+     }
+   ],
+diff --git a/RP/textures/ui/bb_actionbar_bg.png b/RP/textures/ui/bb_actionbar_bg.png
+deleted file mode 100644
+index 82ec65601691ebf75f8cfcb6574fe1264a5e0130..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 830
+zcmeAS@N?(olHy`uVBq!ia0y~yU;;8395~p3WX}Hc`xzLRSv_4GLn>~)y`$)Vr$B=3
+z!#&nU*E5EOLNSNKB{(&Np2&C{$>VfvR0!s7(sVkcIN`wr6%CIY;R>ZHJ`K(Z6N9JA
+z#NN*4{}EsP{rAcu&iVz<Du3Pk=q3oV2M7%KqC)pS{8#evWG-_<)y(MqKffrlI(%S0
+z@I$1rkySzVPoa8cSvBK=xJh|7!Am)|oNC+ufW0A2v~iKp1+jk&26n%UcfWZ1``U(w
+z`!{ag{MwB9K*n5|H}83kIcI3yR=RX>{&!}^hJsH;mhV)~zdX+>;>S?s|G)B~{tw0l
+z^IR3Q7gwt)*s^Ab%YLiaX7C?~_5Uy~xaY_B?fa@dw)am}|9a0_fBwy_w{vfEGn}2x
+zlH$vFtJ42pY8*4etd(!Y7!Lf<_#M^&3^O%`t2T4=-`dX6|Cyk`z_O*bX3I_>ww%Ot
+zLH>^y149e<|241c>ZkAf7qf3iO(YQioWRMz5TO6^!g*~*VEFqiSjc_gdH(g?k=Gdx
+z9RK<E@A1TIrJ=$3KUG=m8G5#{u*?Sr*4d>D3?SPyK-7dZVFiYkbRglA@FP8zeJ)7B
+z5|B*5Jl_Te0T8i(rG*;$Om1F%b*kjzb)Y+YR_b4`uZvx~&gXgS|JmFPFq;e-AI>k8
+zT?2H(*Ui9)s4m)I|KXs`W`;BC?%tbP$;*(jESxnV@9(o<5!b*=z3IQ0>&xDL%S+CF
+ze)W?4Yz9V!J&SxBBK`k+n$LTA{>QwqUk`p?KDu0^YtfF$HvHCM3=D@(oqlnNb%76O
+z$0Cg&7KR0K2j@>eUHQ;{1H+T44gcgh7<&BfF<0vU(H3pkq`IJIiS+;P`do$TmNo0`
+z@BBPhzVGwg_chPMx&I$x`Y=zGfq`SO&kuebhL=JMI2auMHrEIIn6AZ8>B_*cV!q?S
+o_?-+IObi$PJYWZU2Lz6twy(UuY`SBZz;O`Q)78&qol`;+0JV%-3;+NC
+
+diff --git a/RP/ui/_ui_defs.json b/RP/ui/_ui_defs.json
+index 7f17f7b..4a5abde 100644
+--- a/RP/ui/_ui_defs.json
++++ b/RP/ui/_ui_defs.json
+@@ -1,5 +1,3 @@
+ {
+-  "ui_defs": [
+-    "ui/hud_screen.json"
+-  ]
++  "ui_defs": []
+ }
+diff --git a/RP/ui/hud_screen.json b/RP/ui/hud_screen.json
+deleted file mode 100644
+index 46f40cb..0000000
+--- a/RP/ui/hud_screen.json
++++ /dev/null
+@@ -1,32 +0,0 @@
+-{
+-  "namespace": "hud",
+-  "bb_actionbar_skin": {
+-    "type": "image",
+-    "texture": "textures/ui/bb_actionbar_bg",
+-    "size": ["100%", "100%"],
+-    "anchor_from": "center",
+-    "anchor_to": "center",
+-    "offset": [0, 0],
+-    "layer": 0,
+-    "alpha": "@hud.anim_actionbar_text_background_alpha_out",
+-    "propagate_alpha": true,
+-    "$bb_actionbar_source": "$actionbar_text",
+-    "$bb_actionbar_probe": "($bb_actionbar_source - '§0§0')",
+-    "visible": "(not ($bb_actionbar_probe = $bb_actionbar_source))"
+-  },
+-  "hud_actionbar_text": {
+-    "anchor_from": "right_middle",
+-    "anchor_to": "right_middle",
+-    "offset": [-18, 0],
+-    "size": ["100%c + 34px", "100%c + 22px"],
+-    "modifications": [
+-      {
+-        "array_name": "controls",
+-        "operation": "insert_front",
+-        "value": [
+-          { "bb_actionbar_skin@hud.bb_actionbar_skin": {} }
+-        ]
+-      }
+-    ]
+-  }
+-}
